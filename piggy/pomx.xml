@@ -1,0 +1,128 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>banking</artifactId>
+	<version>0.0.2-M2-SNAPSHOT</version>
+	<packaging>ejb</packaging>
+
+	<name>banking</name>
+
+	<parent>
+		<groupId>net.kallx</groupId>
+		<artifactId>base</artifactId>
+		<version>0.0.2-M1</version>
+		<relativePath>../base</relativePath>
+	</parent>
+	
+	<repositories>
+	<repository>
+		<id>jrimum.org</id>
+		<url>http://jrimum.org/maven/content/groups/public/</url>
+		<snapshots>
+			<enabled>true</enabled>
+		</snapshots>
+	</repository>
+	</repositories>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>architecture</artifactId>
+			<version>0.0.2-M1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>environment</artifactId>
+			<version>0.0.2-M1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>register</artifactId>
+			<version>0.0.2-M1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>utils</artifactId>
+			<version>0.0.2-M1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>portalManager</artifactId>
+			<version>0.0.2-M1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>2.0.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.3</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>statement-delivery</artifactId>
+			<version>0.0.2-M1</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>kangaroo-document</artifactId>
+			<version>0.0.2-M1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jrimum</groupId>
+			<artifactId>jrimum-bopepo</artifactId>
+			<version>0.2.3-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ejb-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<ejbVersion>3.1</ejbVersion>
+					<archive>
+						<manifestEntries>
+							<Dependencies>
+								deployment.architecture.jar,
+								deployment.utils.jar,
+								deployment.portalManager.jar,
+								com.mysql,
+								org.apache.commons.lang
+							</Dependencies>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+
+		</plugins>
+
+	</build>
+
+</project>

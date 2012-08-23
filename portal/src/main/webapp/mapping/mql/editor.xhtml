@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	
+	template="/layout/window.xhtml">
+	
+	<ui:param name="windowClass" value="window-full"/>
+	<ui:param name="windowTitle" value="Editor"/>
+	
+	<ui:define name="windowBody">
+	
+		<h:form>
+			<h:panelGroup layout="block" style="margin: 50px;">
+				<p:editor widgetVar="mappingEditor" value="#{mqlEditorController.text}" controls="undo redo cut copy paste pastetext source" height="500" width="800"/>
+				<p:commandButton type="push" value="Run" update="editorMessages" actionListener="#{mqlEditorController.run}"/>  
+			</h:panelGroup>
+		</h:form>
+		
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,23 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<!-- Esse filtro tem que ser genérico e incremental, por enquanto eh so pra exemplo  -->
+	<h:form id="#{filterForm}">
+		<p:fieldset legend="Filtro" toggleable="true">
+			<h:panelGrid id="filter" columns="3" cellpadding="5">
+			<h:outputLabel value="Nome" required="true"/>
+			<h:outputLabel value="Palavras chave" />
+			<h:outputLabel value="" />
+			
+			<p:inputText size="30" maxlength="30" value="#{legalRegisterController.filter.companyName}" />
+			<p:inputText size="30" maxlength="30" value="#{legalRegisterController.filter.cnpj}" />
+			
+			<p:commandButton value="Pesquisar" id="filterButton" actionListener="#{legalRegisterController.search}" update=":#{idList}" />
+			
+			</h:panelGrid>
+		</p:fieldset>
+	</h:form>
+</ui:composition>

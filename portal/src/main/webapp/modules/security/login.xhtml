@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:form prependId="false">
+	<h:panelGroup layout="block" id="loginDiv" styleClass="login-wrapper">
+	
+		<h:panelGroup layout="block">
+			<h:outputLink value="javascript:void(0)" onclick="dlg.show()" title="login" 
+					rendered="#{not sessionController.logged}">
+				<h:outputText value="Sign In" /> 
+			</h:outputLink>
+		</h:panelGroup>
+		
+	</h:panelGroup>
+	
+	<p:dialog id="dialog" header="Login" widgetVar="dlg">
+
+		<h:panelGrid columns="2" cellpadding="5">
+		
+			<h:outputLabel for="username" value="Username" />
+			<h:inputText id="username" value="#{sessionController.credentials.username}" required="true" label="username"/>
+
+			<h:outputLabel for="password" value="Password" />
+			<h:inputSecret id="password" value="#{sessionController.credentials.password}" required="true" label="password"/>
+
+			<f:facet name="footer">
+				<p:commandButton value="Login" update=":security-wrapper loginDiv" actionListener="#{sessionController.attemptLogin()}" 
+					oncomplete="dlg.hide();"/>
+			</f:facet>
+		</h:panelGrid>
+
+	</p:dialog>
+</h:form>
+	
+</ui:composition>

@@ -1,0 +1,63 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:composition>
+
+<h:form prependId="false">
+
+<p:wizard style="width:1000px; height: 500px;" effect="false">
+
+	<p:tab id="contract" title="Contrato">
+
+		<p:panel header="Contrato" style="height: 450px;">
+			<ui:include src="contract.xhtml"/>
+		</p:panel>
+		
+	</p:tab>
+
+	<p:tab id="contractItem" title="Item de Contrato">
+	
+		<p:panel header="Item de Contrato" style="height: 450px;">
+			<ui:include src="contractitem.xhtml"/>
+		</p:panel>
+		
+	</p:tab>
+
+	<p:tab id="realizedInstrument" title="Serviço">
+	
+		<p:panel header="Serviço" style="height: 450px;">
+			<ui:include src="realizedInstrument.xhtml"/>
+		</p:panel>
+		
+	</p:tab>
+
+	<p:tab id="realizedOffer" title="Unidade">
+	
+		<p:panel header="Unidades" style="height: 450px;">
+			<ui:include src="realizedOffer.xhtml"/>
+		</p:panel>
+		
+	</p:tab>
+	
+	<p:tab id="confirmation" title="Confirmação">
+	
+		<p:panel header="Confirmação" style="height: 450px;">
+
+		</p:panel>
+		
+	</p:tab>
+
+</p:wizard>
+
+</h:form>
+
+</ui:composition>
+
+</h:body>
+
+</html>

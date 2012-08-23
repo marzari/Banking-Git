@@ -1,0 +1,107 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:decorate template="/layout/window.xhtml">
+		<ui:param name="windowClass" value="window-full" />
+		<ui:param name="windowTitle" value="Níveis de urgência" />
+
+		<ui:define name="windowBody">
+		
+			#{urgencyController.begin(3)}
+
+			<h:form id="formUrgency">
+
+				<p:fieldset id="urgencyFormBase"
+					legend="Cadastro de Níveis de Urgência"
+					style="height: 80%; margin-bottom: 5px;">
+
+					<h:panelGroup rendered="#{urgencyController.has}">
+
+						<h:panelGrid columns="3" style="float: left;" cellpading="15" border="1">
+
+							<h:outputLabel value="Nome" />
+							<h:outputText value="Criticidade " />
+							<h:outputText />
+
+							<p:inputText id="urgencyName"
+								value="#{urgencyController.editing.name}" size="30"
+								maxlength="30" />
+
+
+							<p:selectOneMenu value="#{urgencyController.editing.critically}"
+								effect="fade" converter="criticallyConverter">
+								<f:selectItem itemLabel="Select One" itemValue="" />
+								<f:selectItems value="#{criticallyController.beans}"
+									var="critically" itemLabel="#{critically.description}"
+									itemValue="#{critically}" />
+							</p:selectOneMenu>
+
+							<p:commandButton type="submit" value="Salvar" icon="ui-icon-disk"
+								id="urgencySave" actionListener="#{urgencyController.save}"
+								oncomplete="urgencyDialog.hide();"
+								update=":formUrgency:urgencyFormBase urgencySave" ajax="false" />
+
+						</h:panelGrid>
+					</h:panelGroup>
+					<p:focus for="urgencyName" />
+				</p:fieldset>
+
+				<p:dataTable var="urgency" value="#{urgencyController.beans}"
+					sortBy="#{urgency.name}" orderBy="descending" id="urgencyList"
+					paginator="true" rows="10" rowsPerPageTemplate="5,10,20,50"
+					paginatorTemplate="O sistema retornou #{urgencyController.beans.size().toString()} registros. {PageLinks}  {RowsPerPageDropdown}">
+
+					<p:column headerText="Nome" sortBy="#{urgency.name}">
+						<h:outputText value="#{urgency.name}" />
+					</p:column>
+					<p:column headerText="Criticidade" sortBy="#{urgency.critically}">	
+							<h:outputText
+									value="#{urgencyController.editing.critically.description}"/>
+					</p:column>
+
+					<p:column style="width:10px">
+						<p:commandLink update=":formUrgency:urgencyFormBase">
+							<p:graphicImage value="/resources/images/edit.png" height="12"
+								width="12" />
+							<f:setPropertyActionListener value="#{urgency}"
+								target="#{urgencyController.editing}" />
+						</p:commandLink>
+					</p:column>
+					<p:column style="width:10px">
+						<p:commandLink oncomplete="confirmation.show();">
+							<p:graphicImage value="/resources/images/delete.png" height="12"
+								width="12" />
+							<f:setPropertyActionListener value="#{urgency}"
+								target="#{urgencyController.editing}" />
+						</p:commandLink>
+					</p:column>
+
+				</p:dataTable>
+
+				<p:confirmDialog message="Excluir este requisito?"
+					header="Confirmação de exclusão" severity="alert"
+					widgetVar="confirmation">
+					<p:commandButton value="Sim, tenho certeza" update="urgencyList"
+						oncomplete="confirmation.hide()"
+						actionListener="#{urgencyController.delete}" />
+					<p:commandButton value="Não" onclick="confirmation.hide()"
+						type="button" />
+				</p:confirmDialog>
+
+				<p:commandLink style="margin: 3px;" styleClass="ui-icon-refresh"
+					actionListener="#{urgencyController.create}"
+					update=":formUrgency:urgencyFormBase">
+					<p:graphicImage value="/resources/images/add.png" height="12"
+						width="12" />
+				</p:commandLink>
+
+
+			</h:form>
+		</ui:define>
+
+	</ui:decorate>
+
+</ui:composition>

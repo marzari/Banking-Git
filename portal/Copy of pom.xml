@@ -1,0 +1,405 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>portal</artifactId>
+	<packaging>war</packaging>
+	<name>portal Maven Webapp</name>
+	<url></url>
+
+	<parent>
+		<groupId>net.kallx</groupId>
+		<artifactId>base</artifactId>
+		<version>0.0.2-M1</version>
+		<relativePath>../base</relativePath>
+	</parent>
+	
+
+	<dependencies>
+	
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>kangaroo-parent</artifactId>
+			<version>0.0.2-M2</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- libraries -->
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>architecture</artifactId>
+			<version>0.0.2-M1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>utils</artifactId>
+			<version>0.0.2-M1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>portalManager</artifactId>
+			<version>0.0.2-M1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>security-presentation</artifactId>
+			<version>0.0.2-M1</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>security</artifactId>
+			<version>0.0.2-M1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>utils-presentation</artifactId>
+			<version>0.0.2-M1</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>portalManager-presentation</artifactId>
+			<version>0.0.2-M1</version>
+			<scope>compile</scope>
+		</dependency>
+
+
+
+		<!-- third party -->
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.1</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-web-api</artifactId>
+			<version>6.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>3.3-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.6.1</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr</artifactId>
+			<version>3.4</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.1</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.4</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.0.1</version>
+			<scope>compile</scope>
+		</dependency>
+
+
+
+		<!-- commons -->
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>enterprise-presentation</artifactId>
+			<version>0.0.2-M1</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>environment-presentation</artifactId>
+			<version>0.0.2-M1</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>register-presentation</artifactId>
+			<version>0.0.2-M1</version>
+			<scope>compile</scope>
+		</dependency>
+
+
+		<!-- kangaroo -->
+
+		<!-- zebra -->
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>budget-presentation</artifactId>
+			<version>0.0.2-M1</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>contract-presentation</artifactId>
+			<version>0.0.2-M1</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>offer-presentation</artifactId>
+			<version>0.0.2-M1</version>
+			<scope>compile</scope>
+		</dependency>
+
+	</dependencies>
+
+	<profiles>
+
+		<profile>
+			<id>procurement</id>
+			<dependencies>
+
+				<dependency>
+					<groupId>net.kallx</groupId>
+					<artifactId>procurement-presentation</artifactId>
+					<version>0.0.2-M2-SNAPSHOT</version>
+					<scope>compile</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>net.kallx</groupId>
+					<artifactId>chimpanzee-core-presentation</artifactId>
+					<version>0.0.2-M1</version>
+					<scope>compile</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>net.kallx</groupId>
+					<artifactId>banking</artifactId>
+					<version>0.0.2-M1</version>
+					<scope>provided</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>net.kallx</groupId>
+					<artifactId>banking-presentation</artifactId>
+					<version>0.0.2-M1</version>
+					<scope>compile</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
+			<id>banking</id>
+			<dependencies>
+				<dependency>
+					<groupId>net.kallx</groupId>
+					<artifactId>procurement-presentation</artifactId>
+					<version>0.0.2-M1</version>
+					<scope>compile</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>net.kallx</groupId>
+					<artifactId>chimpanzee-core-presentation</artifactId>
+					<version>0.0.2-M1</version>
+					<scope>compile</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>net.kallx</groupId>
+					<artifactId>banking</artifactId>
+					<version>0.0.2-M2-SNAPSHOT</version>
+					<scope>provided</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>net.kallx</groupId>
+					<artifactId>banking-presentation</artifactId>
+					<version>0.0.2-M2-SNAPSHOT</version>
+					<scope>compile</scope>
+				</dependency>
+			</dependencies>
+
+		</profile>
+
+		<profile>
+			<id>chimpanzee</id>
+
+			<dependencies>
+				<dependency>
+					<groupId>net.kallx</groupId>
+					<artifactId>procurement-presentation</artifactId>
+					<version>0.0.2-M1</version>
+					<scope>compile</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>net.kallx</groupId>
+					<artifactId>chimpanzee-core-presentation</artifactId>
+					<version>0.0.2-M2-SNAPSHOT</version>
+					<scope>compile</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>net.kallx</groupId>
+					<artifactId>banking</artifactId>
+					<version>0.0.2-M1</version>
+					<scope>provided</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>net.kallx</groupId>
+					<artifactId>banking-presentation</artifactId>
+					<version>0.0.2-M1</version>
+					<scope>compile</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>net.kallx</groupId>
+					<artifactId>utils</artifactId>
+					<version>0.0.2-M2-SNAPSHOT</version>
+					<scope>provided</scope>
+				</dependency>
+				
+				<dependency>
+					<groupId>net.kallx</groupId>
+					<artifactId>utils-presentation</artifactId>
+					<version>0.0.2-M2-SNAPSHOT</version>
+					<scope>compile</scope>
+				</dependency>
+				
+			</dependencies>
+
+		</profile>
+		
+		<profile>
+			<id>portal</id>
+			<activation><activeByDefault>true</activeByDefault></activation>
+
+			<dependencies>
+				<dependency>
+					<groupId>net.kallx</groupId>
+					<artifactId>procurement-presentation</artifactId>
+					<version>0.0.2-M2-SNAPSHOT</version>
+					<scope>compile</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>net.kallx</groupId>
+					<artifactId>chimpanzee-core-presentation</artifactId>
+					<version>0.0.2-M2-SNAPSHOT</version>
+					<scope>compile</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>net.kallx</groupId>
+					<artifactId>banking</artifactId>
+					<version>0.0.2-M2-SNAPSHOT</version>
+					<scope>provided</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>net.kallx</groupId>
+					<artifactId>banking-presentation</artifactId>
+					<version>0.0.2-M2-SNAPSHOT</version>
+					<scope>compile</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>net.kallx</groupId>
+					<artifactId>utils</artifactId>
+					<version>0.0.2-M2-SNAPSHOT</version>
+					<scope>provided</scope>
+				</dependency>
+				
+				<dependency>
+					<groupId>net.kallx</groupId>
+					<artifactId>utils-presentation</artifactId> 
+					<version>0.0.2-M2-SNAPSHOT</version>
+					<scope>compile</scope>
+				</dependency>
+				
+			</dependencies>
+
+		</profile>
+
+	</profiles>
+
+	<build>
+
+		<finalName>portal</finalName>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<encoding>utf-8</encoding>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+				<version>7.1.1.Final</version>
+			</plugin>
+
+		</plugins>
+
+	</build>
+
+</project>

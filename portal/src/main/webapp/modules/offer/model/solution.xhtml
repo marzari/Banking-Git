@@ -1,0 +1,94 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:composition>
+
+<h:form>
+
+<h:panelGroup layout="block" id="solutionTableBase"  style="width: 600px; margin: 50px;">
+
+	<p:dataTable value="#{solutionController.beans}" var="att">
+  
+  		<p:ajax event="rowEdit" listener="#{solutionController.saveSolution}" update="solutionTableBase"/>
+  		
+        <f:facet name="header">
+            Cadastro de Solução
+        </f:facet>
+
+        <p:column headerText="Nome" style="width:150px">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{att.name}" /></f:facet>
+                <f:facet name="input"><p:inputText value="#{att.name}" style="width:90%"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+  
+        <p:column headerText="Descrição" style="width:300px">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{att.description}"/></f:facet>
+                <f:facet name="input"><p:inputText value="#{att.description}" style="width:90%"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        
+		<p:column style="width:10px">
+			<p:commandLink oncomplete="solutionDialog.show();" update="@form:solutionFormBase">
+				<p:graphicImage value="/images/magnifier.png" height="12" width="12"/>
+				<f:setPropertyActionListener value="#{att}" target="#{solutionController.bean}" />
+			</p:commandLink>
+		</p:column>
+		<p:column style="width:10px">
+			<p:rowEditor/>
+		</p:column>
+		<p:column style="width:10px">
+			<p:commandLink oncomplete="confirmation.show();">
+				<p:graphicImage value="/images/delete.png" height="12" width="12"/>
+				<f:setPropertyActionListener value="#{att}" target="#{solutionController.bean}" />
+			</p:commandLink>
+		</p:column>
+  
+    </p:dataTable>
+    <p:confirmDialog message="Você tem certeza que deseja desativar esta solução" header="Confirmação de exclusão" severity="alert" widgetVar="confirmation">  
+        <p:commandButton value="Sim, tenho certeza" update="solutionTableBase" oncomplete="confirmation.hide()" actionListener="#{solutionController.delete}"/>  
+        <p:commandButton value="Não" onclick="confirmation.hide()" type="button"/>
+    </p:confirmDialog>
+	
+	<p:commandLink actionListener="#{solutionController.addSolution}" update="solutionTableBase" style="margin: 3px;">
+		<p:graphicImage value="/images/add.png" height="12" width="12" />
+	</p:commandLink>
+    
+</h:panelGroup>
+
+<p:dialog header="Editor" widgetVar="solutionDialog" minHeight="230" minWidth="700" modal="true"  zindex="1025">
+
+    <h:panelGroup layout="block">
+    
+		<p:fieldset id="solutionFormBase" legend="Cadastro de Solucao">
+		           
+			<h:panelGroup rendered="#{solutionController.has()}">
+		           	
+				<h:outputLabel value="Produtos"/> 
+				<p:selectManyCheckbox value="#{solutionController.bean.offers}" converter="offerConverter" layout="pageDirection">  
+					<f:selectItems value="#{offerController.beans}" var="pd" itemLabel="#{pd.description}" itemValue="#{pd}" />  
+				</p:selectManyCheckbox>
+
+			</h:panelGroup>
+			
+		</p:fieldset>
+		
+		<p:commandButton type="push" value="Salvar" actionListener="#{solutionController.save}" oncomplete="solutionDialog.hide();"/>
+			
+	</h:panelGroup>
+	    
+</p:dialog>
+
+</h:form>
+		
+</ui:composition>
+
+</h:body>
+
+</html>

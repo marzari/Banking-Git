@@ -1,0 +1,127 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+
+	<p:dialog header="Fornecedor: Fornecedor 1 e Cia Ltda" widgetVar="supplierDetailDialog" width="700" height="900"
+			 id="carDlg" showEffect="fade" hideEffect="explode"
+				modal="true">
+		
+		<p:fieldset id="display" legend="Situação: Aprovado" style="margin-bottom: 5px;">
+			<h:panelGrid columns="3" style="float: left;" cellpading="15">
+				
+				<h:outputLabel value="Nome Fantasia" />
+				<h:outputLabel value="Razão Social" />
+				<h:outputLabel value="CNPJ" />
+				<p:inputText id="supplierCompanyInfoFancyName" value="#{procurementSupplierController.editing.supplier.name}" size="30" maxlength="50" />
+				<p:inputText id="supplierCompanyInfoCompanyName" value="#{procurementSupplierController.editing.supplier.name}" size="30" maxlength="50" />
+				<p:inputText id="supplierCompanyInfoCnpj" value="#{procurementSupplierController.editing.supplier.register.registrations['cnpj'].value}" size="30" maxlength="50" />
+				
+				<h:outputLabel value="Inscrição Estadual" />
+				<h:outputLabel value="Inscrição Municipal" />
+				<h:outputText value="GLN" />
+				<p:inputText id="supplierCompanyInfoStateInscription" value="#{procurementSupplierController.editing.supplier.register.registrations['stateInscription'].value}" size="30" maxlength="50" />
+				<p:inputText id="supplierCompanyInfoCityInscription" value="#{procurementSupplierController.editing.supplier.register.registrations['cityInscription'].value}" size="30" maxlength="50" />
+				<p:inputText id="supplierCompanyInfoGln" value="#{procurementSupplierController.editing.supplier.register.registrations['gln'].value}" size="30" maxlength="50" />
+
+				<h:outputLabel value="Site" />
+				<h:outputLabel value="Observações" />
+				<h:outputLabel value="Palavras Chave" />
+				<p:inputText id="supplierCompanyInfoWebsite" value="#{procurementSupplierController.editing.website}" size="30" maxlength="50" />
+				<p:inputTextarea id="supplierCompanyInfoObservation" rows="6" cols="30"  value="#{procurementSupplierController.editing.supplier.register.registrations['observation'].value}"/> 
+				<p:inputTextarea id="supplierCompanyInfoKeyWords" rows="6" cols="30"  value="arroz, feijao"/>
+				<ui:remove> 
+				<p:inputTextarea id="supplierCompanyInfoKeyWords" rows="6" cols="30"  value="#{procurementSupplierController.getKeyWords}"/>
+				</ui:remove> 
+			</h:panelGrid>
+		</p:fieldset>
+		
+		<p:fieldset id="contact" legend="Contatos" style="margin-bottom: 5px;">
+			<h:panelGrid columns="3" style="float: left;" cellpading="15">
+				<h:outputLabel value="Nome" />
+				<h:outputLabel value="Sobrenome" />
+				<h:outputLabel value="Cargo" />
+				<p:inputText id="supplierCompanyContactFirstName" value="#{procurementSupplierController.editing.supplier.register.contacts['default'].firstName}" size="30" maxlength="50" />
+				<p:inputText id="supplierCompanyContactLastName" value="#{procurementSupplierController.editing.supplier.register.contacts['default'].lastName}"/> 
+				<p:inputText id="supplierCompanyContactJobTitle" value="#{procurementSupplierController.editing.supplier.register.contacts['default'].jobTitle}"/>
+			</h:panelGrid>
+		</p:fieldset>
+			
+			<p:fieldset legend="Endereços" style="margin-bottom: 5px;">
+				<h:panelGrid columns="3" style="float: left;" cellpading="15">
+					<h:outputLabel value="Tipo" />
+					<h:outputLabel value="Cep" />
+					<h:outputLabel value="" />
+					<p:selectOneMenu value="#{procurementSupplierController.editing.supplier.register.addresses['default'].category}">
+						<f:selectItem itemLabel="Selecione Categoria" itemValue="" />
+				        <f:selectItem itemLabel="Endereco Principal" itemValue="01" />
+				        <f:selectItem itemLabel="Endereco Cobrança" itemValue="02" />
+				        <f:selectItem itemLabel="Endereco Entrega" itemValue="03" />
+				  	</p:selectOneMenu>				
+					<p:inputText id="supplierCompanyAddressZipCode" value="#{procurementSupplierController.editing.supplier.register.addresses['default'].zipCode}" size="30" maxlength="50" />
+					<p:commandButton value="Consultar CEP" />
+					
+					<h:outputLabel value="Estado" />
+					<h:outputLabel value="Cidade" />
+					<h:outputLabel value="Bairro" />
+					<p:selectOneMenu value="#{procurementSupplierController.editing.supplier.register.addresses['default'].category}">
+				        <f:selectItem itemLabel="AC" itemValue="01" />
+				        <f:selectItem itemLabel="RS" itemValue="02" />
+				        <f:selectItem itemLabel="SP" itemValue="03" />
+					</p:selectOneMenu>	
+					<p:inputText id="supplierCompanyAddressCity" value="#{procurementSupplierController.editing.supplier.register.addresses['default'].city}" size="30" maxlength="50" />
+					<p:inputText id="supplierCompanyAddressNeighborhood" value="#{procurementSupplierController.editing.supplier.register.addresses['default'].neighborhood}" size="30" maxlength="50" />
+					
+					<h:outputLabel value="Logradouro" />
+					<h:outputLabel value="Número" />
+					<h:outputLabel value="Complemento" />
+					<p:inputText id="supplierCompanyAddressStreet" value="#{procurementSupplierController.editing.supplier.register.addresses['default'].street}" size="30" maxlength="50" />
+					<p:inputText id="supplierCompanyAddressNumber" value="#{procurementSupplierController.editing.supplier.register.addresses['default'].number}"/> 
+					<p:inputText id="supplierCompanyAddressComplement" value="#{procurementSupplierController.editing.supplier.register.addresses['default'].completion}"/>
+				</h:panelGrid>
+			</p:fieldset>
+		
+		<p:fieldset legend="Telefones" style="margin-bottom: 5px;">
+			<h:panelGrid columns="4" style="float: left;" cellpading="15">
+				<h:outputLabel value="Tipo" />
+				<h:outputLabel value="Número" />
+				<h:outputLabel value="Ramal" />
+				<h:outputLabel value="Observaçao" />
+				<p:selectOneMenu value="phoneType"  var="p">
+			        <f:selectItem itemLabel="Comercial" itemValue="01" />
+			        <f:selectItem itemLabel="Celular" itemValue="02" />
+			        <f:selectItem itemLabel="Fax" itemValue="03" />
+				</p:selectOneMenu>	
+				<p:inputText id="supplierCompanyPhoneNumber" value="#{procurementSupplierController.editing.supplier.register.contacts['default'].phones['default'].number}" size="30" maxlength="50" />
+				<p:inputText id="supplierCompanyExtension" value="#{procurementSupplierController.editing.supplier.register.contacts['default'].phones['default'].extension}"/> 
+				<p:inputText id="supplierCompanyObservation" value="#{procurementSupplierController.editing.supplier.register.contacts['default'].phones['default'].details}"/>
+			</h:panelGrid>
+		</p:fieldset>
+		
+		<p:fieldset legend="Emails" style="margin-bottom: 5px;">
+			<h:panelGrid columns="2" style="float: left;" cellpading="15">
+				<h:outputLabel value="Email" />
+				<p:inputText id="supplierCompanyEmail" value="#{procurementSupplierController.editing.supplier.register.contacts['default'].emails['default'].email}" size="30" maxlength="50" />
+			</h:panelGrid>
+		</p:fieldset>
+		
+		<ui:remove>
+		
+		<p:dataList value="#{procurementSupplierController.editing.supplier.activities}" var="ea" type="definition">  
+			<p:fieldset legend="Atividade Economica" style="margin-bottom: 5px;">
+				<h:panelGrid columns="2" style="float: left;" cellpading="15">
+					<h:outputLabel value="CNAE" />
+					<h:outputLabel value="Descrição" />
+					<p:inputText id="supplierCompanyEconomicActivityCnae" value="#{ea.cnae}" size="30" maxlength="50" />
+					<p:inputText id="supplierCompanyEconomicActivityDescription" value="#{ea.description}" size="30" maxlength="50" />
+				</h:panelGrid>
+			</p:fieldset>		
+		</p:dataList>		
+
+		</ui:remove>
+	
+	</p:dialog>
+				
+</ui:composition>

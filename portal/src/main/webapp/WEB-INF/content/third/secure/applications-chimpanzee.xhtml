@@ -1,0 +1,69 @@
+	<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui" template="../portalcommon-third.xhtml">
+		
+		<ui:define name="applicationbar-wrapper">
+		
+			#{chimpanzeeController.begin(2)}
+
+			<h:outputStylesheet library="css" name="third/dashboard-third.css" />
+			<h3 class="main-title ui-big-title">Chimpanzee</h3>
+			
+			<h:panelGroup layout="block" id="chimpanzee-menubar" styleClass="secure-third-menubar">
+				<h:form>
+					<p:menubar styleClass="ui-light-menu">
+						<p:menuitem value="Dashboard" process="@this" actionListener="#{chimpanzeeController.load('CHIMPANZEE_DASHBOARD')}" update=":chimpanzee-body"/>
+						<p:menuitem value="Cadastro de Servidores" process="@this" actionListener="#{chimpanzeeController.load('CHIMPANZEE_REGISTRY')}" update=":chimpanzee-body"/>
+							<p:submenu>
+								<p:menuitem value="Cadastro Grupo Servidores" process="@this" actionListener="#{chimpanzeeController.load('CHIMPANZEE_REGISTY_GROUP_SERVER')}" update=":chimpanzee-body" />
+								<p:menuitem value="Cadastro de Servidores Ldap" process="@this" actionListener="#{chimpanzeeController.load('CHIMPANZEE_REGISTY_LDAP_SERVER')}" update=":chimpanzee-body" />
+							</p:submenu>
+						<p:menuitem value="Cadastro de Regras" process="@this" actionListener="#{chimpanzeeController.load('CHIMPANZEE_REGISTRY_RULEZ')}" update=":chimpanzee-body"/>
+						<p:menuitem value="Cadastro de Proxies" process="@this" actionListener="#{chimpanzeeController.load('CHIMPANZEE_REGISTRY_PROXIES')}" update=":chimpanzee-body"/>
+						<p:menuitem value="Cadastro do Monitor de Pastas" process="@this" actionListener="#{chimpanzeeController.load('CHIMPANZEE_REGISTRY_MONITOR_FOLDERS')}" update=":chimpanzee-body"/>
+					</p:menubar>
+				</h:form>
+			</h:panelGroup>
+
+		</ui:define>
+		
+		<ui:define name="common-third-body">
+
+			<h:panelGroup layout="block" id="chimpanzee-body">
+
+				<ui:fragment rendered="#{chimpanzeeController.isLoaded('CHIMPANZEE_DASHBOARD')}">
+					<ui:include src="/WEB-INF/content/chimpanzee/dashboard.xhtml" />
+				</ui:fragment>
+
+				<ui:fragment rendered="#{chimpanzeeController.isLoaded('CHIMPANZEE_REGISTRY')}">
+					<ui:include src="/WEB-INF/content/chimpanzee/objects/server.xhtml" />
+				</ui:fragment>
+				
+				<ui:fragment rendered="#{chimpanzeeController.isLoaded('CHIMPANZEE_REGISTRY_RULEZ')}">
+					<ui:include src="/WEB-INF/content/chimpanzee/objects/rule.xhtml" />
+				</ui:fragment>
+				
+				<ui:fragment rendered="#{chimpanzeeController.isLoaded('CHIMPANZEE_REGISTRY_PROXIES')}">
+					<ui:include src="/WEB-INF/content/chimpanzee/objects/proxyServer.xhtml" />
+				</ui:fragment>
+				
+				<ui:fragment rendered="#{chimpanzeeController.isLoaded('CHIMPANZEE_REGISTRY_MONITOR_FOLDERS')}">
+					<ui:include src="/WEB-INF/content/chimpanzee/objects/registrationMonitorFolders.xhtml" />
+				</ui:fragment>
+				
+				<ui:fragment rendered="#{chimpanzeeController.isLoaded('CHIMPANZEE_REGISTY_GROUP_SERVER')}">
+					<ui:include src="/WEB-INF/content/chimpanzee/objects/groupServer.xhtml" />
+				</ui:fragment>
+				
+				<ui:fragment rendered="#{chimpanzeeController.isLoaded('CHIMPANZEE_REGISTY_LDAP_SERVER')}">
+					<ui:include src="/WEB-INF/content/chimpanzee/objects/serverLdap.xhtml" />
+				</ui:fragment>
+				
+				
+			</h:panelGroup>
+
+		</ui:define>
+
+	</ui:composition>

@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="licenser" description="Licenser" icon="resources/images/licenserIcon.png" page="licenser.xhtml" type="php"/>

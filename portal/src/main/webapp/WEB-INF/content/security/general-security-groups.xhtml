@@ -1,0 +1,73 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="groupRegistryBase">
+
+	<p:fieldset legend="#{i18n['name.groups']}">
+	
+	<p:dataTable var="att" value="#{userGroupController.beans}" style="margin-bottom: 10px;">
+
+		<p:column headerText="#{i18n['name.name']}">
+			 <h:outputText value="#{att.name}"/>
+		</p:column>
+		
+		<p:column headerText="#{i18n['name.description']}">
+			 <h:outputText value="#{att.description}"/>
+		</p:column>
+		
+		<p:column style="width:10px">
+			<p:commandLink update=":admin-tab:groupRegistryForm" oncomplete="groupRegistryDialog.show();">
+				<p:graphicImage value="/resources/images/edit.png" height="12" width="12" />
+				<f:setPropertyActionListener value="#{att}" target="#{userGroupController.editing}"/>
+			</p:commandLink>
+		</p:column>
+		<p:column style="width:10px">
+			<p:commandLink oncomplete="confirmation.show();">
+				<p:graphicImage value="/resources/images/delete.png" height="12" width="12" />
+				<f:setPropertyActionListener value="#{att}" target="#{userGroupController.editing}"/>
+			</p:commandLink>
+		</p:column>
+		
+	</p:dataTable>
+	
+	<p:confirmDialog message="#{i18n['question.areYouSureYouWantToEraseThisUser']}" header="#{i18n['verbal.confirmExclusion']}" severity="alert" widgetVar="confirmation">  
+        <p:commandButton value="#{i18n['question.yesIAmSure']}" update="groupRegistryBase" oncomplete="confirmation.hide()" actionListener="#{userGroupController.delete}"/>  
+        <p:commandButton value="#{i18n['question.not']}" onclick="confirmation.hide()" type="button"/>   
+    </p:confirmDialog>
+	
+	<p:commandButton value="#{i18n['verbal.addGroup']}" actionListener="#{userGroupController.create}" oncomplete="groupRegistryDialog.show()" 
+		icon="ui-icon-plus" style="margin-top: 10px;" update=":admin-tab:groupRegistryForm"/>
+	
+	</p:fieldset>
+
+	</h:form>
+	
+	<h:form id="groupRegistryForm">
+
+	<p:dialog header="#{i18n['name.groupRegistry']}" widgetVar="groupRegistryDialog" height="300" width="300">
+		
+		<h:panelGroup layout="block">
+		
+			<h:panelGrid columns="2" style="float: left;" cellpading="15" rendered="#{userGroupController.has}">
+				
+				<h:outputLabel value="#{i18n['name.name']}"/>
+				<p:inputText value="#{userGroupController.editing.name}"/>
+				
+				<h:outputLabel value="#{i18n['name.description']}"/>
+				<p:inputText value="#{userGroupController.editing.description}"/>
+				
+			</h:panelGrid>
+			
+			<p:commandButton value="#{i18n['verb.save']}" actionListener="#{userGroupController.save}" oncomplete="groupRegistryDialog.hide()" 
+				icon="ui-icon-disk" style="margin-top: 10px;" update=":admin-tab:groupRegistryBase groupRegistryForm "/>
+		
+		</h:panelGroup>
+		
+	</p:dialog>
+	
+	</h:form>
+
+</ui:composition>

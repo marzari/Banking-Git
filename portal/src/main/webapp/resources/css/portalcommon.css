@@ -1,0 +1,97 @@
+ 
+/*  high-level */
+
+html, body {
+	height: 98%;
+	width: 98%;
+	margin: 0 auto;
+	
+}
+
+.common-container, .security-wrapper {
+	height: 100%;
+	width: 100%;
+}
+
+.common-main-header {
+	height: 15%;
+	width: 100%;
+}
+ 
+.common-main-body {
+	height: 80%;
+	width: 100%;
+} 
+
+.common-main-footer {
+	height: 3%;
+	width: 100%;
+	font-size: 8pt;
+	border: solid black 1pt;
+}
+ 
+/*  medium level */
+ 
+.logo-wrapper {
+	position: relative;
+	top: 0px;
+	left: 20px;
+	float: left;
+	height: 98%;
+}
+
+.portalbar-wrapper {
+	height: 33%;
+	background-color: #EDEDED;
+}
+
+.portalbar-wrapper h1, .applicationsbar-wrapper h1 {
+	float: left;
+	position: relative;
+	top: 0px;
+	left: 50px;
+	height: 98%;
+}
+
+.applicationsbar-wrapper {
+	height: 33%;
+	background-color: #EDEDED;
+	font-size: 0.7em;
+}
+
+.applicationbar-wrapper {
+	height: 33%;
+	background-color: #E0E0E0;
+}
+
+.favoritesbar-wrapper {
+	
+}
+
+/* low level */
+.signinout-wrapper {
+	
+	position: absolute;
+	top: 0px;
+	right: 3%;
+	font-size: 0.7em;
+}
+
+.signinout-wrapper input {
+	padding: 5px;
+	width: 120px;
+}
+
+.signinout-wrapper button {
+	font-size: 0.9em;
+}
+
+.logged-menubutton .ui-button-text {
+	line-height: 10pt;
+}
+
+.logged-menubutton {
+	line-height: 10pt;
+	padding: 1px;
+	font-size: 0.8em;
+}

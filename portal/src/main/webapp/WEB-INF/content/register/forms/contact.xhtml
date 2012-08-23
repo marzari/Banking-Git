@@ -1,0 +1,45 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<p:fieldset legend="Contatos" toggleable="true">
+		<h:form id="contactForm" styleCLass="contactCarousel" rendered="#{contactController.has}">
+			<h:panelGrid id="editContact" columns="2" cellpadding="5">
+				<ui:remove>
+					<h:outputLabel value="Categoria"/>
+						<p:selectManyCheckbox value="#{contactController.editing.categories}" converter="categoryConverter">
+						<f:selectItems value="#{categoryDimensionController.getCategoriesFromDimension('Contatos')}" var="cat" itemValue="#{cat}" itemLabel="#{cat.name}"/>
+					</p:selectManyCheckbox>
+				</ui:remove>
+				
+				<h:outputLabel value="Nome" />
+				<h:outputLabel value="Sobrenome" />
+					
+				<p:inputText size="30" maxlength="30" value="#{contactController.editing.firstName}" />
+				<p:inputText size="30" maxlength="30" value="#{contactController.editing.lastName}" />
+				
+				<h:outputLabel value="" />
+				<p:commandButton value="Salvar" id="contactSaveButton" actionListener="#{contactController.save}" update=":#{mainPanel}" />
+				
+			</h:panelGrid>
+		</h:form>
+		<h:form id="contactNewAndClean">
+			<p:commandLink value="Novo Contato" actionListener="#{contactController.create}" update=":#{mainPanel}"/>
+			<p:commandLink value=" contactClean" actionListener="#{contactController.clean}" update=":#{mainPanel}"/>
+		</h:form>
+		<p:carousel id="contactCarousel" value="#{parentController.editing.getContactList()}" var="contact" 
+			headerText="Contatos" rendered="#{parentController.has}" styleClass="contactCarousel">
+			<p:column> 
+				<h:outputText id="firstName" value="#{contact.firstName}" />
+				<h:outputText id="lastName" value="#{contact.lastName}" />
+				<p:commandLink update=":#{mainPanel}" id="contact" title="Editar Contato">
+					Editar
+					<f:setPropertyActionListener value="#{contact}"   
+						target="#{contactController.editing}" /> 
+				</p:commandLink>  
+			</p:column>  
+		</p:carousel>
+	</p:fieldset>	
+</ui:composition>

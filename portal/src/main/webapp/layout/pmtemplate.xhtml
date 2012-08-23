@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Kallx Technology</title>
+	
+	<h:outputStylesheet library="css" name="pmtemplate.css" />
+
+</h:head>
+
+<h:body>
+
+	<h:form>
+	    <p:growl id="messages" showDetail="true"/>
+	</h:form>
+	
+	<h:panelGroup layout="block" id="security-wrapper">
+	
+		<ui:fragment rendered="#{sessionController.logged}">
+			<ui:include src="appportal.xhtml"/>
+		</ui:fragment>
+		
+		<ui:fragment rendered="#{not sessionController.logged}">
+			<ui:include src="publicsite.xhtml"/>
+		</ui:fragment>
+	
+	</h:panelGroup>
+	
+</h:body>
+
+</html>

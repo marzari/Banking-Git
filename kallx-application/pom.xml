@@ -1,0 +1,189 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>net.kallx</groupId>
+	<artifactId>kallx-application</artifactId>
+	<version>0.0.2-M1</version>
+	<packaging>ear</packaging>
+
+	<name>kallx-application</name>
+
+	<properties>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<architecture.version>0.0.2-M3-SNAPSHOT</architecture.version>
+		<libraries.version>0.0.2-M3-SNAPSHOT</libraries.version>
+		<kangaroo.version>0.0.2-M3-SNAPSHOT</kangaroo.version>
+
+		<commons-io.version>2.1</commons-io.version>
+		<junit>4.10</junit>
+		<javaeewebapi.version>6.0</javaeewebapi.version>
+		<primefaces.version>3.3.1</primefaces.version>
+		<slf4j.version>1.6.1</slf4j.version>
+		<antlr.version>3.4</antlr.version>
+		<common-fileupload.version>1.2.1</common-fileupload.version>
+		<httpclient.version>4.0.1</httpclient.version>
+
+		<portal.version>0.0.2-M3-SNAPSHOT</portal.version>
+		
+		<chimpanzee.version>0.0.2-M3-SNAPSHOT</chimpanzee.version>
+		<squirrel.version>0.0.2-M3-SNAPSHOT</squirrel.version>
+		<piggy.version>0.0.2-M3-SNAPSHOT</piggy.version>
+		<zebra.version>0.0.2-M2</zebra.version>
+
+	</properties>
+
+	<dependencies>
+
+		<!-- libraries -->
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>architecture</artifactId>
+			<version>${architecture.version}</version>
+			<type>ejb</type>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>utils</artifactId>
+			<version>${libraries.version}</version>
+			<type>ejb</type>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>security</artifactId>
+			<version>${libraries.version}</version>
+			<type>ejb</type>
+		</dependency>
+
+
+		<!-- commons -->
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>enterprise</artifactId>
+			<version>${libraries.version}</version>
+			<type>ejb</type>
+		</dependency>
+
+
+		<!-- zebra -->
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>zebra-contract</artifactId>
+			<version>${zebra.version}</version>
+			<type>ejb</type>
+		</dependency>
+
+		<!-- kangaroo -->
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>kangaroo-document</artifactId>
+			<version>${kangaroo.version}</version>
+			<type>ejb</type>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>chimpanzee-process</artifactId>
+			<version>${chimpanzee.version}</version>
+			<type>ejb</type>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>chimpanzee-components</artifactId>
+			<version>${chimpanzee.version}</version>
+			<type>ejb</type>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>kangaroo-delivery</artifactId>
+			<version>${kangaroo.version}</version>
+			<type>ejb</type>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>kangaroo-mql</artifactId>
+			<version>${kangaroo.version}</version>
+			<type>ejb</type>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>portal-piggy</artifactId>
+			<version>${portal.version}</version>
+			<type>war</type>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>piggy</artifactId>
+			<version>${piggy.version}</version>
+			<type>ejb</type>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>squirrel-procurement</artifactId>
+			<version>${squirrel.version}</version>
+			<type>ejb</type>
+		</dependency>
+ 
+	</dependencies>
+
+	<build>
+
+		<finalName>${artifactId}</finalName>
+
+		<plugins>
+
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<encoding>utf-8</encoding>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<version>6</version>
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<fileNameMapping>no-version</fileNameMapping>
+					<generateModuleId>true</generateModuleId>
+					<modules>
+						<webModule>
+							<groupId>net.kallx</groupId>
+							<artifactId>portal-piggy</artifactId>
+							<contextRoot>/</contextRoot>
+						</webModule>
+					</modules>
+					<archive>
+						<manifestEntries>
+							<Dependencies>
+								org.jboss.msc,
+								org.hibernate
+							</Dependencies>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+
+		</plugins>
+
+	</build>
+
+</project>

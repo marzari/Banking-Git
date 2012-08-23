@@ -1,0 +1,95 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:decorate template="/layout/window.xhtml">
+		<ui:param name="windowClass" value="window-full" />
+		<ui:param name="windowTitle" value="Requisitos" />
+
+		<ui:define name="windowBody">
+			
+			#{requirementController.begin(3)}
+		
+			<h:form id="formRequirement">
+
+				<p:fieldset id="requirementFormBase"
+					legend="Cadastro de Requisitos de fornecedor"
+					style="height: 80%; margin-bottom: 5px;">
+
+					<h:panelGroup rendered="#{requirementController.has}">
+						<h:panelGrid columns="3" style="float: left;" cellpading="15">
+
+							<h:outputLabel value="Nome" />
+							<h:outputLabel value="Descrição" />
+							<h:outputLabel value="Url" />
+
+							<p:inputText id="requirementName" value="#{requirementController.editing.name}" size="30" maxlength="30" />
+							<p:inputText value="#{requirementController.editing.description}" size="30" maxlength="30" />
+							<p:inputText value="#{requirementController.editing.url}" size="30" maxlength="30" />
+
+							<p:toolbarGroup align="right">
+								<p:commandButton type="push" value="Salvar" icon="ui-icon-disk"
+									id="requirementSave"
+									actionListener="#{requirementController.save}"
+									oncomplete="requirementDialog.hide();"
+									update=":formRequirement:requirementFormBase requirementList" />
+							</p:toolbarGroup>
+						</h:panelGrid>
+					</h:panelGroup>
+					<p:focus for="requirementName" />
+				</p:fieldset>
+
+				<p:dataTable var="requirement"
+					value="#{requirementController.beans}" id="requirementList"
+					sortBy="#{requirement.name}" sortOrder="descending"
+					paginator="true" rows="10" rowsPerPageTemplate="5,10,20,50"
+					paginatorTemplate="O sistema retornou #{requirementController.beans.size().toString()} registros. {PageLinks}  {RowsPerPageDropdown}">
+
+					<p:column headerText="Nome" sortBy="#{requirement.name}">
+						<h:outputText value="#{requirement.name}" />
+					</p:column>
+
+					<p:column headerText="URL" sortBy="#{requirement.url}">
+						<h:outputText value="#{requirement.url}" />
+					</p:column>
+					<p:column styleClass="kx-actions-column" headerText="Ações">
+						<p:commandLink update=":formRequirement:requirementFormBase"
+							oncomplete="requirementDialog.show();">
+							<p:graphicImage value="/resources/images/edit.png" height="12"
+								width="12" />
+							<f:setPropertyActionListener value="#{requirement}"
+								target="#{requirementController.editing}" />
+						</p:commandLink>
+						<p:commandLink oncomplete="confirmation.show();">
+							<p:graphicImage value="/resources/images/delete.png" height="12"
+								width="12" />
+							<f:setPropertyActionListener value="#{requirement}"
+								target="#{requirementController.editing}" />
+						</p:commandLink>
+					</p:column>
+
+				</p:dataTable>
+
+				<p:confirmDialog message="Excluir este requisito?"
+					header="Confirmação de exclusão" severity="alert"
+					widgetVar="confirmation">
+					<p:commandButton value="Sim, tenho certeza"
+						update="requirementList" oncomplete="confirmation.hide()"
+						actionListener="#{requirementController.delete}" />
+					<p:commandButton value="Não" onclick="confirmation.hide()"
+						type="button" />
+				</p:confirmDialog>
+
+				<p:commandLink style="margin: 3px;" styleClass="ui-icon-refresh"
+					actionListener="#{requirementController.create}"
+					update=":formRequirement:requirementFormBase">
+					<p:graphicImage value="/resources/images/add.png" height="12"
+						width="12" />
+				</p:commandLink>
+
+			</h:form>
+		</ui:define>
+	</ui:decorate>
+</ui:composition>

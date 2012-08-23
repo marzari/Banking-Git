@@ -1,0 +1,115 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:decorate template="/layout/window.xhtml">
+		<ui:param name="windowClass" value="window-full" />
+		<ui:param name="windowTitle" value="Fornecedores" />
+
+		<ui:define name="windowBody">
+		
+			#{companySegmentNicknameController.begin(3)}
+
+			<h:form id="segmentAssignForm">
+
+				<p:fieldset id="segmentAssignFormBase" legend="Segmento e CNAE"
+					style="height: 80%; margin-bottom: 5px;">
+
+					<h:panelGroup rendered="#{companySegmentNicknameController.has}" >
+						<h:panelGrid columns="4" style="float: left;" cellpading="15">
+	
+							<h:outputLabel value="Segmento" />
+							<h:outputLabel value="Atividade Econômica" />
+							<h:outputLabel />
+							<h:outputLabel />
+	
+							<p:autoComplete id="segmentAutocomplete"
+								value="#{companySegmentNicknameController.editing.selectedSegments}"
+								completeMethod="#{companySegmentNicknameController.segmentComplete}"
+								multiple="true" var="p" itemLabel="#{p.name}" required="true"
+								itemValue="#{p}" converter="segmentConverter">
+								<p:ajax event="itemUnselect" />
+								<p:ajax event="itemSelect" />
+							</p:autoComplete>
+	
+							<p:autoComplete id="cnaeAutocomplete"
+								value="#{companySegmentNicknameController.editing.selectedEconomicActivities}"
+								completeMethod="#{companySegmentNicknameController.economicActivityComplete}"
+								multiple="true" var="p" itemLabel="#{p.description}"
+								required="true" itemValue="#{p}"
+								converter="economicActivityConverter">
+								<p:ajax event="itemUnselect" />
+								<p:ajax event="itemSelect" />
+							</p:autoComplete>
+	
+							<p:commandButton value="Salvar" type="push"
+								process="@this"
+								actionListener="#{companySegmentNicknameController.save}"
+								update=":segmentAssignForm:csnTable :segmentAssignForm:segmentAssignFormBase" />
+	
+							<p:commandButton value="Excluir" type="push"
+								process="@this" oncomplete="confirmation.show();" />
+	
+							<p:watermark for="segmentAutocomplete"
+								value="Ex: Alimentos Enlatados" />
+	
+							<p:watermark for="cnaeAutocomplete"
+								value="Ex: Produção de Lavouras Temporárias" />
+						</h:panelGrid>
+					</h:panelGroup>
+				</p:fieldset>
+
+				<p:dataTable id="csnTable" var="csn"
+					value="#{companySegmentNicknameController.csnBeanDataModel}"
+					selection="#{companySegmentNicknameController.editing}"
+					selectionMode="single" sortBy="#{csn.segmentsDescription}"
+					orderBy="ascending" paginator="true" rows="10"
+					rowsPerPageTemplate="5,10,20,50"
+					paginatorTemplate="O sistema retornou #{companySegmentNicknameController.beans.size().toString()} registros. {PageLinks}  {RowsPerPageDropdown}">
+
+					<p:ajax event="rowSelect"
+						update=":segmentAssignForm:segmentAssignFormBase"
+						oncomplete="segmentAssignDialog.show()" />
+
+					<f:facet name="header">  
+					            <h:outputText value="DE-PARA de segmentos da empresa para com o CNAE" />
+					        </f:facet>
+
+					<p:column headerText="Segmento" sortBy="#{csn.segmentsDescription}">
+						<h:outputText value="#{csn.segmentsDescription}" />
+					</p:column>
+
+					<p:column headerText="Atividade Econômica"
+						sortBy="#{csn.economicActivitiesDescription}">
+						<h:outputText value="#{csn.economicActivitiesDescription}" />
+					</p:column>
+
+				</p:dataTable>
+
+				<p:confirmDialog message="Excluir este vínculo?"
+					header="ConfirmaÃ§Ã£o de exclusÃ£o" severity="alert"
+					widgetVar="confirmation">
+					<p:commandButton value="Sim, tenho certeza"
+						oncomplete="confirmation.hide(), segmentAssignDialog.hide()"
+						actionListener="#{companySegmentNicknameController.delete}"
+						update=":segmentAssignForm:csnTable :segmentAssignForm :segmentAssignForm:segmentAssignFormBase" />
+					<p:commandButton value="NÃ£o" onclick="confirmation.hide()"
+						type="button" />
+				</p:confirmDialog>
+
+				<p:commandLink style="margin: 3px;" styleClass="ui-icon-refresh"
+					actionListener="#{companySegmentNicknameController.create}"
+					update=":segmentAssignForm:segmentAssignFormBase">
+					<p:graphicImage value="/resources/images/add.png" height="12"
+						width="12" />
+				</p:commandLink>
+				
+			</h:form>
+
+		</ui:define>
+
+	</ui:decorate>
+
+</ui:composition>

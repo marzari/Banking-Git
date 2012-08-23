@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	#{mqlFileImporterController.begin(3)}
+
+	<h:form id="formFileImporter">
+		
+		<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+		
+			<p:selectOneMenu value="#{mqlFileImporterController.selectedLayout}" effect="fade">
+				<f:selectItem itemLabel="Selecione Physical Layout" itemValue="" />
+				<f:selectItems value="#{mqlFileImporterController.physicalLayouts}"/>
+			</p:selectOneMenu>
+			<p:commandButton value="OK" type="push" update="formFileImporter" process="@form"/>  
+		
+		</h:panelGrid>
+			
+		<ui:fragment id="fileimporter-wrapper">
+			<h:panelGroup layout="block" rendered="#{mqlFileImporterController.selectedLayout != null}">
+				<h:form enctype="multipart/form-data"  style="margin-top: 30px;">
+					<p:fileUpload fileUploadListener="#{mqlFileImporterController.handleFileUpload}" mode="advanced" update="messages"  />
+					<p:growl id="messages" showDetail="true"/>
+				</h:form>
+			</h:panelGroup>
+		</ui:fragment>
+		
+	</h:form>
+
+</ui:composition>

@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:decorate template="/layout/window.xhtml">
+		<ui:param name="windowClass" value="window-menu" />
+		<ui:param name="windowTitle" value="" />
+		<ui:define name="windowBody">
+			<h:form>
+				<p:menu>
+					<p:submenu label="Fornecedores">
+						<p:menuitem value="Consultar" id="supplierManager"
+							actionListener="#{pcController.load('SUPPLIERMANAGER')}"
+							update=":tabView:supplierManager-menu-content" />
+					</p:submenu>
+				</p:menu>
+			</h:form>
+		</ui:define>
+	</ui:decorate>
+
+	<h:panelGroup layout="block" id="supplierManager-menu-content">
+		<ui:fragment rendered="#{pcController.isLoaded('SUPPLIERMANAGER')}">
+			<ui:include src="supplierManager.xhtml" />
+		</ui:fragment>
+	</h:panelGroup>
+
+</ui:composition>

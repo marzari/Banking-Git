@@ -1,0 +1,81 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:composition>
+
+<h:form>
+
+<h:panelGroup layout="block" id="sectorTableBase" style="width: 750px; margin: 50px;">
+
+   	<p:dataTable id="sectorTable" value="#{sectorController.beans}" var="att">
+   	
+   		<p:ajax event="rowEdit" listener="#{sectorController.saveSector}"/>
+   		
+   		<f:facet name="header">
+			Setor  
+        </f:facet>
+   	
+		<p:column headerText="Departamento" style="width:150px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.departmentDescription}"/></f:facet>  
+				<f:facet name="input">
+					<p:selectOneMenu value="#{att.department}" converter="departmentConverter" style="width: 250px;" >  
+						<f:selectItems value="#{departmentController.beans}" var="dp" itemValue="#{dp}" itemLabel="#{dp.description}"/>
+					</p:selectOneMenu>
+				</f:facet>
+			</p:cellEditor>  
+		</p:column>
+		<p:column headerText="Nome" style="width:150px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.name}"/></f:facet>  
+				<f:facet name="input">
+					<p:inputText value="#{att.name}" size="20" maxlength="20"/>
+				</f:facet>  
+			</p:cellEditor>  
+		</p:column>
+		<p:column headerText="Responsável" style="width:200px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.responsibleDescription}"/></f:facet>  
+				<f:facet name="input">
+					<p:autoComplete id="rr" value="#{att.responsible}" style="width: 95%;"
+						completeMethod="#{individualPartnerController.getIndividualAC}" var="rs" 
+						itemLabel="#{rs.firstName}" itemValue="#{rs}" converter="individualPartnerConverter"/>
+				</f:facet>  
+			</p:cellEditor>  
+		</p:column>
+		
+		<p:column style="width:10px">
+			<p:rowEditor/>
+		</p:column>
+		<p:column style="width:10px">
+			<p:commandLink oncomplete="confirmation.show();">
+				<p:graphicImage value="/images/delete.png" height="12" width="12"/>
+				<f:setPropertyActionListener value="#{att}" target="#{departmentController.bean}" />
+			</p:commandLink>
+		</p:column>
+		
+	</p:dataTable>
+
+	<p:confirmDialog message="Você tem certeza que deseja desativar este setor" header="Confirmação de exclusão" severity="alert" widgetVar="confirmation">  
+        <p:commandButton value="Sim, tenho certeza" update="sectorTableBase" oncomplete="confirmation.hide()" actionListener="#{sectorController.delete}"/>  
+        <p:commandButton value="Não" onclick="confirmation.hide()" type="button"/>
+    </p:confirmDialog>
+	
+	<p:commandLink actionListener="#{sectorController.addSector}" update="sectorTableBase" style="margin: 3px;">
+		<p:graphicImage value="/images/add.png" height="12" width="12" />
+	</p:commandLink>
+	
+</h:panelGroup> 
+
+</h:form>
+
+</ui:composition>
+
+</h:body>
+
+</html>

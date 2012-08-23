@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	
+	template="/layout/window.xhtml">
+	
+	<ui:param name="windowClass" value="window-full"/>
+	<ui:param name="windowTitle" value="My Connections"/>
+	
+	<ui:define name="windowBody">
+	
+		<h:form>
+		
+			<h:panelGroup layout="block" style="margin: 10px;">
+				<h:panelGrid columns="6" cellpadding="5">
+					<h:outputLabel value="Selecione a Empresa"/>
+					<p:selectOneMenu style="width: 200px;" value="#{kgConnectionController.companyId}">
+						<f:selectItems value="#{kgCompanyController.beans}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>  
+					</p:selectOneMenu>
+					<p:commandButton value="OK" update="partnersSelect" actionListener="#{kgConnectionController.handleCompanyChange}"/>
+					<h:outputLabel value="Selecione o Parceiro"/>
+					<p:selectOneMenu style="width: 200px;" value="#{kgConnectionController.partnerId}" id="partnersSelect">
+						<f:selectItems value="#{kgConnectionController.availablePartners}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>  
+					</p:selectOneMenu>
+					<p:commandButton value="OK" update="myconnectionsTableBase" actionListener="#{kgConnectionController.handlePartnerChange}"/>  
+				</h:panelGrid>
+			</h:panelGroup>
+			
+			<hr/>
+	
+			<h:panelGroup layout="block" id="myconnectionsTableBase">
+		
+				<p:panel header="Minhas conexões" style="width: 30%; height: 80%; margin: 30px; float: left;" >
+				</p:panel>
+				
+				<p:panel header="Conexões disponíveis" style="width: 30%; height: 80%; margin: 30px; float: left;" >
+				</p:panel>
+				
+				<p:panel header="Convites pendentes" style="width: 20%; height: 80%; margin: 30px; float: left;" >
+				</p:panel>
+				
+			</h:panelGroup>
+			
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

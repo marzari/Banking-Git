@@ -1,0 +1,363 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core" template="/layout/window.xhtml">
+
+	<ui:param name="windowClass" value="window-full" />
+	<ui:param name="windowTitle"
+		value="Cadastramento e Manutencao de agendamento" />
+
+	<ui:define name="windowBody">
+
+		<h:form id="formRegistryScheduling">
+
+			<p:fieldset id="formSchedulingTop" legend="Cadastro de agendamentos"
+				style="height: 80%; margin-bottom: 5px;">
+
+				<h:panelGroup rendered="#{schedulingComponentController.has}">
+
+					<h:panelGrid columns="4" style="float: float;" cellpading="40"
+						border="1">
+
+						<h:outputLabel value="Nome:" />
+						<p:inputText id="nameScheduling" size="11"
+							title="Nome ex: ArquivoX"
+							value="#{schedulingComponentController.editing.nome}"
+							required="true" />
+						<h:outputLabel />
+						<h:outputLabel />
+
+						<h:outputLabel value="Status:" />
+						<h:outputLabel
+							value="#{schedulingComponentController.editing.status}" />
+
+						<h:outputLabel value="Descriçao:" />
+						<p:inputText id="descricaoScheduling" size="11"
+							title="Nome ex: D\pasta que deseja"
+							value="#{schedulingComponentController.editing.descricao}" />
+
+						<p:selectBooleanCheckbox
+							value="#{schedulingComponentController.editing.ativo}" />
+						<h:outputText value="Ativo: " />
+
+						<h:outputText value="Operacao: " />
+						<p:selectOneRadio id="operacao"
+							value="#{schedulingComponentController.editing.operacao}">
+							<f:selectItem itemLabel="Iniciar execucao" itemValue="iniciar" />
+							<f:selectItem itemLabel="Parar execucao" itemValue="parar" />
+						</p:selectOneRadio>
+
+						<h:outputText value="Executar: " />
+						<p:selectOneRadio id="executar"
+							value="#{schedulingComponentController.editing.type}"
+							required="true">
+							<p:ajax event="change" update="oneRadio formSchedulingDown" />
+							<f:selectItem itemLabel="Regras" itemValue="rules">
+							</f:selectItem>
+							<f:selectItem itemLabel="Programa externo" itemValue="programa">
+							</f:selectItem>
+							<f:selectItem itemLabel="Workflow" itemValue="workflow">
+							</f:selectItem>
+							<f:selectItem itemLabel="Limpeza" itemValue="cleaning">
+							</f:selectItem>
+							<f:selectItem itemLabel="Grupo" itemValue="group">
+							</f:selectItem>
+						</p:selectOneRadio>
+
+						<h:panelGroup id="oneRadio">
+
+							<h:panelGrid columns="5" style="float: float;" cellpading="40"
+								rendered="#{schedulingComponentController.editing.type == 'rules'}">
+								<p:selectOneMenu
+									value="#{schedulingComponentController.editing.regra}"
+									converter="regraConverter">
+									<f:selectItems value="#{regraController.beans}" var="reg"
+										itemValue="#{reg}" itemLabel="#{reg.name}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+
+							<h:panelGrid columns="3" style="float: float;" cellpading="40"
+								rendered="#{schedulingComponentController.editing.type == 'programa'}">
+								<p:inputText
+									value="#{schedulingComponentController.editing.programa}" />
+								<p:commandButton icon=" ui-icon-search" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="3" style="float: float;" cellpading="40"
+								rendered="#{schedulingComponentController.editing.type == 'workflow'}">
+								<p:selectOneMenu
+									value="#{schedulingComponentController.editing.workflow}"
+									converter="workflowConverter">
+									<f:selectItems value="#{workflowBController.beans}" var="work"
+										itemValue="#{work}" itemLabel="#{work.identificador}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+
+							<h:panelGrid columns="3" style="float: float;" cellpading="40"
+								rendered="#{schedulingComponentController.editing.type == 'cleaning'}">
+								<p:inputText
+									value="#{schedulingComponentController.editing.programa}" />
+								<p:commandButton icon=" ui-icon-search" />
+
+								<h:outputLabel />
+								<h:outputLabel value="Limpar somente se tamanho ultrapassar" />
+
+								<p:inputText
+									value="#{monitorFoldersComponentController.editing.tamanho}" />
+
+								<h:outputLabel value="bytes" />
+							</h:panelGrid>
+
+
+							<h:outputLabel value="Ultima execucao: " />
+
+							<h:outputLabel
+								value="#{schedulingComponentController.editing.ultimaExecucao}" />
+
+						</h:panelGroup>
+
+						<p:tooltip for="nameScheduling" showEvent="focus" hideEvent="blur" />
+						<p:tooltip for="descricaoScheduling" showEvent="focus"
+							hideEvent="blur" />
+
+					</h:panelGrid>
+					<h:outputLabel value="Os campos em vermelho devem ser completados" />
+
+				</h:panelGroup>
+
+				<p:fieldset id="formSchedulingDown" legend="Agendamento"
+					rendered="#{schedulingComponentController.has}"
+					style="height: 80%; margin-bottom: 5px;">
+
+					<h:panelGrid columns="2" style="float: float;" cellpading="40"
+						border="1">
+
+						<h:outputText value="Executar: " />
+						<p:selectOneRadio id="executarPeriodo"
+							value="#{schedulingComponentController.editing.multiplicidade}"
+							required="true">
+							<p:ajax event="change" update="formSchedulingDown" />
+							<f:selectItem itemLabel="Uma vez" itemValue="UMA_VEZ">
+							</f:selectItem>
+							<f:selectItem itemLabel="Periodicamente"
+								itemValue="PERIODICAMENTE">
+							</f:selectItem>
+						</p:selectOneRadio>
+
+
+						<h:panelGrid columns="5" style="float: float;" cellpading="40"
+							rendered="#{schedulingComponentController.editing.multiplicidade == 'UMA_VEZ'}">
+
+							<h:panelGrid id="display" columns="2" cellpadding="5">
+								<h:outputText value="Data inicio: " />
+								<p:calendar value="#{SchedulingBean.quandoInicia}"
+									id="dataInicio" showOn="button" pattern="dd/MM/yyyy" />
+								<h:outputText value="#{SchedulingBean.quandoInicia}"
+									id="dataInicioDate">
+								</h:outputText>
+
+								<h:outputText value="Data final: " />
+								<p:calendar
+									value="#{schedulingComponentController.editing.quandoFinaliza}"
+									id="dataFinal" showOn="button" pattern="dd/MM/yyyy" />
+
+								<h:outputText value="Hora: " />
+								<p:calendar
+									value="#{schedulingComponentController.editing.quandoHora}"
+									pattern="HH:mm" timeOnly="true" />
+							</h:panelGrid>
+
+						</h:panelGrid>
+
+						<h:panelGrid columns="5" style="float: float;" cellpading="40"
+							rendered="#{schedulingComponentController.editing.multiplicidade == 'PERIODICAMENTE'}">
+
+							<p:selectOneRadio id="periodo"
+								value="#{schedulingComponentController.editing.tipoPeriodicidade}"
+								required="true">
+
+								<p:ajax event="change" update="formSchedulingDown_periodicidade" />
+								<f:selectItem itemLabel="Diariamente" itemValue="DIARIA" />
+								<f:selectItem itemLabel="Semanalmente" itemValue="SEMANAL" />
+								<f:selectItem itemLabel="Mensalmente" itemValue="MENSAL" />
+								<f:selectItem itemLabel="Anualmente" itemValue="ANUAL" />
+
+							</p:selectOneRadio>
+
+							<h:panelGroup layout="block" id="formSchedulingDown_periodicidade">
+							
+								<h:panelGrid columns="5" style="float: float;" cellpading="40"
+									rendered="#{schedulingComponentController.editing.tipoPeriodicidade == 'DIARIA'}">
+	
+									<p:tabView>
+										<p:tab id="diariamente" title="Diariamente">
+											<p:inputText
+												value="#{schedulingComponentController.editing.multiplicidade}" />
+										</p:tab>
+									</p:tabView>
+								</h:panelGrid>
+	
+								<h:panelGrid columns="5" style="float: float;" cellpading="40"
+									rendered="#{schedulingComponentController.editing.tipoPeriodicidade == 'SEMANAL'}">
+	
+									<p:tabView>
+										<p:tab id="semanalmente" title="Semanalmente">
+											<h:outputText value="Toda semana,nos: " />
+											<p:selectManyCheckbox value="#{schedulingComponentController.editing.semanalType}">
+												<f:selectItem itemLabel="Domingo" itemValue="Domingo" />
+												<f:selectItem itemLabel="Segunda" itemValue="Segunda" />
+												<f:selectItem itemLabel="Terça" itemValue="Terça" />
+												<f:selectItem itemLabel="Quarta" itemValue="Quarta" />
+												<f:selectItem itemLabel="Quinta" itemValue="Quinta" />
+												<f:selectItem itemLabel="Sexta" itemValue="Sexta" />
+											</p:selectManyCheckbox>
+										</p:tab>
+									</p:tabView>
+	
+								</h:panelGrid>
+
+								<h:panelGrid columns="5" style="float: float;" cellpading="40"
+									rendered="#{schedulingComponentController.editing.tipoPeriodicidade == 'MENSAL'}">
+									<p:tabView>
+										<p:tab id="mensalmente" title="Mensalmente">
+											<h:outputText value="No dia " />
+											<p:inputText
+												value="#{schedulingComponentController.editing.representacaoPeriodicidade}" />
+											<h:outputText value=" De cada " />
+											<p:inputText
+												value="#{schedulingComponentController.editing.representacaoPeriodicidade}" />
+											<h:outputText value=" mês(es): " />
+										</p:tab>
+									</p:tabView>
+	
+								</h:panelGrid>
+
+								<h:panelGrid columns="5" style="float: float;" cellpading="40"
+									rendered="#{schedulingComponentController.editing.tipoPeriodicidade == 'ANUAL'}">
+									<p:tabView>
+										<p:tab id="anualmente" title="Anualmente">
+											<h:outputText value="No dia " />
+											<p:inputText
+												value="#{schedulingComponentController.editing.representacaoPeriodicidade}" />
+	
+											<h:outputText value=" de: " />
+											<p:selectOneMenu>
+												<f:selectItem itemLabel="Janeiro" itemValue="Janeiro" />
+												<f:selectItem itemLabel="Fevereiro" itemValue="Fevereiro" />
+												<f:selectItem itemLabel="Março" itemValue="Março" />
+												<f:selectItem itemLabel="Abril" itemValue="Abril" />
+												<f:selectItem itemLabel="Maio" itemValue="Maio" />
+												<f:selectItem itemLabel="Junho" itemValue="Junho" />
+												<f:selectItem itemLabel="Julho" itemValue="Julho" />
+												<f:selectItem itemLabel="Agosto" itemValue="Agosto" />
+												<f:selectItem itemLabel="Setembro" itemValue="Setembro" />
+												<f:selectItem itemLabel="Outubro" itemValue="Outubro" />
+												<f:selectItem itemLabel="Novembro" itemValue="Novembro" />
+												<f:selectItem itemLabel="Dezembro" itemValue="Dezembro" />
+											</p:selectOneMenu>
+										</p:tab>
+									</p:tabView>
+								</h:panelGrid>
+							</h:panelGroup>
+						</h:panelGrid>
+
+
+					</h:panelGrid>
+
+					<p:commandButton id="saveMonitor" value="Salvar"
+						style="float:right;"
+						update=":formRegistryScheduling:formSchedulingTop agendamentoList"
+						actionListener="#{schedulingComponentController.save}" />
+				</p:fieldset>
+
+
+				<p:dataTable id="agendamentoList" var="agendamento"
+					value="#{schedulingComponentController.beans}" paginator="true"
+					rows="10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15">
+					<f:facet name="header">  
+           				Agendamentos  
+       				</f:facet>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Nome" />
+						</f:facet>
+						<h:outputText value="#{agendamento.nome}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Quando" />
+						</f:facet>
+						<h:outputText value="#{agendamento.multiplicidade}" />
+					</p:column>
+					
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Status" />
+						</f:facet>
+
+						<h:outputText value="#{agendamento.status}" />
+					</p:column>
+					
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Executar" />
+						</f:facet>
+
+						<h:outputText value="#{agendamento.typeDescription}" />
+					</p:column>
+
+
+
+
+					<p:column style="width:10px">
+						<p:commandLink
+							update=":formRegistryScheduling:formSchedulingTop :formRegistryScheduling:formSchedulingDown">
+							<p:graphicImage value="/resources/images/edit.png" height="12"
+								width="12" />
+							<f:setPropertyActionListener value="#{agendamento}"
+								target="#{schedulingComponentController.editing}" />
+						</p:commandLink>
+					</p:column>
+
+					<p:column style="width:10px">
+						<p:commandLink oncomplete="confirmation.show();"
+							update=":formRegistryScheduling:formSchedulingTop :formRegistryScheduling:formSchedulingDown">
+							<p:graphicImage value="/resources/images/delete.png" height="12"
+								width="12" />
+							<f:setPropertyActionListener value="#{agendamento}"
+								target="#{schedulingComponentController.editing}" />
+						</p:commandLink>
+					</p:column>
+
+				</p:dataTable>
+				<p:confirmDialog message="Excluir tipo de criticidade?"
+					header="Confirmação de exclusão" severity="alert"
+					widgetVar="confirmation">
+					<p:commandButton value="Sim, tenho certeza"
+						update=":formRegistryScheduling:formSchedulingTop agendamentoList"
+						oncomplete="confirmation.hide()"
+						actionListener="#{schedulingComponentController.delete}" />
+					<p:commandButton value="Não" onclick="confirmation.hide()"
+						type="button" />
+				</p:confirmDialog>
+
+				<p:commandLink style="margin: 3px;" styleClass="ui-icon-refresh"
+					actionListener="#{schedulingComponentController.create}"
+					update=":formRegistryScheduling:formSchedulingTop :formRegistryScheduling:formSchedulingDown">
+					<p:graphicImage value="/resources/images/add.png" height="12"
+						width="12" />
+				</p:commandLink>
+
+
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

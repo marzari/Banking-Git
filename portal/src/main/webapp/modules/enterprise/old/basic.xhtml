@@ -1,0 +1,73 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:kui="http://java.sun.com/jsf/composite/comp/ui">
+
+<h:body>
+
+<ui:composition>
+
+	<h:panelGroup layout="block" id="company-base" style="width: 100%; minWidth: 700px;">
+	
+		<h:panelGroup layout="block" style="width: 100%; minHeight: 20px;">
+			<p:commandButton value="Editor" onclick="companyDialog.show();" type="button" style="margin:10px 50px;"/>
+		</h:panelGroup>
+		
+		<p:dialog header="Editor" widgetVar="companyDialog" minHeight="400" minWidth="600" modal="true">  
+		    <h:panelGroup layout="block">
+		    	<h:form prependId="false">
+			    	<p:toolbar>
+						<p:toolbarGroup align="left">
+							<p:commandButton type="push" value="Novo" image="ui-icon-document" 
+								actionListener="#{companyController.create}" update="companyFormBase " />
+							<p:commandButton type="push" value="Salvar" image="ui-icon-disk"
+								actionListener="#{companyController.save}" update="companyFormBase companyTableBase"/>
+							<p:commandButton type="push" value="Limpar" image="ui-icon-note"
+								actionListener="#{companyController.clean}" update="companyFormBase" />
+						</p:toolbarGroup>
+					</p:toolbar>
+					
+					<p:fieldset id="companyFormBase" legend="Cadastro de Empresas">
+                
+						<h:panelGroup layout="block" rendered="#{companyController.has()}">
+						
+						</h:panelGroup>
+						
+					</p:fieldset>
+					
+			    </h:form>
+			</h:panelGroup>
+			    
+		</p:dialog>
+	
+		<h:form id="frequenceTableBase" prependId="false">
+	        <p:dataTable id="frequenceTable" value="#{companyController.beans}" var="att">
+	            <p:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Descrição}" />
+	                </f:facet>
+	                <h:outputText value="#{att.description}" />
+	            </p:column>
+	            <p:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Valor" />
+	                </f:facet>
+	                <h:outputText value="#{att.value}" />
+	            </p:column>
+	             <p:column style="width:15px">
+					<p:commandButton update="companyFormBase" image="ui-icon ui-icon-search" oncomplete="companyDialog.show();">
+						<f:setPropertyActionListener value="#{att}" target="#{companyController.bean}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+			
+	</h:panelGroup> 
+
+</ui:composition>
+
+</h:body>
+
+</html>

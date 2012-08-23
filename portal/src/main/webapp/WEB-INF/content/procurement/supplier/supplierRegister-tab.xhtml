@@ -1,0 +1,267 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:decorate template="/layout/window.xhtml">
+
+		<ui:param name="windowClass" value="window-full" />
+		<ui:param name="windowTitle" value="Registro Fornecedor" />
+		<ui:define name="windowBody">
+		
+			#{supplierRegistrationController.begin(3)}
+
+			<h:form id="formA">
+
+				<h:panelGroup layout="block" style="margin: 20px;" rendered="#{not supplierRegistrationController.has()}">
+					
+					<h:panelGrid columns="6" cellpading="15" style="margin: 20px;">
+						<p:inputText id="user" size="14" maxlength="14" />
+						<p:watermark for="user" value="Digite seu usuário" />
+						<p:inputText id="pass" size="14" maxlength="14" />
+						<p:watermark for="pass" value="Digite sua senha" />
+						<p:commandButton value="OK"/>
+						<p:commandLink update="formA" actionListener="#{supplierRegistrationController.create()}">
+							<h:outputText value="Cadastre-se" />
+						</p:commandLink>
+					</h:panelGrid>
+				
+				</h:panelGroup>
+
+				<h:panelGroup layout="block" style="margin: 20px;" rendered="#{supplierRegistrationController.has()}">
+
+					<p:wizard widgetVar="wiz" flowListener="#{supplierRegistrationController.onFlowProcess}">
+
+						<p:tab id="registry" title="Cadastros">
+
+							<p:panel style="height: 85%;">
+								
+								<p:selectOneButton value="#{supplierRegistrationController.type}">
+									<p:ajax event="change" update="content" />
+									<f:selectItem itemLabel="Pessoa Fisica" itemValue="Individual" />
+									<f:selectItem itemLabel="Pessoa Juridica" itemValue="Legal" />
+								</p:selectOneButton>
+			
+								<h:panelGroup layout="block" id="content">
+			
+									<ui:fragment rendered="#{supplierRegistrationController.isType('Individual')}">
+										
+										<p:fieldset legend="Informações Pessoais" style="width: 400px; height: 350px; margin:30px; float: left;">
+										
+										<h:panelGrid columns="2" cellpading="15" style="margin: 20px;">
+										
+											<h:outputLabel value="Nome" />
+											<p:inputText value="#{supplierRegistrationController.bean.individual.firstName}"/>
+											
+											<h:outputLabel value="Sobrenome" />
+											<p:inputText value="#{supplierRegistrationController.bean.individual.lastName}"/>
+											
+											<h:outputLabel value="CPF" />
+											<p:inputMask value="#{supplierRegistrationController.bean.individual.registrations['cpf'].value}" mask="999.999.999-99"/>
+											
+											<h:outputLabel value="RG" />
+											<p:inputText value="#{supplierRegistrationController.bean.individual.registrations['rg'].value}"/>
+											
+											<h:outputLabel value="RG Orgão Emissor" />
+											<p:inputText value="#{supplierRegistrationController.bean.individual.registrations['rgoe'].value}"/>
+											
+											<h:outputLabel value="Data Nascimento" />
+											<p:calendar value="#{supplierRegistrationController.bean.individual.birth}"/>  
+											
+											<h:outputLabel value="Nacionalidade" />
+											<p:inputText value="#{supplierRegistrationController.bean.individual.nationality}" />
+											
+											<h:outputLabel value="Celular" />
+											<p:inputMask value="#{supplierRegistrationController.bean.individual.contacts['default'].phones['cell'].phoneNumber}" mask="(99)9999-9999"/>
+											
+											<h:outputLabel value="Email" />
+											<p:inputText value="#{supplierRegistrationController.bean.individual.contacts['default'].emails['default'].email}"/>
+											
+										</h:panelGrid>
+										
+										</p:fieldset>
+										
+										<p:fieldset legend="Endereço e Contato"  style="width: 400px; height: 350px; margin:30px; float: left;">
+										
+										<h:panelGrid columns="2" cellpading="15" style="margin: 20px;">
+											
+											<h:outputLabel value="Rua" />
+											<p:inputText value="#{supplierRegistrationController.bean.individual.addresses['default'].street}"/>
+											
+											<h:outputLabel value="Numero" />
+											<p:inputText value="#{supplierRegistrationController.bean.individual.addresses['default'].number}"/>
+											
+											<h:outputLabel value="Complemento" />
+											<p:inputText value="#{supplierRegistrationController.bean.individual.addresses['default'].completion}"/>
+											
+											<h:outputLabel value="Bairro" />
+											<p:inputText value="#{supplierRegistrationController.bean.individual.addresses['default'].neighborhood}"/>
+										
+											<h:outputLabel value="CEP" />
+											<p:inputMask value="#{supplierRegistrationController.bean.individual.addresses['default'].zipCode}" mask="99.999-999"/>
+											
+											<h:outputLabel value="Cidade" />
+											<p:inputText value="#{supplierRegistrationController.bean.individual.addresses['default'].city}"/>
+										
+											<h:outputLabel value="Estado" />
+											<p:inputText value="#{supplierRegistrationController.bean.individual.addresses['default'].state}"/>
+											
+											<h:outputLabel value="Telefone Comercial" />
+											<p:inputMask value="#{supplierRegistrationController.bean.individual.contacts['default'].phones['business']}" mask="(99)9999-9999"/>
+										
+										</h:panelGrid>
+										
+										</p:fieldset>
+
+									</ui:fragment>
+			
+									<ui:fragment rendered="#{supplierRegistrationController.isType('Legal')}">
+									
+										<p:fieldset legend="Informações Jurídicas" style="width: 400px; height: 350px; margin:30px; float: left;">
+										
+										<h:panelGrid columns="2" cellpading="15" style="margin: 20px;">
+										
+											<h:outputLabel value="Razão Social" />
+											<p:inputText value="#{supplierRegistrationController.bean.legal.companyName}" />
+											
+											<h:outputLabel value="CNPJ" />
+											<p:inputMask value="#{supplierRegistrationController.bean.legal.registrations['cnpj'].value}" mask="99.999.999/9999-99"/>
+											
+											<h:outputLabel value="Inscrição Estadual" />
+											<p:inputText value="#{supplierRegistrationController.bean.legal.registrations['inscrest'].value}"/>
+											
+											<h:outputLabel value="Inscrição Municipal" />
+											<p:inputText value="#{supplierRegistrationController.bean.legal.registrations['inscrmun'].value}"/>
+											
+											<h:outputLabel value="Nome Fantasia" />
+											<p:inputText value="#{supplierRegistrationController.bean.legal.fancyName}" />
+											
+										</h:panelGrid>
+										
+										</p:fieldset>
+										
+										<p:fieldset legend="Endereço e Contato" style="width: 400px; height: 350px; margin:30px; float: left;">
+										
+										<h:panelGrid columns="2" cellpading="15" style="margin: 20px;">
+										
+											<h:outputLabel value="Rua" />
+											<p:inputText value="#{supplierRegistrationController.bean.legal.addresses['default'].street}"/>
+											
+											<h:outputLabel value="Numero" />
+											<p:inputText value="#{supplierRegistrationController.bean.legal.addresses['default'].number}"/>
+											
+											<h:outputLabel value="Complemento" />
+											<p:inputText value="#{supplierRegistrationController.bean.legal.addresses['default'].completion}"/>
+											
+											<h:outputLabel value="Bairro" />
+											<p:inputText value="#{supplierRegistrationController.bean.legal.addresses['default'].neighborhood}"/>
+										
+											<h:outputLabel value="CEP" />
+											<p:inputMask value="#{supplierRegistrationController.bean.legal.addresses['default'].zipCode}" mask="99.999-999"/>
+											
+											<h:outputLabel value="Cidade" />
+											<p:inputText value="#{supplierRegistrationController.bean.legal.addresses['default'].city}"/>
+										
+											<h:outputLabel value="Estado" />
+											<p:inputText value="#{supplierRegistrationController.bean.legal.addresses['default'].state}"/>
+											
+											<h:outputLabel value="Contato" />
+											<p:inputText value="#{supplierRegistrationController.bean.legal.contacts['default'].firstName}"/>
+											
+											<h:outputLabel value="Telefone" />
+											<p:inputText value="#{supplierRegistrationController.bean.legal.contacts['default'].phones['default'].phoneNumber}"/>
+										
+										</h:panelGrid>
+										
+										</p:fieldset>
+										
+									</ui:fragment>
+			
+								</h:panelGroup>
+							
+							</p:panel>
+
+						</p:tab>
+						<p:tab id="segments" title="Segmentos e Produtos">
+							
+							<p:panel style="height: 85%;">
+							
+								<p:fieldset legend="Área de Atuação" style="margin: 30px;">
+								
+									<h:panelGrid columns="3" cellpading="15" style="margin: 20px;">
+									
+										<h:outputLabel value="Atividade Econômica" />
+										<p:autoComplete value="#{supplierRegistrationController.bean.market.segment}" completeMethod="#{segmentController.complete}" 
+											var="p" itemLabel="#{p.name}" itemValue="#{p}" converter="segmentConverter" />
+										<p:commandButton icon="ui-icon-search" type="button" onclick="segmentDialog.show()"/> 
+										
+										<h:outputLabel value="Segmento de Mercado" />
+										<p:autoComplete value="#{supplierRegistrationController.bean.market.segment}" completeMethod="#{segmentController.complete}" 
+											var="p" itemLabel="#{p.name}" itemValue="#{p}" converter="segmentConverter" />
+										<p:commandButton icon="ui-icon-search" type="button" onclick="segmentDialog.show()"/> 
+	
+										<h:outputLabel value="Principais Produtos / Mercadorias" />
+										<p:autoComplete value="#{supplierRegistrationController.bean.market.segment}" completeMethod="#{segmentController.complete}" 
+											var="p" itemLabel="#{p.name}" itemValue="#{p}" converter="segmentConverter" />
+										<p:commandButton icon="ui-icon-search" type="button" onclick="segmentDialog.show()"/>
+										
+										<h:outputLabel value="Observações" />
+										<p:inputTextarea id="inputarea" rows="5" cols="30"/>
+
+
+									</h:panelGrid>
+								
+								</p:fieldset>
+							
+							</p:panel>
+						
+						</p:tab>
+						<p:tab id="credential" title="Acesso Portal">
+						
+							<p:panel style="height: 85%;">
+							
+								<p:fieldset legend="Acesso ao Portal" style="margin: 30px;">
+								
+									<h:panelGrid columns="2" cellpading="15" style="margin: 20px;" id="credentialGrid">
+									
+										<p:selectBooleanCheckbox value="#{supplierRegistrationController.autofill}">  
+											<p:ajax update="credentialGrid" listener="#{supplierRegistrationController.doAutofill}"/>  
+								        </p:selectBooleanCheckbox>  
+										<h:outputLabel value="Preencher com as informações do cadastro PJ ou PF" />
+										
+										<h:outputLabel value="Nome" />
+										<p:inputText value="#{supplierRegistrationController.bean.credentials.name}"/>
+										
+										<h:outputLabel value="Email" />
+										<p:inputText value="#{supplierRegistrationController.bean.credentials.email}"/>
+										
+										<h:outputLabel value="Usuário" />
+										<p:inputText value="#{supplierRegistrationController.bean.credentials.username}" />
+										
+										<h:outputLabel value="Senha" for="pwd1" />
+										<p:password id="pwd1" value="#{supplierRegistrationController.bean.credentials.password}" match="pwd2" label="Password" required="true" />
+
+										<h:outputLabel value="Confirme Senha" for="pwd2" />
+										<p:password id="pwd2" value="#{supplierRegistrationController.bean.credentials.password}" label="Password" required="true" />
+
+									</h:panelGrid>
+								
+								</p:fieldset>
+							
+							</p:panel>
+						
+						</p:tab>
+
+					</p:wizard>
+
+				</h:panelGroup>
+
+			</h:form>
+
+		</ui:define>
+
+	</ui:decorate>
+
+
+</ui:composition>

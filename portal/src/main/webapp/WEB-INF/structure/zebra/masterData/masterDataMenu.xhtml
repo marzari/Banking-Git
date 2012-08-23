@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	
+	template="/layout/window.xhtml">
+	
+	<ui:param name="windowClass" value="window-menu"/>
+	<ui:param name="windowTitle" value=""/>
+	
+	<ui:define name="windowBody">
+	
+		<h:form prependId="false">
+		
+		   	<p:menu type="tiered" maxHeight="480" style="width: 90%; margin: 0 auto;">  
+		
+		        <p:submenu label="Empresa"> 
+	        		<p:menuitem value="Empresa" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.loadContent('/modules/enterprise/company.xhtml')}"/>
+	        		<p:menuitem value="Grupo Econômico" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.loadContent('/modules/enterprise/group.xhtml')}"/>
+		        	<p:submenu label="Estrutura">
+		        		<p:menuitem value="Regional" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.loadContent('/modules/enterprise/regional.xhtml')}"/>
+		        		<p:menuitem value="Representante" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.loadContent('/modules/enterprise/representative.xhtml')}"/>
+		        		<p:menuitem value="Filial" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.loadContent('/modules/enterprise/branch.xhtml')}"/>
+		        		<p:menuitem value="Departamento" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.loadContent('/modules/enterprise/department.xhtml')}"/>
+		        		<p:menuitem value="Setor" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.loadContent('/modules/enterprise/sector.xhtml')}"/>
+		        	</p:submenu>
+		        	<p:submenu label="Organização">
+		        		<p:menuitem value="Centro de Custo" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.loadContent('/modules/enterprise/costCenter.xhtml')}"/>
+		        		<p:menuitem value="Centro de Resultado" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.loadContent('/modules/enterprise/resultCenter.xhtml')}"/>
+		        	</p:submenu>
+		        </p:submenu> 
+				<p:submenu label="Clientes">
+					<p:menuitem value="Cliente" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.loadContent('/modules/enterprise/costumer.xhtml')}"/>
+				</p:submenu>
+				<p:submenu label="Soluções e Vendas">
+					<p:menuitem value="Solução" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.load('SOLUTION')}"/>
+					<p:menuitem value="Produto" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.load('OFFER')}"/>
+					<p:menuitem value="Serviço" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.load('INSTRUMENT')}"/>
+					<p:menuitem value="Algoritmo" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.load('ALGORITHM')}"/>
+				</p:submenu>
+				<p:submenu label="Informação Bancária">
+					<p:menuitem value="Banco" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.load('BANK')}"/>
+					<p:menuitem value="Conta" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.load('BANKACCOUNT')}"/>
+				</p:submenu>
+				<p:submenu label="Contexto Externo">
+					<p:submenu label="Imposto">
+						<p:menuitem value="Imposto" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.load('TAX')}"/>	
+						<p:menuitem value="Retenção" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.load('TAXRETENTIONDEFINITION')}"/>
+						<p:menuitem value="Grupo de Retenção" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.load('RETENTIONGROUP')}"/>
+					</p:submenu>
+					<p:menuitem value="Inflação" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.load('INFLATION')}"/>
+				</p:submenu>
+				<p:submenu label="Parceiros">
+					<p:menuitem value="Funcionário" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.load('EMPLOYEE')}"/>
+					<p:menuitem value="Prestador" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.load('PROVIDER')}"/>
+					<p:menuitem value="Estagiário" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.load('TRAINEE')}"/>
+				</p:submenu>
+				<p:submenu label="Fornecedores">
+					<p:menuitem value="Fornecedor" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.load('SUPPLIER')}"/>
+				</p:submenu>
+				<p:submenu label="Manutenção">
+					<p:submenu label="Categorias">
+						<p:menuitem value="Dimensões" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.load('DIMENSION')}"/>
+						<p:menuitem value="Categorias" update=":zebra-tab:master-data-content" actionListener="#{zebraMenu.load('CATEGORY')}"/>
+					</p:submenu>
+				</p:submenu>
+						         
+		    </p:menu>
+		
+		</h:form>
+	
+	</ui:define>
+		
+</ui:composition>

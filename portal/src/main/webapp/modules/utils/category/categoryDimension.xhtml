@@ -1,0 +1,60 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:kui="http://java.sun.com/jsf/composite/comp/ui">
+
+<h:body>
+
+<ui:composition>
+	
+<h:form>
+
+<p:fieldset legend="Dimensões de Categorias" style="padding: 50px;">
+
+<h:panelGroup id="categoryDimensionTableBase" layout="block" style="float:left; width: 400px;">
+	
+	<p:dataTable id="categoryDimensionTable" value="#{categorizedApplicationController.dimensionController.beans}" var="att">
+	
+		<p:ajax event="rowEdit" listener="#{categorizedApplicationController.dimensionController.saveDimension}"/>
+	
+		<p:column headerText="Nome" style="width:250px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.name}"/></f:facet>  
+				<f:facet name="input"><p:inputText value="#{att.name}" size="45" maxlength="45"/></f:facet>  
+			</p:cellEditor>  
+		</p:column>
+
+		<p:column style="width:30px">
+			<p:rowEditor/>
+		</p:column>
+		<p:column style="width:30px">
+			<p:commandLink oncomplete="confirmation.show();">
+				<p:graphicImage value="/images/delete.png" height="12" width="12"/>
+				<f:setPropertyActionListener value="#{att}" target="#{categorizedApplicationController.dimensionController.bean}" />
+			</p:commandLink>
+		</p:column>
+	
+	</p:dataTable>
+	
+	<p:confirmDialog message="Você tem certeza que deseja desativar esta dimensão de categorias" header="Confirmação de exclusão" severity="alert" widgetVar="confirmation">  
+        <p:commandButton value="Sim, tenho certeza" update="categoryDimensionTableBase" oncomplete="confirmation.hide()" actionListener="#{categorizedApplicationController.dimensionController.delete}"/>  
+        <p:commandButton value="Não" onclick="confirmation.hide()" type="button"/>   
+    </p:confirmDialog>
+	
+	<p:commandLink actionListener="#{categorizedApplicationController.dimensionController.addDimension}" update="categoryDimensionTableBase" style="margin: 3px;">
+		<p:graphicImage value="/images/add.png" height="12" width="12" />
+	</p:commandLink>
+        
+</h:panelGroup>
+
+</p:fieldset>
+
+</h:form>
+	
+</ui:composition>
+
+</h:body>
+
+</html>

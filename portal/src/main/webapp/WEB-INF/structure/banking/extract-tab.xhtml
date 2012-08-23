@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	<ui:decorate template="/layout/window.xhtml">
+	
+		<ui:param name="windowClass" value="window-menu"/>
+		<ui:param name="windowTitle" value="Extratos"/>
+		
+		<ui:define name="windowBody">
+		
+			<h:form prependId="false">
+			
+			   	<p:menu maxHeight="480" style="width: 90%; margin: 0 auto;">  
+			
+			        <p:submenu label="Extratos"> 
+		        		<p:menuitem value="Visualizar" update=":banking-tab:extract-tab-content" actionListener="#{bankingMenu.load('VISUALIZE')}"/>
+		        		<p:menuitem value="Gerar" update=":banking-tab:extract-tab-content" actionListener="#{bankingMenu.load('GENERATE')}"/>
+			        </p:submenu>
+			        <p:submenu label="Manutenção">
+			        	<p:menuitem value="Arquivos" update=":banking-tab:extract-tab-content" actionListener="#{bankingMenu.load('FILES')}"/>
+			        </p:submenu> 
+							         
+			    </p:menu>
+	
+			</h:form>
+			
+		</ui:define>
+	
+	</ui:decorate>
+
+	<h:panelGroup layout="block" id="extract-tab-content">
+		<ui:fragment rendered="#{bankingMenu.isLoaded('VISUALIZE')}">
+			<ui:include src="extract/visualize.xhtml"/>
+		</ui:fragment>
+		<ui:fragment rendered="#{bankingMenu.isLoaded('GENERATE')}">
+			<ui:include src="extract/generate.xhtml"/>
+		</ui:fragment>
+		<ui:fragment rendered="#{bankingMenu.isLoaded('FILES')}">
+			<ui:include src="extract/files.xhtml"/>
+		</ui:fragment>
+	</h:panelGroup>
+
+</ui:composition>

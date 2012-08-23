@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="kallx-application">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/ear-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/application" tag="defaultRootSource"/>
+        <dependent-module archiveName="portal-piggy.war" deploy-path="/" handle="module:/resource/portal/portal">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="architecture.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/net/kallx/architecture/0.0.2-M3-SNAPSHOT/architecture-0.0.2-M3-SNAPSHOT.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="hibernate-core.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/hibernate/hibernate-core/4.0.1.Final/hibernate-core-4.0.1.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-collections.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="antlr.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/antlr/antlr/2.7.7/antlr-2.7.7.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jboss-transaction-api_1.1_spec.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/jboss/spec/javax/transaction/jboss-transaction-api_1.1_spec/1.0.0.Final/jboss-transaction-api_1.1_spec-1.0.0.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="dom4j.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="xml-apis.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="hibernate-jpa-2.0-api.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/hibernate/javax/persistence/hibernate-jpa-2.0-api/1.0.1.Final/hibernate-jpa-2.0-api-1.0.1.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jboss-logging.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/jboss/logging/jboss-logging/3.1.0.CR2/jboss-logging-3.1.0.CR2.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="javassist.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/javassist/javassist/3.15.0-GA/javassist-3.15.0-GA.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="hibernate-commons-annotations.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/hibernate/common/hibernate-commons-annotations/4.0.1.Final/hibernate-commons-annotations-4.0.1.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="hibernate-entitymanager.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/hibernate/hibernate-entitymanager/4.0.1.Final/hibernate-entitymanager-4.0.1.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="hibernate-envers.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/hibernate/hibernate-envers/4.0.1.Final/hibernate-envers-4.0.1.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="javaee-context.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/net/kallx/javaee-context/6.0/javaee-context-6.0.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="javaee-api.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/javax/javaee-api/6.0/javaee-api-6.0.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="slf4j-log4j12.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-log4j12/1.6.1/slf4j-log4j12-1.6.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="slf4j-api.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="log4j.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/log4j/log4j/1.2.16/log4j-1.2.16.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="primefaces.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/primefaces/3.3.1/primefaces-3.3.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="utils.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/net/kallx/utils/0.0.2-M3-SNAPSHOT/utils-0.0.2-M3-SNAPSHOT.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="security.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/net/kallx/security/0.0.2-M3-SNAPSHOT/security-0.0.2-M3-SNAPSHOT.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="enterprise.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/net/kallx/enterprise/0.0.2-M3-SNAPSHOT/enterprise-0.0.2-M3-SNAPSHOT.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="zebra-contract.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/net/kallx/zebra-contract/0.0.2-M2/zebra-contract-0.0.2-M2.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="kangaroo-document.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/net/kallx/kangaroo-document/0.0.2-M3-SNAPSHOT/kangaroo-document-0.0.2-M3-SNAPSHOT.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="chimpanzee-process.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/net/kallx/chimpanzee-process/0.0.2-M3-SNAPSHOT/chimpanzee-process-0.0.2-M3-SNAPSHOT.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="httpclient.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/httpcomponents/httpclient/4.0.1/httpclient-4.0.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="httpcore.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/httpcomponents/httpcore/4.0.1/httpcore-4.0.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-logging.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-codec.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/commons-codec/commons-codec/1.3/commons-codec-1.3.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="chimpanzee-components.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/net/kallx/chimpanzee-components/0.0.2-M3-SNAPSHOT/chimpanzee-components-0.0.2-M3-SNAPSHOT.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-io.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/commons-io/commons-io/2.4/commons-io-2.4.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-lang.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/commons-lang/commons-lang/2.6/commons-lang-2.6.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="bcprov-jdk16.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/bouncycastle/bcprov-jdk16/140/bcprov-jdk16-140.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="kangaroo-delivery.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/net/kallx/kangaroo-delivery/0.0.2-M3-SNAPSHOT/kangaroo-delivery-0.0.2-M3-SNAPSHOT.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="kangaroo-mql.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/net/kallx/kangaroo-mql/0.0.2-M3-SNAPSHOT/kangaroo-mql-0.0.2-M3-SNAPSHOT.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="antlr.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/antlr/antlr/3.4/antlr-3.4.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="antlr-runtime.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/antlr/antlr-runtime/3.4/antlr-runtime-3.4.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="stringtemplate.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/antlr/stringtemplate/3.2.1/stringtemplate-3.2.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ST4.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/antlr/ST4/4.0.4/ST4-4.0.4.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="piggy.jar" deploy-path="/" handle="module:/resource/piggy/piggy">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="itext.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/com/lowagie/itext/2.0.8/itext-2.0.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="bcmail-jdk14.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/bouncycastle/bcmail-jdk14/138/bcmail-jdk14-138.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="bcprov-jdk14.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/bouncycastle/bcprov-jdk14/138/bcprov-jdk14-138.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="piggy-delivery.jar" deploy-path="/lib" handle="module:/resource/piggy-delivery/piggy-delivery">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jrimum-bopepo.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/jrimum/jrimum-bopepo/0.2.3-SNAPSHOT/jrimum-bopepo-0.2.3-SNAPSHOT.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jrimum-domkee.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/jrimum/jrimum-domkee/0.2.3-SNAPSHOT/jrimum-domkee-0.2.3-SNAPSHOT.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jrimum-vallia.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/jrimum/jrimum-vallia/0.2.3-SNAPSHOT/jrimum-vallia-0.2.3-SNAPSHOT.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jrimum-utilix.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/jrimum/jrimum-utilix/0.2.3-SNAPSHOT/jrimum-utilix-0.2.3-SNAPSHOT.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="javaee-web-api.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/javax/javaee-web-api/6.0/javaee-web-api-6.0.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="squirrel-procurement.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/net/kallx/squirrel-procurement/0.0.2-M3-SNAPSHOT/squirrel-procurement-0.0.2-M3-SNAPSHOT.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="squirrel-procurement-delivery.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/net/kallx/squirrel-procurement-delivery/0.0.2-M3-SNAPSHOT/squirrel-procurement-delivery-0.0.2-M3-SNAPSHOT.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>

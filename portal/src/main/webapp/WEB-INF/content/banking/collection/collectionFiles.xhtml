@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:decorate template="/layout/window.xhtml">
+
+		<ui:param name="windowClass" value="window-full" />
+		<ui:param name="windowTitle" value="Carteira de Cobrança" />
+
+		<ui:define name="windowBody">
+		
+			#{collectionFileController.begin(3)}
+
+			<h:form>
+
+				<p:dataTable var="rep" value="#{collectionFileController.beans}">
+
+					<p:column headerText="Data e Hora">  
+			            #{rep.creationFormatted}
+			        </p:column>
+			        
+			        <p:column headerText="Layout Tipo">  
+			            #{rep.referentialName}
+			        </p:column>
+
+					<p:column headerText="Layout Origem">  
+			            #{rep.physicalName}
+			        </p:column>
+			        
+			        <p:column headerText="Download">
+						<p:commandLink id="downloadLink" value="Download" ajax="false">
+							<p:fileDownload value="#{rep.file}" />
+						</p:commandLink>
+					</p:column>
+			
+				</p:dataTable>
+			</h:form>		
+		</ui:define>
+	</ui:decorate>
+
+</ui:composition>

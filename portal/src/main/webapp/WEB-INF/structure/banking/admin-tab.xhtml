@@ -1,0 +1,54 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	<ui:decorate template="/layout/window.xhtml">
+	
+		<ui:param name="windowClass" value="window-menu"/>
+		<ui:param name="windowTitle" value="Administração"/>
+		
+		<ui:define name="windowBody">
+		
+			<h:form prependId="false">
+			
+			   	<p:menu maxHeight="480" style="width: 90%; margin: 0 auto;">  
+			
+			        <p:submenu label="Empresa"> 
+		        		<p:menuitem value="Empresa" update=":banking-tab:admin-tab-content" actionListener="#{bankingMenu.load('COMPANY')}"/>
+		        		<p:menuitem value="Banco" update=":banking-tab:admin-tab-content" actionListener="#{bankingMenu.load('BANK')}"/>
+		        		<p:menuitem value="Conta" update=":banking-tab:admin-tab-content" actionListener="#{bankingMenu.load('ACCOUNT')}"/>
+			        </p:submenu>
+			        <p:submenu label="Cobrança">
+			        	<p:menuitem value="Carteira" update=":banking-tab:admin-tab-content" actionListener="#{bankingMenu.load('COLLECTION')}"/>
+			        	<p:menuitem value="Parametros" update=":banking-tab:admin-tab-content" actionListener="#{bankingMenu.load('PARAMETERS')}"/>
+			        </p:submenu> 
+							         
+			    </p:menu>
+	
+			</h:form>
+			
+		</ui:define>
+	
+	</ui:decorate>
+
+	<h:panelGroup layout="block" id="admin-tab-content">
+		<ui:fragment rendered="#{bankingMenu.isLoaded('COLLECTION')}">
+			<ui:include src="admin/collectionAccount.xhtml"/>
+		</ui:fragment>
+		<ui:fragment rendered="#{bankingMenu.isLoaded('PARAMETERS')}">
+			<ui:include src="admin/collectionParameters.xhtml"/>
+		</ui:fragment>
+		<ui:fragment rendered="#{bankingMenu.isLoaded('COMPANY')}">
+			<ui:include src="admin/company.xhtml"/>
+		</ui:fragment>
+		<ui:fragment rendered="#{bankingMenu.isLoaded('BANK')}">
+			<ui:include src="admin/bank.xhtml"/>
+		</ui:fragment>
+		<ui:fragment rendered="#{bankingMenu.isLoaded('ACCOUNT')}">
+			<ui:include src="admin/account.xhtml"/>
+		</ui:fragment>
+	</h:panelGroup>
+
+</ui:composition>

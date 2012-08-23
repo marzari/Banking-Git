@@ -1,0 +1,119 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	
+	template="/layout/window.xhtml">
+	
+	<ui:param name="windowClass" value="window-full"/>
+	<ui:param name="windowTitle" value="Parcerias"/>
+	
+	<ui:define name="windowBody">
+	
+		<h:form>
+		
+			<h:panelGroup layout="block" style="margin: 10px;">
+				<h:panelGrid columns="3" cellpadding="5">
+					<h:outputLabel value="Selecione a Empresa"/>
+					<p:selectOneMenu style="width: 200px;" value="#{kgRelationController.companyId}">
+						<f:selectItems value="#{kgCompanyController.beans}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>  
+					</p:selectOneMenu>
+					<p:commandButton value="OK" update="relationTableBase" actionListener="#{kgRelationController.handleCompanyChange}"/>  
+				</h:panelGrid>
+			</h:panelGroup>
+			
+			<hr/>
+	
+			<h:panelGroup layout="block" id="relationTableBase" style="width: 700px; margin: 50px;" >
+			
+				<p:dataTable id="relationTable" value="#{kgRelationController.beans}" var="att">
+				
+				    <p:column headerText="Empresa A">
+				    	<h:outputText value="#{att.sideOne.name}"/>
+				    </p:column>
+				    
+				    <p:column headerText="Empresa B">
+				    	<h:outputText value="#{att.sideTwo.name}"/>
+				    </p:column>
+				    
+				    <p:column headerText="Data Criação">
+				    	<h:outputText value="#{att.startFormatted}"/>
+				    </p:column>
+				    
+				    <p:column headerText="Status">
+				    	<h:outputText value="#{att.status}"/>
+				    </p:column>
+				    
+				    <p:column style="width:10px">
+						<p:commandLink update="@form:relationFormBase" oncomplete="relationDialog.show();">
+							<p:graphicImage value="/resources/images/edit.png" height="12" width="12" />
+							<f:setPropertyActionListener value="#{att}" target="#{kgRelationController.editing}"/>
+						</p:commandLink>
+					</p:column>
+					<p:column style="width:10px">
+						<p:commandLink oncomplete="confirmation.show();">
+							<p:graphicImage value="/resources/images/delete.png" height="12" width="12" />
+							<f:setPropertyActionListener value="#{att}" target="#{kgRelationController.editing}"/>
+						</p:commandLink>
+					</p:column>
+					
+				</p:dataTable>
+				<p:confirmDialog message="Você tem certeza que deseja desativar esta empresa?" header="Confirmação de exclusão" severity="alert" widgetVar="confirmation">  
+			        <p:commandButton value="Sim, tenho certeza" update="relationTableBase" oncomplete="confirmation.hide()" actionListener="#{companyController.delete}"/>  
+			        <p:commandButton value="Não" onclick="confirmation.hide()" type="button"/>   
+			    </p:confirmDialog>
+				
+				<p:commandLink onclick="relationDialog.show();" style="margin: 3px;" styleClass="ui-icon-refresh">
+					<p:graphicImage value="/resources/images/add.png" height="12" width="12" />
+				</p:commandLink>
+				
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" style="position: absolute; top: 0; ">
+			
+				<p:dialog header="Editor" widgetVar="relationDialog" height="400" width="800" modal="true">
+					  
+					<p:fieldset id="relationFormBase" legend="Cadastro de Parcerias" style="height: 80%; margin-bottom: 5px;">
+			             
+			           	<h:panelGroup rendered="#{kgRelationController.has}">
+			             	
+							<h:panelGrid columns="2" style="float: left;" cellpading="15">
+							
+								<h:outputLabel value="Empresa A"/>
+								<p:autoComplete value="#{kgRelationController.editing.sideOne}" completeMethod="#{kgCompanyController.companyAC}"  
+                       				var="p" itemLabel="#{p.name}" itemValue="#{p}" converter="kgCompanyConverter" forceSelection="true"/>
+								
+								<h:outputLabel value="Empresa B"/>
+								<p:autoComplete value="#{kgRelationController.editing.sideTwo}" completeMethod="#{kgCompanyController.companyAC}"  
+                       				var="p" itemLabel="#{p.name}" itemValue="#{p}" converter="kgCompanyConverter" forceSelection="true"/>
+								
+								<h:outputLabel value="Data Criação"/>
+								<p:inputText value="#{kgRelationController.editing.start}" required="true" size="20" maxlength="20"/>
+								
+								<h:outputLabel value="Status"/>
+								<p:inputText value="#{kgRelationController.editing.status}" disabled="true" size="20" maxlength="20"/>
+								
+							</h:panelGrid>
+						
+						</h:panelGroup>
+						
+					</p:fieldset>
+					
+					<p:toolbar>
+						<p:toolbarGroup align="right">
+							<p:commandButton type="push" value="Novo" image="ui-icon-document" actionListener="#{kgRelationController.create}" update="eboxFormBase" />
+							<p:commandButton type="push" value="Salvar" image="ui-icon-disk" actionListener="#{kgRelationController.save}" update="eboxFormBase eboxTableBase"/>
+							<p:commandButton type="push" value="Limpar" image="ui-icon-note" actionListener="#{kgRelationController.clean}" update="eboxFormBase" />
+						</p:toolbarGroup>
+					</p:toolbar>
+					
+				</p:dialog>
+				
+			</h:panelGroup>
+			
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

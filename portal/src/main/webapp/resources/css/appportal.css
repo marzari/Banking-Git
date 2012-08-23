@@ -1,0 +1,310 @@
+
+/*Geral*/
+
+.ui-tabs {
+	height: 99%;
+}
+
+.ui-menu {
+	width: 95% !important;
+	margin: 1px;
+}
+
+#security-wrapper {
+	width: 99%;
+    height: 98%;
+    min-width: 1200px;
+}
+
+#app-container {
+    width: 99%;
+    height: 98%;
+    min-width: 1200px;
+}
+
+.ui-dock-container-top {
+	z-index: 9999;
+}
+
+#loginDiv {
+	z-index: 99999;
+}
+
+/* Basic Layout */
+
+#security-wrapper {
+}
+
+#main-header {
+	width: 100%;
+	margin: 0.5%;
+}
+
+#main-body {
+	min-height:768px;
+	width:  100%;
+}
+
+#application-wrapper {
+	height: 99%;
+	width:  100%;
+}
+
+#main-footer {
+	height: 5%;
+	width:  100%;
+}
+
+/*Application Template*/
+
+#logo-wrapper {
+	position: absolute;
+	top: 10px;
+	left: 50px;
+}
+
+#login-wrapper {
+	position: absolute;
+	top: 50px;
+	right: 50px;
+}
+
+#stack-wrapper {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+}
+
+/*window template */
+
+.window-title{
+	width:100%;
+	height: 5%;
+	display:block;
+	margin:auto;
+	border-bottom:1px solid #BABABA;
+	margin-top: 30px;
+}
+
+.window-title h1{
+	padding: 0;
+	margin: 10px 10px 0 10px;
+}
+.window-alert{
+	width:100%;
+	height: 5%;
+	border-bottom:1px solid #BABABA;
+	background: #fff;
+	overflow: auto;
+	font-size: 9px !important;
+}
+
+.window-alert h2{
+	
+	font-size:15px;
+	letter-spacing:0.1em;
+	color:#333;
+	text-shadow:1px 1px 1px #fff;
+	width:auto;
+	height:auto;
+	padding:0px;
+	margin:0px;
+	padding-left:2%;
+	margin-bottom:2%;
+	padding-top:2%;
+}
+
+
+.window-alert p{
+	
+	font-size:14px;
+	letter-spacing:0.1em;
+	color:#F00;
+	text-shadow:1px 1px 1px #fff;
+	margin:0px;
+	padding:0px;
+	margin-top:1%;
+	padding-left:2%;
+	
+	
+}
+
+.window-body {
+	height: 83%;
+	width:100%;
+	min-height:190px;
+	border-bottom:1px solid #BABABA;
+	background: #fff;
+}
+
+.window-body form {
+	margin: 0;
+	padding: 0;
+}
+
+.window-nav{
+	width:100%; 
+	height:5%;
+}
+.window-nav form {
+	margin: 0;
+	padding: 0;
+}
+
+
+#main-footer{
+	width:100%;
+	height:6%;
+	background-color:#D7D7D7;
+	background-image: -webkit-gradient(linear, left top, left bottom,
+    from(#FFFFFF), to(#D7D7D7) ); 
+    background-image: -moz-linear-gradient(  top,
+    #FFFFFF, #D7D7D7 );
+	border-top:1px solid #BABABA;
+	margin: 0;
+
+}
+
+.window-full {
+	margin: auto;
+	height:90%;
+	width: 80%;
+	border:1px solid #BABABA;
+	float:left;
+	margin-left: 5px;
+}
+
+.window-left-twoThree {
+	margin: auto;
+	width: 33%;
+	border:1px solid #BABABA;
+	float: left;
+	height: 100%;
+}
+
+.window-right-twoThree {
+	margin: auto;
+	width: 66%;
+	border:1px solid #BABABA;
+	float: right;
+	height: 100%;
+}
+
+.window-left-threeTwo {
+	margin: auto;
+	width: 66%;
+	border:1px solid #BABABA;
+	float: left;
+	height: 100%;
+}
+
+.window-right-threeTwo {
+	margin: auto;
+	width: 33%;
+	border:1px solid #BABABA;
+	float: right;
+	height: 100%;
+}
+
+.window-left-fifth {
+	margin: auto;
+	width: 49.5%;
+	border:1px solid #BABABA;
+	float: left;
+	height: 100%;
+}
+
+.window-right-fifth {
+	margin: auto;
+	width: 49.5%;
+	border:1px solid #BABABA;
+	float: right;
+	height: 100%;
+}
+
+.window-left-oneThird {
+	margin: auto;
+	margin-right: 0.75%;
+	width: 32.6%;
+	border:1px solid #BABABA;
+	float: left;
+	height: 100%;
+}
+
+.window-middle-oneThird {
+	margin: auto;
+	width: 32.6%;
+	margin-right: 0.75%;
+	border:1px solid #BABABA;
+	float: left;
+	height: 100%;
+}
+
+.window-right-oneThird {
+	margin: auto;
+	width: 32.6%;
+	border:1px solid #BABABA;
+	float: left;
+	height: 100%;
+}
+
+.window-menu {
+	width:10%;
+	height:90%;
+	border:1px solid #BABABA;
+	float:left;
+	min-width: 180px;
+}
+
+.window-menu .window-body{
+	margin: auto;
+	font-size: 0.9em;
+	letter-spacing: 0.1em;
+	line-height: 130%;
+}
+
+
+div.body_assign {
+	margin: 10px 10px 10px 10px;
+}
+
+div.body_left {
+	border: solid #BABABA 1px;
+	float: left;
+	margin: 10px 0 0 0px;
+	text-align: center;
+	width: 310px;
+}
+
+div.body_right {
+	border: solid #BABABA 1px;
+	float: left;
+	margin: 10px 0px 0 0;
+	text-align: center;
+	width: 310px;
+}
+div.body_center {
+/* 	border: solid #BABABA 1px; */
+	float: left;
+	margin: 10px 0px 0 0px;
+	text-align: center;
+	width: 100px;
+}
+
+div.body_assign ul.ui-autocomplete-multiple-container{
+	width: 310px !important;
+}
+
+.fieldset-status {
+	height: 260px;
+	width: 300px;
+	background-color: #E8E8E8;
+}
+
+.brief-status {
+	font-size: 20px;
+	margin: 10px 10px 20px 40px
+}
+.brief-reason {
+	margin: 10px 10px 20px 20px;
+}

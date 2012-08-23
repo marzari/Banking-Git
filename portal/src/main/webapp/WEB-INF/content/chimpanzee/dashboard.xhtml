@@ -1,0 +1,62 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core" template="/layout/window.xhtml">
+
+	<ui:param name="windowClass" value="window-full" />
+
+	<ui:define name="windowBody">
+	
+		#{chimpanzeeDashboardController.begin(3)}
+
+		<h:outputScript library="primefaces/charts" name="charts.js" />
+		<h:outputStylesheet library="primefaces/charts" name="charts.css" />
+
+		<p:toolbar style="width: 100%;" styleClass="no-bg-no-border">
+			<p:toolbarGroup align="right">
+				<p:commandButton type="button" value="Adicionar Gadget" icon="ui-icon-plus" onclick="gadgetGrid.show();" />
+			</p:toolbarGroup>
+		</p:toolbar>
+
+		<h:form id="chimpDashboard">
+			<p:dialog widgetVar="gadgetGrid" width="800" height="600"
+				modal="true" visible="false">
+
+				<p:dataGrid var="gadget"
+					value="#{chimpanzeeDashboardController.availableGadgets}"
+					columns="3" rows="12" paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="9,12,15">
+
+					<p:column>
+
+						<p:panel header="#{gadget.name}" style="text-align:center">
+
+							<h:panelGrid columns="1" style="width:100%">
+
+								<h:outputText value="#{gadget.description}" />
+
+								<p:commandButton value="Adicionar" partialSubmit="false" process="@this,:dynamic_dashboard" update=":dynamic_dashboard"
+									oncomplete="gadgetGrid.hide();" actionListener="#{chimpanzeeDashboardController.addGadget(gadget)}">
+								</p:commandButton>
+
+							</h:panelGrid>
+
+						</p:panel>
+
+					</p:column>
+
+				</p:dataGrid>
+
+			</p:dialog>
+			
+		</h:form>
+		
+		<p:dashboard binding="#{chimpanzeeDashboardController.dashboard}"  id="dynamic_dashboard">
+			<p:ajax event="reorder" listener="#{chimpanzeeDashboardController.handleReorder}" update="dynamic_dashboard"/>
+		</p:dashboard>
+
+	</ui:define>
+
+</ui:composition>

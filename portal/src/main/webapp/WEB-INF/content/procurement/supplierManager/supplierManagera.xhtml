@@ -1,0 +1,178 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:decorate template="/layout/window.xhtml">
+		<ui:param name="windowClass" value="window-full" />
+		<ui:param name="windowTitle" value="Gerenciamento de Fornecedores" />
+
+		<ui:define name="windowBody">
+
+			<h:form id="approvedSupplierForm">
+
+				<p:dataTable id="asTable" var="as"
+					value="#{approvedSupplierController.approvedSupplierBeanDataModel}"
+					paginator="true" rows="5" sortBy="#{as.supplier.name}" orderBy="ascending">
+
+					<f:facet name="header">
+						Gerenciamento de Fornecedores
+					</f:facet>
+
+					<p:column headerText="Nome Fantasia" sortBy="#{as.supplier.name}">
+						<h:outputText value="#{as.supplier.name}" />
+					</p:column>
+					
+
+					<p:column headerText="Situação" sortBy="#{as.status.description}">
+						<h:outputText value="#{as.status.description}" />
+					</p:column>
+
+					<p:column style="width:40px">
+						<p:commandButton id="selectButton"
+							update=":dialogForm :requirementsDialogForm :segmentDialogForm :approvalDialogForm"
+							oncomplete="approvedSupplierDialog.show()" icon="ui-icon-search"
+							title="View">
+							<f:setPropertyActionListener value="#{as}"
+								target="#{approvedSupplierController.editing}" />
+						</p:commandButton>
+					</p:column>
+
+				</p:dataTable>
+			</h:form>
+
+			<h:form id="dialogForm">
+
+				<p:dialog id="approvedSupplierDialog"
+					header="Homologação de fornecedores"
+					widgetVar="approvedSupplierDialog" height="400" width="800"
+					modal="true">
+
+					<p:fieldset id="approvedSupplierFormBase"
+						legend="Homologação do fornecedor"
+						style="height: 80%; margin-bottom: 5px;">
+
+						<h:panelGroup rendered="#{approvedSupplierController.has}">
+
+							<h:panelGrid columns="2" style="float: left;" cellpading="15">
+								<h:panelGrid columns="2" style="float: left;" cellpading="15">
+
+									<h:outputLabel value="Nome" id="supplierName" />
+									<p:inputText
+										value="#{approvedSupplierController.editing.supplier.name}"
+										size="40" maxlength="50" />
+
+								</h:panelGrid>
+								<h:panelGrid columns="1" style="float: left;" cellpading="15">
+									<p:fieldset id="brief" legend="Situação"
+										styleClass="fieldset-status">
+										<div class="brief-status">
+											<h:outputText
+												value="#{approvedSupplierController.editing.status.description}" />
+										</div>
+										<div class="brief-reason">
+											Motivo:
+											<h:outputText
+												value="#{approvedSupplierController.editing.reason}" />
+										</div>
+
+									</p:fieldset>
+								</h:panelGrid>
+							</h:panelGrid>
+						</h:panelGroup>
+						<p:focus for="supplierName" />
+					</p:fieldset>
+
+					<p:toolbar>
+						<p:toolbarGroup align="right">
+							<p:commandButton type="push" value="Segmentos"
+								icon="ui-icon-document" oncomplete="segmentationDialog.show()"
+								update=":dialogForm:approvedSupplierFormBase :segmentDialogForm" />
+							<p:commandButton type="push" value="Requisitos"
+								icon="ui-icon-disk" oncomplete="requirementsDialog.show()"
+								update=":dialogForm:approvedSupplierFormBase :approvedSupplierForm:asTable" />
+							<p:commandButton type="push" value="Aprovação"
+								icon="ui-icon-note" oncomplete="approvalDialog.show()"
+								update=":dialogForm:approvedSupplierFormBase" />
+						</p:toolbarGroup>
+					</p:toolbar>
+
+				</p:dialog>
+
+			</h:form>
+
+			<h:form id="segmentDialogForm">
+				<p:dialog id="segmentationDialog" header="Segmentação"
+					widgetVar="segmentationDialog" height="280" width="500"
+					modal="true">
+					<p:pickList id="segmentPickList"
+						value="#{approvedSupplierController.dualListSegments}" var="seg"
+						converter="segmentConverter" itemLabel="#{seg.name}"
+						itemValue="#{seg}">
+						<f:facet name="sourceCaption">Disponíveis</f:facet>
+						<f:facet name="targetCaption">Atribuídos</f:facet>
+					</p:pickList>
+
+
+					<p:commandButton type="push" value="Salvar" icon="ui-icon-disk"
+						actionListener="#{approvedSupplierController.save}"
+						process="@this, @form" onComplete="segmentationDialog.hide()"
+						update=":segmentDialogForm :dialogForm :approvedSupplierForm" />
+
+				</p:dialog>
+			</h:form>
+
+			<h:form id="requirementsDialogForm">
+				<p:dialog id="requirementsDialog" header="Lista de requisitos"
+					widgetVar="requirementsDialog" height="280" width="500"
+					modal="true">
+
+					<!-- Input do requisitos -->
+					<p:autoComplete id="requirementAutocomplete"
+						value="#{approvedSupplierController.editing.requirements}"
+						completeMethod="#{approvedSupplierController.requirementComplete}"
+						multiple="true" var="p" itemLabel="#{p.name}" required="true"
+						itemValue="#{p}" converter="requirementConverter">
+						<p:ajax event="itemUnselect" update="asrTable" />
+						<p:ajax event="itemSelect" update="asrTable" />
+					</p:autoComplete>
+					<p:commandButton type="push" value="Salvar" icon="ui-icon-disk"
+						actionListener="#{approvedSupplierController.save}"
+						process="@this, @form" onComplete="approvalDialog.hide()"
+						update=":requirementsDialogForm :dialogForm :approvedSupplierForm" />
+
+					<p:dataList id="asrTable" value="#{approvedSupplierController.requirementTable}" var="asr" type="ordered">  
+    					#{asr.description}  
+					</p:dataList>
+				</p:dialog>
+			</h:form>
+
+			<h:form id="approvalDialogForm">
+				<p:dialog id="approvalDialog" header="Aprovação/Reprovação"
+					widgetVar="approvalDialog" height="280" width="500" modal="true">
+
+					<h:outputText value="Options: " />
+					<p:selectOneButton
+						value="#{approvedSupplierController.selectedStatusId}">
+						<f:selectItems value="#{statusController.beans}" var="st"
+							itemLabel="#{st.description}" itemValue="#{st.id}" />
+					</p:selectOneButton>
+
+					<p:inputTextarea id="reason" rows="5" cols="30"
+						value="#{approvedSupplierController.editing.reason}" />
+
+					<p:commandButton type="push" value="Salvar" icon="ui-icon-disk"
+						actionListener="#{approvedSupplierController.save}"
+						process="@this, @form" onComplete="approvalDialog.hide()"
+						update=":approvalDialogForm :dialogForm :approvedSupplierForm" />
+
+				</p:dialog>
+
+			</h:form>
+
+		</ui:define>
+
+	</ui:decorate>
+
+</ui:composition>

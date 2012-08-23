@@ -1,0 +1,54 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<p:dialog header="Recalculo de Titulos" widgetVar="recalculateDialog"
+		resizable="true" id="recalcDlg" showEffect="fade" hideEffect="explode"
+		modal="false">
+
+		<h:form id="calculateForm">
+			<h:panelGrid id="recalcDlg_display" columns="3" cellpadding="4"
+				style="margin-bottom:20px;">
+				<h:outputLabel value="Data de Vencimento:" />
+
+				<p:calendar value="#{collectionController.newDate}"
+					converter="dateCalendarConverter" required="true"
+					pattern="dd/MM/yyyy" showOn="button" />
+
+				<p:commandButton value="Calcular"
+					actionListener="#{collectionController.calculate}" process="@form"
+					update="rd_multa rd_juros rddisplay" />
+			</h:panelGrid>
+
+			<p:panel id="rd_info">
+				<h:panelGrid columns="2" cellpadding="5" id="rd_grid">
+					<h:outputLabel value="Valor Atual:" />
+					<h:outputText value="#{collectionController.selectedBean.amountFormat} "
+						style="font-weight:bold" />
+					<h:outputLabel value="Multa:" />
+					<h:outputText id="rd_multa"
+						value="#{collectionController.multaFormat} "
+						style="font-weight:bold" />
+					<h:outputLabel value="Juros de Mora:" />
+					<h:outputText id="rd_juros"
+						value="#{collectionController.jurosFormat} "
+						style="font-weight:bold" />
+				</h:panelGrid>
+			</p:panel>
+			
+<!-- 			So deve aparecer depois que pressionou o botao Calcular -->
+			
+<!-- 			<h:panelGrid id="rddisplay" columns="3" cellpadding="4" rendered="#{collectionController.isCalculated()}" style="margin-top:20px;"> -->
+			<h:panelGrid id="rddisplay" columns="3" cellpadding="4" style="margin-top:20px;">
+				<h:outputLabel value="Deseja confirmar o recalculo do titulo?" />
+
+				<p:commandButton value="Sim" actionListener="#{collectionController.confirmCalculate}" onclick="recalculateDialog.hide()" update=":collectionForm:collectiontable"  />
+				<p:commandButton value="Nao" onclick="recalculateDialog.hide()" type="button" />
+<!-- 				oncomplete="recalculateDialog.hide()"  -->
+									
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</ui:composition>

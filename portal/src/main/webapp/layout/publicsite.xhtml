@@ -1,0 +1,78 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<h:outputStylesheet library="css" name="public.css" />
+
+	<h:panelGroup layout="block" id="public-container">
+
+		<h:panelGroup layout="block" id="public-main-header">
+		
+			<h1>Kallx Technology</h1>
+			
+			<h:panelGroup class="navigation-menu">
+				<h:form prependId="false" style="margin: 0px">
+					<p:commandLink type="push" update=":public-main-body" actionListener="#{publicMenu.load('DEFAULT')}" styleClass="menu-item" style="text-decoration: none; color: black;">  
+						<h:outputText value="Inicio" />  
+					</p:commandLink>
+					<p:commandLink type="push" update=":public-main-body" actionListener="#{publicMenu.load('WHOAREWE')}" styleClass="menu-item" style="text-decoration: none; color: black;">  
+						<h:outputText value="Quem Somos" />  
+					</p:commandLink>
+					<span class="menu-separator ui-icon ui-icon-grip-dotted-vertical"/>
+					<p:commandLink type="push" update=":public-main-body" actionListener="#{publicMenu.load('PROJECTS')}" styleClass="menu-item" style="font-size: 1.1em; text-decoration: none; color: olive;">  
+						<h:outputText value="Projetos" />  
+					</p:commandLink>
+					<p:commandLink type="push" update=":public-main-body" actionListener="#{publicMenu.load('SERVICES')}" styleClass="menu-item" style="font-size: 1.1em; text-decoration: none; color: teal;">  
+						<h:outputText value="Serviços" />  
+					</p:commandLink>
+					<span class="menu-separator ui-icon ui-icon-grip-dotted-vertical"/>
+					<p:commandLink type="push" update=":public-main-body" actionListener="#{publicMenu.load('CONTACT')}" styleClass="menu-item" style="text-decoration: none; color: black;">  
+						<h:outputText value="Contato" />  
+					</p:commandLink>
+					<span class="menu-separator ui-icon ui-icon-grip-dotted-vertical"/>
+					<p:commandLink type="push" update=":public-main-body" actionListener="#{publicMenu.load('REGISTER')}" styleClass="menu-item" style="text-decoration: none; color: black;">  
+						<h:outputText value="Registre-se" />  
+					</p:commandLink>
+					<span class="menu-separator ui-icon ui-icon-grip-dotted-vertical"/>
+				</h:form>
+				<h:panelGroup layout="block" >
+					<ui:include src="/modules/security/login.xhtml" />
+				</h:panelGroup>
+			</h:panelGroup>
+			
+		</h:panelGroup> 
+		
+		<h:panelGroup layout="block" id="public-main-body">
+		
+			<ui:fragment rendered="#{publicMenu.isLoaded('DEFAULT')}">
+				<ui:include src="/public/ring.xhtml"/>
+			</ui:fragment>
+			
+			<ui:fragment rendered="#{publicMenu.isLoaded('REGISTER')}">
+				<ui:include src="/public/register.xhtml"/>
+			</ui:fragment>
+			
+			<ui:fragment rendered="#{publicMenu.isLoaded('REGISTER.KANGAROO')}">
+				<ui:include src="/public/register-kangaroo.xhtml"/>
+			</ui:fragment>
+			
+			<ui:fragment rendered="#{publicMenu.isLoaded('REGISTER.PROCUREMENT')}">
+				<ui:include src="/public/register-procurement.xhtml"/>
+			</ui:fragment>
+			
+			<ui:fragment rendered="#{publicMenu.isLoaded('REGISTER.BANKING')}">
+				<ui:include src="/public/register-banking.xhtml"/>
+			</ui:fragment>
+			
+		
+		</h:panelGroup>
+		
+		<h:panelGroup layout="block" id="public-main-footer">
+			<p align="center">2010-2011 - Kallx Technology</p>
+		</h:panelGroup>
+	
+	</h:panelGroup>
+			
+</ui:composition>

@@ -1,0 +1,81 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:composition>
+
+<h:form>
+
+<h:panelGroup layout="block" id="costCenterTableBase" style="width: 800px; margin: 50px;">
+
+	<p:dataTable id="costCenterTable" value="#{costCenterController.beans}" var="att">
+	
+		<p:ajax event="rowEdit" listener="#{costCenterController.saveCostCenter}"/>
+		
+		<f:facet name="header">
+			Centro de Custo  
+        </f:facet>
+	
+		<p:column headerText="Empresa" style="width:250px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.companyDescription}"/></f:facet>  
+				<f:facet name="input">
+					<p:selectOneMenu value="#{att.company}" converter="companyConverter" style="width: 250px;" >  
+					   <f:selectItems value="#{companyController.beans}" var="cp" itemValue="#{cp}" itemLabel="#{cp.name}"/>  
+					</p:selectOneMenu>
+				</f:facet>  
+			</p:cellEditor>  
+		</p:column>
+		<p:column headerText="Nome" style="width:150px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.name}"/></f:facet>  
+				<f:facet name="input">
+					<p:inputText value="#{att.name}" size="20" maxlength="20"/>
+				</f:facet>  
+			</p:cellEditor>  
+		</p:column>
+		<p:column headerText="Responsável" style="width:250px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.responsibleDescription}"/></f:facet>  
+				<f:facet name="input">
+					<p:autoComplete id="rr" value="#{att.responsible}" style="width: 95%;"
+						completeMethod="#{individualPartnerController.getIndividualAC}" var="rs" 
+						itemLabel="#{rs.firstName}" itemValue="#{rs}" converter="individualPartnerConverter"/>
+				</f:facet>  
+			</p:cellEditor>  
+		</p:column>
+		
+		<p:column style="width:10px">
+			<p:rowEditor/>
+		</p:column>
+		<p:column style="width:10px">
+			<p:commandLink oncomplete="confirmation.show();">
+				<p:graphicImage value="/images/delete.png" height="12" width="12"/>
+				<f:setPropertyActionListener value="#{att}" target="#{costCenterController.bean}" />
+			</p:commandLink>
+		</p:column>
+	
+	</p:dataTable>
+
+	<p:confirmDialog message="Você tem certeza que deseja desativar este centro de custo" header="Confirmação de exclusão" severity="alert" widgetVar="confirmation">  
+        <p:commandButton value="Sim, tenho certeza" update="costCenterTableBase" oncomplete="confirmation.hide()" actionListener="#{costCenterController.delete}"/>  
+        <p:commandButton value="Não" onclick="confirmation.hide()" type="button"/>
+    </p:confirmDialog>
+	
+	<p:commandLink actionListener="#{costCenterController.addCostCenter}" update="costCenterTableBase" style="margin: 3px;">
+		<p:graphicImage value="/images/add.png" height="12" width="12" />
+	</p:commandLink>
+	
+</h:panelGroup> 
+		
+</h:form>
+
+</ui:composition>
+
+</h:body>
+
+</html>

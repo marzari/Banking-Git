@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/layout/window.xhtml">
+
+	<ui:param name="windowClass" value="window-full" />
+	<ui:param name="windowTitle" value="Importer" />
+
+	<ui:define name="windowBody">
+
+		<h:form prependId="false" enctype="multipart/form-data"
+			style="padding: 10px; width: 400px;">
+
+			<p:selectOneMenu value="#{importerController.selectedLayout}" style="width: 100%; margin: 5px;">
+				<f:selectItem itemLabel="Selecione Layout" itemValue="" />
+				<f:selectItems value="#{importerController.availableLayouts}" var="l" itemLabel="#{l.name}" itemValue="#{l.id}" />
+				<p:ajax listener="#{importerController.handleLayoutSelection}" />
+			</p:selectOneMenu>
+
+			<p:fileUpload
+				fileUploadListener="#{importerController.handleFileUpload}"
+				style="margin: 5px;" auto="true"
+				allowTypes="/(\.|\/)(txt)$/" />
+				
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,118 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>net.kallx</groupId>
+		<artifactId>piggy-parent</artifactId>
+		<version>0.0.2-M3-SNAPSHOT</version>
+		<relativePath>../piggy-parent</relativePath>
+	</parent>
+
+	<artifactId>piggy</artifactId>
+	<packaging>ejb</packaging>
+
+	<name>piggy</name>
+
+	<properties>
+		<itext.version>2.0.8</itext.version>
+		<commons-lang.version>2.4</commons-lang.version>
+		<jrimum.version>0.2.3-SNAPSHOT</jrimum.version>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>${itext.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>${commons-lang.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>piggy-delivery</artifactId>
+			<version>${piggy.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>enterprise</artifactId>
+			<version>${libraries.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>security</artifactId>
+			<version>${libraries.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>kangaroo-document</artifactId>
+			<version>${kangaroo.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>chimpanzee-components</artifactId>
+			<version>${chimpanzee.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jrimum</groupId>
+			<artifactId>jrimum-bopepo</artifactId>
+			<version>${jrimum.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+	<groupId>javax</groupId>
+	<artifactId>javaee-web-api</artifactId>
+	<version>6.0</version>
+</dependency>
+
+	</dependencies>
+
+	<build>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ejb-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<ejbVersion>3.1</ejbVersion>
+					<archive>
+						<manifestEntries>
+							<Dependencies>
+								deployment.architecture.jar,
+								deployment.utils.jar,
+								deployment.security.jar,
+								com.mysql,
+								org.apache.commons.lang
+							</Dependencies>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+
+		</plugins>
+
+	</build>
+
+</project>

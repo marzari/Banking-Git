@@ -1,0 +1,126 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	
+	template="/layout/window.xhtml">
+	
+	<ui:param name="windowClass" value="window-full"/>
+	<ui:param name="windowTitle" value="Caixas Postais"/>
+	
+	<ui:define name="windowBody">
+	
+		<h:form>
+			
+			<h:panelGroup layout="block" style="margin: 10px;">
+				<h:panelGrid columns="3" cellpadding="5">
+					<h:outputLabel value="Selecione a Empresa"/>
+					<p:selectOneMenu style="width: 200px;" value="#{kgNetworkController.companyId}">
+						<f:selectItems value="#{kgCompanyController.beans}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>  
+					</p:selectOneMenu>
+					<p:commandButton value="OK" update="eboxTableBase" actionListener="#{kgNetworkController.handleCompanyChange}"/>  
+				</h:panelGrid>
+			</h:panelGroup>
+			
+			<hr/>
+	
+			<h:panelGroup layout="block" id="eboxTableBase" style="width: 700px; margin: 50px;" >
+			
+				<p:dataTable id="eboxTable" value="#{kgEBoxController.beans}" var="att">
+				
+				    <p:column headerText="Nome">
+				    	<h:outputText value="#{att.name}"/>
+				    </p:column>
+				    
+				    <p:column headerText="Descrição">
+				    	<h:outputText value="#{att.description}"/>
+				    </p:column>
+				    
+				    <p:column headerText="Document">
+				    	<h:outputText value="#{att.document}"/>
+				    </p:column>
+				    
+				    <p:column headerText="Status">
+				    	<h:outputText value="#{att.status}"/>
+				    </p:column>
+				    
+				    <p:column headerText="Client">
+				    	<h:outputText value="#{att.client.name}"/>
+				    </p:column>
+				    
+				    <p:column style="width:10px">
+						<p:commandLink update="@form:eboxFormBase" oncomplete="eboxDialog.show();">
+							<p:graphicImage value="/resources/images/edit.png" height="12" width="12" />
+							<f:setPropertyActionListener value="#{att}" target="#{kgEBoxController.editing}"/>
+						</p:commandLink>
+					</p:column>
+					<p:column style="width:10px">
+						<p:commandLink oncomplete="confirmation.show();">
+							<p:graphicImage value="/resources/images/delete.png" height="12" width="12" />
+							<f:setPropertyActionListener value="#{att}" target="#{kgEBoxController.editing}"/>
+						</p:commandLink>
+					</p:column>
+					
+				</p:dataTable>
+				<p:confirmDialog message="Você tem certeza que deseja desativar esta empresa?" header="Confirmação de exclusão" severity="alert" widgetVar="confirmation">  
+			        <p:commandButton value="Sim, tenho certeza" update="eboxTableBase" oncomplete="confirmation.hide()" actionListener="#{eboxController.delete}"/>  
+			        <p:commandButton value="Não" onclick="confirmation.hide()" type="button"/>   
+			    </p:confirmDialog>
+				
+				<p:commandLink onclick="eboxDialog.show();" style="margin: 3px;" styleClass="ui-icon-refresh">
+					<p:graphicImage value="/resources/images/add.png" height="12" width="12" />
+				</p:commandLink>
+				
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" style="position: absolute; top: 0; ">
+			
+				<p:dialog header="Editor" widgetVar="eboxDialog" height="400" width="800" modal="true">
+					  
+					<p:fieldset id="eboxFormBase" legend="Cadastro de EBox" style="height: 80%; margin-bottom: 5px;">
+			             
+			           	<h:panelGroup rendered="#{kgEBoxController.has}">
+			             	
+							<h:panelGrid columns="2" style="float: left;" cellpading="15">
+							
+								<h:outputLabel value="Nome"/>
+								<p:inputText value="#{kgEBoxController.editing.name}" required="true" size="20" maxlength="20"/>
+								
+								<h:outputLabel value="Descrição"/>
+								<p:inputText value="#{kgEBoxController.editing.description}" required="true" size="50" maxlength="50"/>
+								
+								<h:outputLabel value="Status"/>
+								<p:inputText value="#{kgEBoxController.editing.status}" disabled="true" size="20" maxlength="20"/>
+								
+								<h:outputLabel value="Document"/>
+								<p:inputText value="#{kgEBoxController.editing.document}" required="true" size="20" maxlength="20"/>
+								
+								<h:outputLabel value="Client"/>
+								<p:selectOneMenu style="width: 200px;" value="#{kgEBoxController.editing.client}" converter="kgClientConverter">
+									<f:selectItems value="#{kgEBoxController.availableClients}" var="c" itemLabel="#{c.name}" itemValue="#{c}"/>  
+								</p:selectOneMenu>
+								
+							</h:panelGrid>
+						
+						</h:panelGroup>
+						
+					</p:fieldset>
+					
+					<p:toolbar>
+						<p:toolbarGroup align="right">
+							<p:commandButton type="push" value="Novo" image="ui-icon-document" actionListener="#{kgEBoxController.create}" update="eboxFormBase" />
+							<p:commandButton type="push" value="Salvar" image="ui-icon-disk" actionListener="#{kgEBoxController.save}" update="eboxFormBase eboxTableBase"/>
+							<p:commandButton type="push" value="Limpar" image="ui-icon-note" actionListener="#{kgEBoxController.clean}" update="eboxFormBase" />
+						</p:toolbarGroup>
+					</p:toolbar>
+					
+				</p:dialog>
+				
+			</h:panelGroup>
+			
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

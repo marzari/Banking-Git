@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="budget" description="Budget" icon="resources/images/budgetIcon.png" page="budget.xhtml">
+</application>

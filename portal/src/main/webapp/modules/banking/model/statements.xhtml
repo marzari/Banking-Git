@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:composition>
+
+<h:form>
+
+<p:selectOneMenu value="#{statementController.account}" converter="accountConverter" style="margin: 15px; width: 150px;">  
+	<f:selectItem itemLabel="Selecione Conta" itemValue="" />  
+	<f:selectItems value="#{accountController.accounts}" var="acc" itemValue="#{acc}" itemLabel="#{acc.description}"/>
+    
+	<p:ajax update="statements"/> 
+</p:selectOneMenu>
+
+<h:panelGroup layout="block" id="statements">
+
+	<h:panelGroup layout="block" rendered="#{statementController.hasAccount()}">
+
+		<p:dataTable id="statementBase" value="#{statementController.beans}" var="att">
+		
+			<p:column>
+			    <f:facet name="header"><h:outputText value="Data"/></f:facet>
+			    <h:outputText value="#{att.ocurrence}" converter="#{dateCalendarConverter}" />
+			</p:column>
+			<p:column>
+			    <f:facet name="header"><h:outputText value="Descrição"/></f:facet>
+			    <h:outputText value="#{att.description}" />
+			</p:column>
+			 <p:column>
+			    <f:facet name="header"><h:outputText value="Valor"/></f:facet>
+			    <h:outputText value="#{att.amount}" />
+			</p:column>
+			<p:column>
+			    <f:facet name="header"><h:outputText value="Saldo"/></f:facet>
+			    <h:outputText value="#{att.amount}" />
+			</p:column>
+		          
+		</p:dataTable>
+	
+	</h:panelGroup>
+	
+</h:panelGroup>
+	
+</h:form>
+
+</ui:composition>
+
+</h:body>
+	    
+</html>

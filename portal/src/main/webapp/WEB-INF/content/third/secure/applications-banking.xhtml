@@ -1,0 +1,62 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="../portalcommon-third.xhtml">
+	
+	<ui:define name="applicationbar-wrapper">
+	
+		#{bankingMenu.begin(2)}
+
+		<h:outputStylesheet library="css" name="third/dashboard-third.css" />
+		<h3 class="main-title ui-big-title">Banking</h3>
+
+		<h:panelGroup layout="block" id="banking-menubar" styleClass="secure-third-menubar">
+			<h:form style="height: 90%;">
+				<p:menubar styleClass="ui-light-menu" style="height: 90%;">
+					<p:menuitem value="Dashboard Financeiro" actionListener="#{bankingMenu.load('bankingDashboard')}" update=":banking-body" />
+					<p:submenu label="Administração">
+						<p:menuitem value="Favorecido" actionListener="#{bankingMenu.load('bankingPayee')}" update=":banking-body" />
+						<p:menuitem value="Sacado" actionListener="#{bankingMenu.load('bankingPayer')}" update=":banking-body" />
+						<p:menuitem value="Conta" actionListener="#{bankingMenu.load('bankingAccount')}" update=":banking-body" />
+						<p:menuitem value="Parâmetros Cobrança" actionListener="#{bankingMenu.load('bankingCollectionParam')}" update=":banking-body" />
+						<p:menuitem value="Parâmetros Pagamento" actionListener="#{bankingMenu.load('bankingPaymentParam')}" update=":banking-body" />
+						<p:menuitem value="Títulos" actionListener="#{bankingMenu.load('bankingTitleParam')}" update=":banking-body" />
+					</p:submenu>
+					<p:menuitem value="Remessa Cobrança" actionListener="#{bankingMenu.load('bankingCollectionFile')}" update=":banking-body" />
+					<p:menuitem value="Cobrança" actionListener="#{bankingMenu.load('bankingCollection')}" update=":banking-body" />
+					<p:menuitem value="Pagamento" actionListener="#{bankingMenu.load('bankingPayment')}" update=":banking-body" />
+				</p:menubar>
+			</h:form>		
+		</h:panelGroup>
+	
+	</ui:define>
+	
+	<ui:define name="common-third-body">
+	
+		<h:panelGroup layout="block" id="banking-body">
+		
+			<ui:fragment rendered="#{procurementMenu.isLoaded('bankingDashboard')}">
+			</ui:fragment>
+			<ui:fragment rendered="#{procurementMenu.isLoaded('bankingAdmin')}">
+			</ui:fragment>
+			<ui:fragment rendered="#{bankingMenu.isLoaded('bankingCollection')}">
+				<ui:include src="/WEB-INF/content/banking/collection/collectionAccount.xhtml" />
+			</ui:fragment>
+			
+			<ui:fragment rendered="#{bankingMenu.isLoaded('bankingCollectionFile')}">
+				<ui:include src="/WEB-INF/content/banking/collection/collectionFiles.xhtml" />
+			</ui:fragment>
+			
+			<ui:fragment rendered="#{bankingMenu.isLoaded('bankingTitleParam')}">
+				<ui:include src="/WEB-INF/content/banking/collection/collectionManagement.xhtml" />
+			</ui:fragment>
+			
+			<ui:fragment rendered="#{bankingMenu.isLoaded('bankingAccount')}">
+				<ui:include src="/WEB-INF/content/banking/admin/checkingAccount.xhtml" />
+			</ui:fragment>
+		</h:panelGroup>
+		
+	</ui:define>
+	
+</ui:composition>

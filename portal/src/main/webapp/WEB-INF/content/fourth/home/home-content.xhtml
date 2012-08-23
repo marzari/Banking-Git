@@ -1,0 +1,96 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<h:panelGroup layout="block" styleClass="content-wrapper">
+	
+		<h:panelGroup layout="block" styleClass="summaries-wrapper">
+		
+			<ui:decorate template="/WEB-INF/layout/summary-template.xhtml">
+				<ui:param name="summaryTitle" value="MARKET-PLACE"/>
+				<ui:param name="summaryDescription" value="Lista das últimas inserções e clique para ver detalhes"/>
+			</ui:decorate>
+			
+			<ui:decorate template="/WEB-INF/layout/summary-template.xhtml">
+				<ui:param name="summaryTitle" value="PORTARIA"/>
+				<ui:param name="summaryDescription" value="Lista das últimas inserções e clique para ver detalhes"/>
+			</ui:decorate>
+			
+		</h:panelGroup>
+		
+		<h:panelGroup layout="block" styleClass="banner-wrapper">
+		
+			<h:panelGroup layout="block" styleClass="banner-wrapper-text">
+				<h3>BANNER PARA ALGUM AVISO, NOVIDADE, UPGRADE DE PROGRAMA, ETC</h3>
+				<div>(caso não tenha nada para destacar ele desaparece)</div>
+			</h:panelGroup>
+			
+		</h:panelGroup>
+		
+		<h:panelGroup layout="block" styleClass="apps-highlights-wrapper">
+			
+			<h3>APLICAÇÕES EM DESTAQUE</h3>
+			
+			<ui:decorate template="/WEB-INF/layout/appgadget-template.xhtml">
+				<ui:param name="appTitle" value="Integrou"/>
+				<ui:param name="toTry" value="true"/>
+			</ui:decorate>
+			
+			<ui:decorate template="/WEB-INF/layout/appgadget-template.xhtml">
+				<ui:param name="appTitle" value="Procurement"/>
+				<ui:param name="toRegister" value="true"/>
+			</ui:decorate>
+			
+			<ui:decorate template="/WEB-INF/layout/appgadget-template.xhtml">
+				<ui:param name="appTitle" value="Kangaroo"/>
+				<ui:param name="toRegister" value="true"/>
+			</ui:decorate>
+			
+			<ui:decorate template="/WEB-INF/layout/appgadget-template.xhtml">
+				<ui:param name="appTitle" value="WebEDI"/>
+				<ui:param name="toTry" value="true"/>
+			</ui:decorate>
+				
+		</h:panelGroup>
+		
+		<h:panelGroup layout="block" styleClass="apps-other-wrapper">
+
+			<h3>VEJA TAMBÉM</h3>
+
+			<ui:decorate template="/WEB-INF/layout/s-appgadget-template.xhtml">
+				<ui:param name="appTitle" value="Entregou"/>
+				<ui:param name="toSeeMore" value="true"/>
+			</ui:decorate>
+			
+			<ui:decorate template="/WEB-INF/layout/s-appgadget-template.xhtml">
+				<ui:param name="appTitle" value="Budget"/>
+				<ui:param name="toSeeMore" value="true"/>
+			</ui:decorate>
+			
+			<ui:decorate template="/WEB-INF/layout/s-appgadget-template.xhtml">
+				<ui:param name="appTitle" value="Portaria"/>
+				<ui:param name="toSeeMore" value="true"/>
+			</ui:decorate>
+			
+			<ui:decorate template="/WEB-INF/layout/s-appgadget-template.xhtml">
+				<ui:param name="appTitle" value="Mobile"/>
+				<ui:param name="toSeeMore" value="true"/>
+			</ui:decorate>
+			
+			<ui:decorate template="/WEB-INF/layout/s-appgadget-template.xhtml">
+				<ui:param name="appTitle" value="Zebra"/>
+				<ui:param name="toSeeMore" value="true"/>
+			</ui:decorate>
+			
+			<ui:decorate template="/WEB-INF/layout/s-appgadget-template.xhtml">
+				<ui:param name="appTitle" value="Enterprise"/>
+				<ui:param name="toSeeMore" value="true"/>
+			</ui:decorate>
+			
+		</h:panelGroup>
+		
+	</h:panelGroup>
+	
+</ui:composition>

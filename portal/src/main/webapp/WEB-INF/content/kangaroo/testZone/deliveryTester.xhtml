@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:form id="deliveryTesterForm">
+	
+		#{mqlDeliveryLibraryController.start()}
+
+		<h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="5">
+
+			<p:commandButton value="oo" type="push" update="deliveryTesterForm" process="@this"/>
+			<p:selectOneMenu value="#{deliveryTesterController.selectedLayoutId}" effect="fade">
+				<f:selectItem itemLabel="Selecione Layout Instance" itemValue="" />
+				<f:selectItems value="#{mqlFileViewerController.beans}" var="ft" itemValue="#{ft.id}" itemLabel="#{ft.playoutName}"/>
+			</p:selectOneMenu>
+						
+			<p:selectOneMenu value="#{deliveryTesterController.selectedLibraryId}" effect="fade">
+				<f:selectItem itemLabel="Selecione Delivery Library" itemValue="" />
+				<f:selectItems value="#{mqlDeliveryLibraryController.beans}" var="dl" itemValue="#{dl.id}" itemLabel="#{dl.name}"/>
+			</p:selectOneMenu>
+			<p:commandButton value="OK" type="push" update="deliveryTesterForm" process="@form" actionListener="#{deliveryTesterController.run}"/>
+
+		</h:panelGrid>
+
+	</h:form>
+
+</ui:composition>

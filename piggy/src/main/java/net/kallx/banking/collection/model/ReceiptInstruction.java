@@ -1,0 +1,51 @@
+package net.kallx.banking.collection.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import net.kallx.architecture.model.GenericModel;
+
+@Entity
+@Table(name="ReceiptInstruction", schema="banking")
+public class ReceiptInstruction implements GenericModel {
+
+	private long id;
+	private String description;
+	private String code;
+	
+	@Id
+	@GeneratedValue
+	@Override
+	public long getId() {
+		return this.id;
+	}
+
+	@Override
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	@Column(name="cDescription")
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	@Column(name="cCode")
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	
+	
+}

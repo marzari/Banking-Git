@@ -1,0 +1,17 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	<ui:param name="windowTitle" value="Monitor"/>
+	
+	<ui:fragment>
+		<h:panelGroup layout="block" id="monitor-content">
+			<ui:include src="#{mappingMenu.content}">
+				<ui:param name="baseId" value="mapping-tab"/>
+			</ui:include>
+		</h:panelGroup>
+	</ui:fragment>
+		
+</ui:composition>

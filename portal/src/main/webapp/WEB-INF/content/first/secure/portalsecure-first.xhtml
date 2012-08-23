@@ -1,0 +1,39 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"  template="../portalcommon-first.xhtml">
+	
+	<ui:define name="portalbar-wrapper">
+	
+		<h:outputStylesheet library="css" name="first/portalsecure-first.css" />
+	
+		<h:panelGroup layout="block" id="secure-portalbar-wrapper" styleClass="ui-bar-dark small top">
+		
+			<ui:include src="../logged.xhtml"/>
+		
+		</h:panelGroup>
+		
+	</ui:define>
+	
+	<ui:define name="common-first-body">
+	
+		<h:panelGroup layout="block" id="secure-first-body">
+		
+			<ui:fragment rendered="#{secureSiteController.isLoaded('ADMIN')}">
+				<ui:include src="../../second/secure/admin.xhtml"/>
+			</ui:fragment>
+		
+			<ui:fragment rendered="#{secureSiteController.isLoaded('DEFAULT')}">
+				<ui:include src="../../second/secure/myapps.xhtml"/>
+			</ui:fragment>
+			
+			<ui:fragment rendered="#{secureSiteController.isLoaded('PROFILE')}">
+				<ui:include src="../../second/secure/profile.xhtml"/>
+			</ui:fragment>
+			
+		</h:panelGroup>
+	
+	</ui:define>
+	
+</ui:composition>

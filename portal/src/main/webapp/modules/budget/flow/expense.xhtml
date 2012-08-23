@@ -1,0 +1,257 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:composition>
+
+<h:form>
+
+<p:tabView>  
+  
+	<p:tab title="Despesas Recorrentes">
+	
+		<h:panelGroup layout="block" id="recurrentTableBase" style="width: 700px; height: 400px; margin: 50px;">
+	
+	        <p:dataTable id="recurrentTable" value="#{flowController.debitRecurrentBeans}" var="att">
+	        
+	        	<f:facet name="header">
+					Despesas Recorrentes
+				</f:facet>
+	        	
+	        	<p:column headerText="Categoria" style="width: 100px;">
+	        		<h:outputText value="#{att.categoryDescription}" />
+	        	</p:column>
+	        	<p:column headerText="SubCategoria" style="width: 100px;">
+	        		<h:outputText value="#{att.subCategoryDescription}" />
+	        	</p:column>
+	        	<p:column headerText="Cedente" style="width: 100px;">
+	        		<h:outputText value="#{att.payeeDescription}" />
+	        	</p:column>
+	            <p:column headerText="Descrição">
+	                <h:outputText value="#{att.description}" />
+	            </p:column>
+	            <p:column headerText="Valor">
+	                <h:outputText value="#{att.amount}" />
+	            </p:column>
+	            <p:column headerText="Venc.">
+	                <h:outputText value="#{att.maturityDay}" />
+	            </p:column>
+	            
+				<p:column style="width:10px">
+					<p:commandLink update="@form:expenseFormBase" oncomplete="expenseDialog.show();">
+						<p:graphicImage value="/images/edit.png" height="12" width="12"/>
+						<f:setPropertyActionListener value="#{att}" target="#{flowController.bean}" />
+					</p:commandLink>
+				</p:column>
+				
+				<p:column style="width:10px">
+					<p:commandLink update="@form:flowAccountPreviewBase" oncomplete="flowPreviewDialog.show();">
+						<p:graphicImage value="/images/magnifier.png" height="12" width="12"/>
+						<f:setPropertyActionListener value="#{att}" target="#{flowItemPreviewController.item}" />
+					</p:commandLink>
+				</p:column>
+				
+				<p:column style="width:10px">
+					<p:commandLink>
+						<p:graphicImage value="/images/delete.png" height="12" width="12"/>
+						<f:setPropertyActionListener value="#{att}" target="#{cashAccountController.bean}" />
+					</p:commandLink>
+				</p:column>
+				
+			</p:dataTable>
+			
+			<p:commandLink onclick="expenseDialog.show();" style="margin: 10px;">
+				<p:graphicImage value="/images/add.png" height="12" width="12"/>
+			</p:commandLink>
+			
+		</h:panelGroup>
+	
+	</p:tab>  
+	
+	<p:tab title="Despesas Parceladas">
+	
+		<h:panelGroup layout="block" id="instalmentsTableBase" style="width: 700px; height: 400px; margin: 50px;">
+		
+			<p:dataTable id="instalmentsTable" value="#{flowController.debitInstalmentBeans}" var="att" >
+			
+				<f:facet name="header">  
+					Despesas Parceladas
+				</f:facet>
+			
+				<p:column headerText="Categoria" style="width: 100px;">
+	        		<h:outputText value="#{att.categoryDescription}" />
+	        	</p:column>
+	        	<p:column headerText="SubCategoria" style="width: 100px;">
+	        		<h:outputText value="#{att.subCategoryDescription}" />
+	        	</p:column>
+	        	<p:column headerText="Cedente" style="width: 100px;">
+	        		<h:outputText value="#{att.payeeDescription}" />
+	        	</p:column>
+			    <p:column headerText="Descrição">
+			        <h:outputText value="#{att.description}"/>
+			    </p:column>
+			    <p:column headerText="Valor">
+			        <h:outputText value="#{att.amount}" />
+			    </p:column>
+			    <p:column headerText="Parc.">
+			        <h:outputText value="#{att.instalments}" />
+			    </p:column>
+			    
+			    <p:column style="width:10px">
+					<p:commandLink update="@form:expenseFormBase" oncomplete="expenseDialog.show();">
+						<p:graphicImage value="/images/edit.png" height="12" width="12"/>
+						<f:setPropertyActionListener value="#{att}" target="#{flowController.bean}" />
+					</p:commandLink>
+				</p:column>
+				
+				<p:column style="width:10px">
+					<p:commandLink update="@form:flowAccountPreviewBase" oncomplete="flowPreviewDialog.show();">
+						<p:graphicImage value="/images/magnifier.png" height="12" width="12"/>
+						<f:setPropertyActionListener value="#{att}" target="#{flowItemPreviewController.item}" />
+					</p:commandLink>
+				</p:column>
+				
+				<p:column style="width:10px">
+					<p:commandLink>
+						<p:graphicImage value="/images/delete.png" height="12" width="12"/>
+						<f:setPropertyActionListener value="#{att}" target="#{cashAccountController.bean}" />
+					</p:commandLink>
+				</p:column>
+			    
+			</p:dataTable>
+			
+			<p:commandLink onclick="expenseDialog.show();" style="margin: 10px;">
+				<p:graphicImage value="/images/add.png" height="12" width="12"/>
+			</p:commandLink>
+			
+		</h:panelGroup>
+	
+	</p:tab>  
+  
+</p:tabView>
+
+<p:dialog header="Editor" widgetVar="expenseDialog" minHeight="600" minWidth="450" modal="true">
+
+	<p:toolbar>
+		<p:toolbarGroup align="left">
+			<p:commandButton type="push" value="Novo" image="ui-icon-document" 
+				actionListener="#{flowController.createDebit}" update="expenseFormBase " />
+			<p:commandButton type="push" value="Salvar" image="ui-icon-disk"
+				actionListener="#{flowController.save}" update="expenseFormBase instalmentsTableBase recurrentTableBase"/>
+			<p:commandButton type="push" value="Limpar" image="ui-icon-note"
+				actionListener="#{flowController.clean}" update="expenseFormBase" />
+		</p:toolbarGroup>
+	</p:toolbar>
+
+	<p:fieldset id="expenseFormBase" legend="Contas de Fluxo" style="position: absolute;">
+          
+		<h:panelGrid columns="2" cellpadding="5" rendered="#{flowController.hasDebit()}">
+	
+			<h:outputText value="Tipo" />  
+			<p:selectOneMenu value="#{flowController.bean.type}" style="width: 150px;">
+				<f:selectItem itemLabel="Selecione o tipo" itemValue="" />  
+				<f:selectItem itemValue="RECURRENT" itemLabel="Recorrente" />
+				<f:selectItem itemValue="INSTALMENTS" itemLabel="Parcelamento" />
+				<p:ajax update="expenseFormBase"/> 
+			</p:selectOneMenu>
+	
+			<h:outputText value="Selecione o período" />  
+			<p:selectOneMenu value="#{flowController.bean.periodicity}" style="width: 150px;">
+				<f:selectItem itemLabel="Selecione o período" itemValue="NONE" />  
+				<f:selectItem itemValue="TWOYEAR" itemLabel="Dois anos" />
+				<f:selectItem itemValue="YEAR" itemLabel="Ano" />
+				<f:selectItem itemValue="SEMESTER" itemLabel="Semestre" />
+				<f:selectItem itemValue="TRIMESTER" itemLabel="Trimestre" />
+				<f:selectItem itemValue="BIMESTER" itemLabel="Bimestre" />
+				<f:selectItem itemValue="MONTH" itemLabel="Mês" />
+				<f:selectItem itemValue="TWOWEEK" itemLabel="Duas semanas" />
+				<f:selectItem itemValue="WEEK" itemLabel="Semana" />
+				<f:selectItem itemValue="DAY" itemLabel="Dia" />
+			</p:selectOneMenu>
+			
+			<h:outputText value="Categoria" />
+			<p:selectOneMenu value="#{flowController.bean.category}" style="width: 150px;" converter="categoryConverter">
+				<f:selectItem itemValue="" itemLabel="Selecione Categoria"/>
+				<f:selectItems value="#{categoryDimensionController.getCategoriesFromDimension('Conta')}" var="cat" itemValue="#{cat}" itemLabel="#{cat.name}"/>
+				<p:ajax update="subcategorySelect" />
+			</p:selectOneMenu>
+			
+			
+			<h:outputText value="SubCategoria" />
+			<p:selectOneMenu value="#{flowController.bean.subCategory}" style="width: 150px;" id="subcategorySelect" converter="categoryConverter">
+				<f:selectItem itemValue="" itemLabel="Selecione Sub-Categoria"/>
+				<f:selectItems value="#{flowController.subCategories}" var="cat" itemValue="#{cat}" itemLabel="#{cat.name}"/>
+			</p:selectOneMenu>
+			
+			
+			<h:outputText value="Cedente" />
+			<p:autoComplete value="#{flowController.bean.payee}" completeMethod="#{partyController.getPartiesAC}" 
+			 		var="p" itemLabel="#{p.name}" itemValue="#{p}" converter="partyConverter"/> 
+			
+			
+			<h:outputText value="Descrição" />  
+			<p:inputText style="margin: 3px;" label="Nome" value="#{flowController.bean.description}" size="50" maxlength="50"/>
+	
+			<h:outputText value="Valor" /> 
+			<p:inputText style="margin: 3px;" label="Nome" value="#{flowController.bean.amount}" size="30" maxlength="30"/>
+	      
+			<h:outputText value="Inicio" /> 
+			<p:calendar value="#{flowController.bean.start}" converter="#{dateCalendarConverter}" pattern="dd/MM/yyyy"/>  
+	      
+	      	<h:outputText value="Dia Vencimento"/>
+			<p:inputText value="#{flowController.bean.maturityDay}" size="20" maxlength="20"/>
+	      
+			<h:outputText value="Conta Origem" /> 
+			<p:autoComplete value="#{flowController.bean.origin}" style="width: 130px;"
+			        completeMethod="#{accountController.getAccountsAC}"
+			        var="account" itemLabel="#{account.description}"   
+			        itemValue="#{account}" converter="accountConverter"/>
+			        
+			<h:outputText value="Data fim" rendered="#{flowController.bean.isRecurrentType()}"/>
+			<p:calendar value="#{flowController.bean.end}" rendered="#{flowController.bean.isRecurrentType()}" pattern="dd/MM/yyyy" converter="#{dateCalendarConverter}"/> 
+			
+			<h:outputText value="Parcelas" rendered="#{flowController.bean.isInstalmentsType()}"/>
+			<p:inputText value="#{flowController.bean.instalments}" size="20" maxlength="20" rendered="#{flowController.bean.isInstalmentsType()}"/>
+			
+		</h:panelGrid>
+		    
+	</p:fieldset>
+
+</p:dialog>
+
+<p:dialog header="Preview" widgetVar="flowPreviewDialog" minHeight="500" minWidth="450" modal="false">
+
+	<h:panelGroup layout="block" id="flowAccountPreviewBase">
+	
+        <p:dataTable id="flowAccountPreviewTable" value="#{flowItemPreviewController.itens}" var="att">
+        
+            <p:column headerText="Data">
+                <h:outputText value="#{att.ocurrence}" converter="#{dateCalendarConverter}" />
+            </p:column>
+            <p:column headerText="Descrição">
+                <h:outputText value="#{att.description}" />
+            </p:column>
+            <p:column headerText="Número">
+                <h:outputText value="#{att.number}" />
+            </p:column>
+             <p:column headerText="Valor">
+                <h:outputText value="#{att.amount}" />
+            </p:column>
+            
+		</p:dataTable>
+		
+	</h:panelGroup>
+	
+</p:dialog>
+
+</h:form>
+
+</ui:composition>
+
+</h:body>
+	    
+</html>

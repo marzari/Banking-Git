@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:component rendered="#{fwMenuController.isFlowActive()}">
+
+	<h:panelGroup layout="block" id="flow-base" style="width: 100%; minWidth: 700px;">
+	
+		<h:form id="flowStatementsBase" prependId="false">
+	        <p:dataTable id="flowStatementsTable" value="#{flowStatementsController.itens}" var="att">
+	        
+	        	<p:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Mês" />
+	                </f:facet>
+	                <h:outputText value="#{att.month}"/>
+	            </p:column>
+	            <p:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Data" />
+	                </f:facet>
+	                <h:outputText value="#{att.date}"/>
+	            </p:column>
+	            <p:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Descrição" />
+	                </f:facet>
+	                <h:outputText value="#{att.description}" />
+	            </p:column>
+	            <p:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Valor" />
+	                </f:facet>
+	                <h:outputText value="#{att.value}" />
+	            </p:column>
+	             <p:column>
+	                <f:facet name="header">
+	                    <h:outputText value="Saldo" />
+	                </f:facet>
+	                <h:outputText value="#{att.totalValue}" />
+	            </p:column>
+	            
+			</p:dataTable>
+		</h:form>
+	
+	
+	</h:panelGroup>
+
+</ui:component>
+
+</h:body>
+	    
+</html>

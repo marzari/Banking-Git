@@ -1,0 +1,99 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:composition>
+
+<h:form>
+
+<h:panelGroup layout="block" id="taxRetentionDefinitionTableBase" style="padding: 50px; width: 800px;">
+
+	<p:dataTable value="#{taxRetentionDefinitionController.beans}" var="att">
+	 
+		<p:ajax event="rowEdit" listener="#{taxRetentionDefinitionController.saveRetention}" update="taxRetentionDefinitionTableBase"/>
+		
+		<f:facet name="header">
+		    Cadastro de Retenções
+		</f:facet>
+	
+		<p:column headerText="Nome" style="width:100px">
+			<p:cellEditor>
+			    <f:facet name="output"><h:outputText value="#{att.name}"/></f:facet>
+			    <f:facet name="input"><p:inputText value="#{att.name}" style="width:90%"/></f:facet>
+		    </p:cellEditor>
+		</p:column>
+	
+		<p:column headerText="Descrição" style="width:150px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.description}"/></f:facet>
+				<f:facet name="input"><p:inputText value="#{att.description}" style="width:90%"/></f:facet>
+			</p:cellEditor>
+		</p:column>
+	
+		<p:column headerText="Aliquota" style="width:60px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.rate}" /></f:facet>
+				<f:facet name="input"><p:inputText value="#{att.rate}" style="width:90%"/></f:facet>
+			</p:cellEditor>
+		</p:column>
+		
+		<p:column headerText="Base Inicio" style="width:80px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.begin}" /></f:facet>
+				<f:facet name="input"><p:inputText value="#{att.begin}" style="width:90%"/></f:facet>
+			</p:cellEditor>
+		</p:column>
+		
+		<p:column headerText="Base Fim" style="width:80px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.end}" /></f:facet>
+				<f:facet name="input"><p:inputText value="#{att.end}" style="width:90%"/></f:facet>
+			</p:cellEditor>
+		</p:column>
+	
+		<p:column headerText="Imposto" style="width:130px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.tax}" /></f:facet>
+				<f:facet name="input">
+					<p:selectOneMenu value="#{att.tax}" converter="taxConverter" style="width: 120px;">  
+						<f:selectItem itemLabel="Selecione Imposto" itemValue="" />  
+						<f:selectItems value="#{taxController.beans}" var="tax" itemLabel="#{tax.name}" itemValue="#{tax}"/>
+					</p:selectOneMenu>
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+			
+		<p:column style="width:10px">
+			<p:rowEditor/>
+		</p:column>
+		<p:column style="width:10px">
+			<p:commandLink oncomplete="confirmation.show();">
+				<p:graphicImage value="/images/delete.png" height="12" width="12"/>
+				<f:setPropertyActionListener value="#{att}" target="#{taxRetentionDefinitionController.bean}" />
+			</p:commandLink>
+		</p:column>
+		
+	</p:dataTable>
+	
+	<p:confirmDialog message="Você tem certeza que deseja desativar esta retenção" header="Confirmação de exclusão" severity="alert" widgetVar="confirmation">  
+        <p:commandButton value="Sim, tenho certeza" update="taxRetentionDefinitionTableBase" oncomplete="confirmation.hide()" actionListener="#{taxRetentionDefinitionController.delete}"/>  
+        <p:commandButton value="Não" onclick="confirmation.hide()" type="button"/>   
+    </p:confirmDialog>
+	
+	<p:commandLink actionListener="#{taxRetentionDefinitionController.addRetention}" update="taxRetentionDefinitionTableBase" style="margin: 3px;">
+		<p:graphicImage value="/images/add.png" height="12" width="12" />
+	</p:commandLink>
+	
+</h:panelGroup>    
+
+</h:form>
+		
+</ui:composition>
+
+</h:body>
+
+</html>

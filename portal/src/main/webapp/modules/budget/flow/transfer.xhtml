@@ -1,0 +1,126 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:composition>
+
+<h:form>
+	
+<h:panelGroup layout="block" id="transferTableBase" style="height: 400px; margin: 20px; width: 700px;">
+
+	<p:dataTable id="transferTable" value="#{flowController.transferBeans}" var="att">
+	
+		<f:facet name="header">  
+			Transferências
+		</f:facet>
+	
+		<p:column headerText="Data">
+		    <h:outputText value="#{att.start}" converter="#{dateCalendarConverter}"/>
+		</p:column>
+		<p:column headerText="Valor">
+		    <h:outputText value="#{att.amount}"/>
+		</p:column>
+		<p:column headerText="Conta Origem">
+		    <h:outputText value="#{att.origin.description}"/>
+		</p:column>
+		<p:column headerText="Conta Destino">
+		    <h:outputText value="#{att.target.description}"/>
+		</p:column>
+	         
+		<p:column style="width:10px">
+			<p:commandButton update="@form:transferFormBase" image="ui-icon ui-icon-search" oncomplete="transferDialog.show();">
+				<f:setPropertyActionListener value="#{att}" target="#{flowController.bean}" />
+			</p:commandButton>
+		</p:column>
+	
+		<p:column style="width:10px">
+			<p:commandButton update="@form:flowAccountPreviewBase" image="ui-icon ui-icon-search" oncomplete="trasactionsDialog.show();">
+				<f:setPropertyActionListener value="#{att}" target="#{flowItemPreviewController.item}" />
+			</p:commandButton>
+		</p:column>
+		
+	</p:dataTable>
+	
+	<p:commandLink onclick="transferDialog.show();" style="margin: 10px;">
+		<p:graphicImage value="/images/add.png" height="12" width="12"/>
+	</p:commandLink>
+	
+</h:panelGroup>
+	
+<p:dialog header="Editor" widgetVar="transferDialog" minHeight="400" minWidth="600" modal="true">
+
+	<p:toolbar>
+		<p:toolbarGroup align="left">
+			<p:commandButton type="push" value="Novo" image="ui-icon-document" 
+				actionListener="#{flowController.createTransfer}" update="transferFormBase" />
+			<p:commandButton type="push" value="Salvar" image="ui-icon-disk"
+				actionListener="#{flowController.save}" update="transferFormBase transferTableBase"/>
+			<p:commandButton type="push" value="Limpar" image="ui-icon-note"
+				actionListener="#{flowController.clean}" update="transferFormBase" />
+		</p:toolbarGroup>
+	</p:toolbar>
+
+	<p:fieldset id="transferFormBase" legend="Transferências" style="position: absolute;">
+          
+		<h:panelGrid columns="2" cellpadding="5" rendered="#{flowController.hasTransfer()}">
+	
+			<h:outputText value="Data" /> 
+			<p:calendar value="#{flowController.bean.start}" converter="#{dateCalendarConverter}" pattern="dd/MM/yyyy"/>  
+	      
+			<h:outputText value="Valor" /> 
+			<p:inputText style="margin: 3px;" label="Nome" value="#{flowController.bean.amount}" size="30" maxlength="30"/> 
+	      
+			<h:outputText value="Conta Origem" /> 
+			<p:autoComplete value="#{flowController.bean.origin}" style="width: 130px;"
+			        completeMethod="#{accountController.getAccountsAC}"
+			        var="account" itemLabel="#{account.description}"   
+			        itemValue="#{account}" converter="accountConverter"/>
+			        
+			<h:outputText value="Conta Destino" /> 
+			<p:autoComplete value="#{flowController.bean.target}" style="width: 130px;"
+			        completeMethod="#{accountController.getAccountsAC}"
+			        var="account" itemLabel="#{account.description}"   
+			        itemValue="#{account}" converter="accountConverter"/>
+			        
+		</h:panelGrid>
+		    
+	</p:fieldset>
+
+</p:dialog>
+
+<p:dialog header="Preview" widgetVar="trasactionsDialog" minHeight="500" minWidth="450" modal="false">
+
+	<h:panelGroup layout="block" id="flowAccountPreviewBase">
+	
+        <p:dataTable id="flowAccountPreviewTable" value="#{flowItemPreviewController.itens}" var="att">
+        
+            <p:column headerText="Data">
+                <h:outputText value="#{att.ocurrence}" converter="#{dateCalendarConverter}" />
+            </p:column>
+            <p:column headerText="Descrição">
+                <h:outputText value="#{att.description}" />
+            </p:column>
+            <p:column headerText="Número">
+                <h:outputText value="#{att.number}" />
+            </p:column>
+             <p:column headerText="Valor">
+                <h:outputText value="#{att.amount}" />
+            </p:column>
+            
+		</p:dataTable>
+		
+	</h:panelGroup>
+	
+</p:dialog>
+
+</h:form>
+
+</ui:composition>
+
+</h:body>
+	    
+</html>

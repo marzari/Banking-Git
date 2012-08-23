@@ -1,0 +1,71 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:composition>
+
+<h:form>
+
+<h:panelGroup layout="block" id="representativeTableBase" style="width: 500px; margin: 50px;">
+
+	<p:dataTable id="representativeTable" value="#{representativeController.beans}" var="att">
+	
+		<p:ajax event="rowEdit" listener="#{representativeController.saveRepresentative}"/>
+		
+		<f:facet name="header">
+			Representante  
+        </f:facet> 
+
+		<p:column headerText="Regional" style="width:150px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.regionalDescription}"/></f:facet>  
+				<f:facet name="input">
+					<p:selectOneMenu value="#{att.regional}" converter="regionalConverter" style="width: 250px;" >  
+					   <f:selectItems value="#{regionalController.beans}" var="rg" itemValue="#{rg}" itemLabel="#{rg.description}"/>
+					</p:selectOneMenu>
+				</f:facet>
+			</p:cellEditor>  
+		</p:column>
+		<p:column headerText="Nome" style="width:150px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.name}"/></f:facet>  
+				<f:facet name="input">
+					<p:inputText value="#{att.name}" size="20" maxlength="20"/>
+				</f:facet>  
+			</p:cellEditor>  
+		</p:column>
+	    
+	    <p:column style="width:10px">
+			<p:rowEditor/>
+		</p:column>
+		<p:column style="width:10px">
+			<p:commandLink oncomplete="confirmation.show();">
+				<p:graphicImage value="/images/delete.png" height="12" width="12"/>
+				<f:setPropertyActionListener value="#{att}" target="#{representativeController.bean}" />
+			</p:commandLink>
+		</p:column>
+		
+	</p:dataTable>
+	
+	<p:confirmDialog message="Você tem certeza que deseja desativar este representante" header="Confirmação de exclusão" severity="alert" widgetVar="confirmation">  
+        <p:commandButton value="Sim, tenho certeza" update="representativeTableBase" oncomplete="confirmation.hide()" actionListener="#{representativeController.delete}"/>  
+        <p:commandButton value="Não" onclick="confirmation.hide()" type="button"/>
+    </p:confirmDialog>
+	
+	<p:commandLink actionListener="#{representativeController.addRepresentative}" update="representativeTableBase" style="margin: 3px;">
+		<p:graphicImage value="/images/add.png" height="12" width="12" />
+	</p:commandLink>
+
+</h:panelGroup>
+
+</h:form>
+
+</ui:composition>
+
+</h:body>
+
+</html>

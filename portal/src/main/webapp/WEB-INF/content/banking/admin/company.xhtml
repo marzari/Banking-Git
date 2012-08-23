@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:decorate template="/layout/window.xhtml">
+
+		<ui:param name="windowClass" value="window-full" />
+		<ui:param name="windowTitle" value="Empresa" />
+
+		<ui:define name="windowBody">
+			<div>oi, você esta na aba empresa --> empresa</div>
+
+			<h:form id="bkCompanySearchForm">
+				<p:fieldset id="bkCompanySearchFieldset"
+					legend="Faça sua pesquisa por:"
+					style="height: 80%; margin-bottom: 5px;">
+
+					<h:panelGroup>
+					
+					<h:panelGrid columns="3" cellpading="15" style="float: left;">
+					
+							<h:outputLabel value="Código" />
+							<h:outputLabel value="Nome" />
+							<h:outputText />
+
+							<p:inputText id="bkCompanyCodeSearchInput" size="30" maxlength="30" />
+
+							<p:inputText size="30" maxlength="30" />
+
+							<p:commandButton value="Pesquisar" icon="ui-icon-disk" 
+								id="doSearch"
+								 />
+
+					</h:panelGrid>
+					</h:panelGroup>
+					<p:focus for="bkCompanyCodeSearchInput" />
+				</p:fieldset>
+				
+<!-- 				<h:panelGroup rendere -->
+				
+				<p:dataTable var="company" value="#{companyController.beans}"
+					id="statusList" sortBy="#{company.name}"
+					sortOrder="descending"
+					paginator="true" rows="10"  rowsPerPageTemplate="5,10,20,50"
+					paginatorTemplate="O sistema retornou #{companyController.beans.size().toString()} registros. {PageLinks}  {RowsPerPageDropdown}">
+
+					<p:column sortBy="#{company.name}" headerText="Nome">
+						<h:outputText value="#{company.name}" />
+					</p:column>
+
+					<p:column  headerText="CNPJ">
+						<h:outputText value="#{company.register.getRegistration('cnpj').value}" />
+					</p:column>
+
+				</p:dataTable>
+				
+			</h:form>
+
+		</ui:define>
+	</ui:decorate>
+
+</ui:composition>

@@ -1,0 +1,115 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:kui="http://java.sun.com/jsf/composite/comp/ui">
+
+<h:body>
+
+<ui:composition>
+
+<h:form>
+
+<h:panelGroup layout="block" id="traineePartnerTableBase" style="padding: 50px; width: 600px;">
+
+	<p:dataTable var="att" value="#{individualPartnerController.getBeansByType('Trainee')}">
+	  
+	  	<p:ajax event="rowEdit" listener="#{individualPartnerController.savePartner}"/>
+	  
+		<f:facet name="header">
+		     Estagiário
+		</f:facet>
+	  
+		<p:column style="width:16px">
+			<p:rowToggler />
+		</p:column>
+		
+		<p:column headerText="Nomes" style="width:200px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.register.firstName}"/></f:facet>
+				<f:facet name="input"><p:inputText value="#{att.register.firstName}" style="width:90%"/></f:facet>
+			</p:cellEditor>
+		</p:column>
+		
+		<p:column headerText="Sobrenomes" style="width:200px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.register.lastName}"/></f:facet>
+				<f:facet name="input"><p:inputText value="#{att.register.lastName}" style="width:90%"/></f:facet>
+			</p:cellEditor>
+		</p:column>
+		
+		<p:column style="width:10px">
+			<p:rowEditor/>
+		</p:column>
+	
+		<p:rowExpansion>
+		 	
+		 	<h:outputStylesheet>
+		 		.label {
+		 			width: 100px;
+		 		}
+		 	</h:outputStylesheet>
+		 
+	    	<h:panelGrid columns="2" style="float: left; margin: 20px; border: none; width: 500px;" cellpadding="5" columnClasses="label, value">
+			
+				<h:outputLabel value="Nome"/>
+				<h:panelGroup>
+					<p:inputText label="Nome" value="#{att.register.firstName}" size="25" maxlength="25"/>
+					<p:inputText label="Ultimo Nome" value="#{att.register.lastName}" size="25" maxlength="25" style="margin-left: 5px;"/>
+				</h:panelGroup>
+				
+				<h:outputLabel value="Gênero"/> 
+		        <p:selectOneMenu style="width: 130px; height: 20px;" value="#{att.register.genre}">
+		            <f:selectItem itemLabel=" -- " itemValue="NONE" />  
+		            <f:selectItem itemLabel="Masculino" itemValue="MALE" />  
+		            <f:selectItem itemLabel="Feminino" itemValue="FEMALE" />  
+				</p:selectOneMenu>
+				
+				<h:outputLabel value="Data de Nascimento"/>
+				<p:calendar value="#{att.register.birth}" converter="#{dateCalendarConverter}" pattern="dd/MM/yyyy"/>  
+			
+				<h:outputLabel value="Estado Civil"/>
+		        <p:selectOneMenu style="width: 130px; height: 20px;" value="#{att.register.maritalStatus}">
+		            <f:selectItem itemLabel=" -- " itemValue="NONE" /> 
+		            <f:selectItem itemLabel="Solteiro" itemValue="SINGLE" />  
+		            <f:selectItem itemLabel="Casado" itemValue="MARRIED" />  
+		            <f:selectItem itemLabel="Divorciado" itemValue="DIVORCED" />
+		            <f:selectItem itemLabel="Viúvo" itemValue="WIDOWER" />
+      				</p:selectOneMenu>			
+		        
+				<h:outputLabel value="Nome do Pai"/>
+				<p:inputText label="Inscrição Estadual" value="#{att.register.fatherName}" size="40" maxlength="50"/>
+				
+				<h:outputLabel value="Nome da Mãe"/>
+				<p:inputText label="Inscrição Municipal" value="#{att.register.motherName}" size="40" maxlength="50"/>
+				
+				<h:outputLabel value="Nacionalidade"/>
+				<p:inputText label="Nacionalidade" value="#{att.register.nacionality}" size="30" maxlength="30"/>
+				
+				<h:outputLabel value="Naturalidade"/>
+				<p:inputText label="Naturalidade" value="#{att.register.naturality}" size="30" maxlength="30"/>
+				
+			</h:panelGrid>
+			
+			<p:commandButton type="push" value="Salvar" image="ui-icon-disk">
+				<f:setPropertyActionListener value="#{att}" target="#{individualPartnerController.beanToBeSaved}" />
+			</p:commandButton>
+			
+	    </p:rowExpansion>  
+			
+	</p:dataTable>
+	
+	<p:commandLink actionListener="#{individualPartnerController.addPartner('Trainee')}" update="traineePartnerTableBase" style="margin: 3px;">
+		<p:graphicImage value="/images/add.png" height="12" width="12" />
+	</p:commandLink>
+	
+</h:panelGroup> 
+
+</h:form>
+
+</ui:composition>
+
+</h:body>
+
+</html>

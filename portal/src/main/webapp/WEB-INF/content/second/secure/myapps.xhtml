@@ -1,0 +1,65 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="../portalcommon-second.xhtml">
+	
+	<ui:define name="applicationsbar-wrapper">
+	
+		#{applicationMenuController.begin(1)}
+	
+		<div class="ui-bar-dark small bottom">
+	
+			<h:outputStylesheet library="css" name="second/myapps-second.css" />
+		
+			<h:panelGroup layout="block" styleClass="applicationsbar-applicationsMenu">
+				<h:form>
+					<p:menubar styleClass="ui-dark-menu">
+						<p:menuitem value="Dashboard" actionListener="#{applicationMenuController.load('DEFAULT')}" update=":myapps-second-body" />
+						<p:menuitem rendered="#{sessionController.hasPermissionTo('view', 'kangaroo')}" value="Kangaroo" actionListener="#{applicationMenuController.load('APP_KANGAROO')}" update=":myapps-second-body" />
+						<p:menuitem rendered="#{sessionController.hasPermissionTo('view', 'procurement')}" value="Procurement" actionListener="#{applicationMenuController.load('APP_PROCUREMENT')}" update=":myapps-second-body" />
+						<p:menuitem rendered="#{sessionController.hasPermissionTo('view', 'banking')}" value="Banking" actionListener="#{applicationMenuController.load('APP_BANKING')}" update=":myapps-second-body" />
+						<p:menuitem rendered="#{sessionController.hasPermissionTo('view', 'zebra')}" value="Zebra" actionListener="#{applicationMenuController.load('APP_ZEBRA')}" update=":myapps-second-body" />
+						<p:menuitem rendered="#{sessionController.hasPermissionTo('view', 'chimpanzee')}" value="Chimpanzee" actionListener="#{applicationMenuController.load('APP_CHIMPANZEE')}" update=":myapps-second-body" />
+					</p:menubar>
+				</h:form>
+				
+			</h:panelGroup>
+		
+		</div>
+	
+	</ui:define>
+	
+	<ui:define name="common-second-body">
+	
+		<h:panelGroup layout="block" id="myapps-second-body">
+		
+			<ui:fragment rendered="#{applicationMenuController.isLoaded('DEFAULT')}">
+<!-- 				<ui:include src="../../third/secure/applications-dashboard.xhtml"/> -->
+			</ui:fragment>
+		
+			<ui:fragment rendered="#{applicationMenuController.isLoaded('APP_KANGAROO')}">
+				<ui:include src="../../third/secure/applications-kangaroo.xhtml"/>
+			</ui:fragment>
+			
+			<ui:fragment rendered="#{applicationMenuController.isLoaded('APP_CHIMPANZEE')}">
+<!-- 				<ui:include src="../../third/secure/applications-chimpanzee.xhtml"/> -->
+			</ui:fragment>
+			
+			<ui:fragment rendered="#{applicationMenuController.isLoaded('APP_PROCUREMENT')}">
+<!-- 				<ui:include src="../../third/secure/applications-procurement.xhtml"/> -->
+			</ui:fragment>
+			
+			<ui:fragment rendered="#{applicationMenuController.isLoaded('APP_BANKING')}">
+				<ui:include src="../../third/secure/applications-banking.xhtml"/>
+			</ui:fragment>
+			
+			<ui:fragment rendered="#{applicationMenuController.isLoaded('APP_ZEBRA')}">
+<!-- 				<ui:include src="../../third/secure/applications-zebra.xhtml"/> -->
+			</ui:fragment>
+			
+		</h:panelGroup>
+	
+	</ui:define>
+	
+</ui:composition>

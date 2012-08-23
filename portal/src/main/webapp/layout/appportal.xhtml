@@ -1,0 +1,61 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<h:outputStylesheet library="css" name="appportal.css" />
+	
+	<h:panelGroup layout="block" id="app-container">
+
+		<h:panelGroup layout="block" id="main-header">
+				
+			<h:panelGroup layout="block" id="logo-wrapper" styleClass="logo-wrapper">
+				<ui:insert name="logo-wrapper" />
+			</h:panelGroup>
+		
+			<h:panelGroup layout="block" style="position: absolute; right: 50px; top: 40px; z-index: 999999;">
+				<ui:include src="/modules/security/logout.xhtml" />
+			</h:panelGroup>
+			
+			<h:form>
+				<p:dock position="top" model="#{dockController.model}" proximity="40" maxWidth="40" itemWidth="50" />
+			</h:form>
+			
+		</h:panelGroup> 
+		
+		<h:panelGroup layout="block" id="main-body">
+		
+			<h:panelGroup layout="block" id="application-wrapper">
+				<ui:insert name="application-wrapper" />
+			</h:panelGroup>
+			
+		</h:panelGroup>
+	
+		<h:panelGroup layout="block" id="main-footer">
+		
+			<p align="center">2010-2011 - Kallx Technology</p>
+	
+			<h:form>		
+			<p:stack icon="resources/images/stack.png">
+				<p:menuitem value="E-Sales" icon="resources/images/esales.png" url="#" />
+				<p:menuitem value="Chat" icon="resources/images/chat.png" url="#" />
+				<p:menuitem value="Conta" icon="resources/images/account.png" onclick="accountDialog.show()" />
+			</p:stack>
+			</h:form>
+		
+		</h:panelGroup>
+		
+		<p:dialog header="Minha Conta" widgetVar="accountDialog" height="700" width="1200" modal="true">
+
+			<p:tabView var="at" value="#{accountTabController.beans}">
+				<p:tab title="#{at.name}">
+					<ui:include src="#{at.url}"/>
+				</p:tab>
+			</p:tabView>	
+			
+		</p:dialog>
+		
+	</h:panelGroup>
+		
+</ui:composition>

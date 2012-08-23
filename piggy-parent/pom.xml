@@ -1,0 +1,52 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>net.kallx</groupId>
+		<artifactId>base</artifactId>
+		<version>0.0.2-M1</version>
+		<relativePath>../base</relativePath>
+	</parent>
+
+	<artifactId>piggy-parent</artifactId>
+	<version>0.0.2-M3-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>piggy-parent</name>
+	<url></url>
+	
+	<modules>
+		<module>../piggy</module>
+		<module>../piggy-presentation</module>
+		<module>../piggy-delivery</module>
+	</modules>
+
+	<properties>
+		<piggy.version>0.0.2-M3-SNAPSHOT</piggy.version>
+		<architecture.version>0.0.2-M3-SNAPSHOT</architecture.version>
+		<libraries.version>0.0.2-M3-SNAPSHOT</libraries.version>
+		<kangaroo.version>0.0.2-M3-SNAPSHOT</kangaroo.version>
+		<chimpanzee.version>0.0.2-M3-SNAPSHOT</chimpanzee.version>
+	</properties>
+
+	<dependencies>
+	
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>architecture</artifactId>
+			<version>${architecture.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>utils</artifactId>
+			<version>${libraries.version}</version>
+			<scope>provided</scope>
+		</dependency>
+	
+	</dependencies>
+	
+</project>

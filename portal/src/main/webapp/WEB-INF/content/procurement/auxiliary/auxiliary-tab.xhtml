@@ -1,0 +1,72 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:decorate template="/layout/window.xhtml">
+		<ui:param name="windowClass" value="window-menu" />
+		<ui:param name="windowTitle" value="" />
+		<ui:define name="windowBody">
+			<h:form>
+				<p:menu>
+					<p:submenu label="Cadastros Básicos">
+						<p:menuitem value="Segmentos CNAE" id="segmentsCnae"
+							actionListener="#{pcController.load('ECONOMICACTIVITY')}"
+							update=":tabView:auxiliary-menu-content" />
+						<p:menuitem value="Segmentos pelas empresas" id="segmentsNickname"
+							actionListener="#{pcController.load('SEGMENT')}"
+							update=":tabView:auxiliary-menu-content" />
+						<p:menuitem value="Requisitos" id="requirement"
+							actionListener="#{pcController.load('REQUIREMENT')}"
+							update=":tabView:auxiliary-menu-content" />
+					</p:submenu>
+					<p:submenu label="Informações Internos">
+						<p:menuitem value="Tipo de Frete"
+							actionListener="#{pcController.load('SHIPPING')}"
+							update=":tabView:auxiliary-menu-content" />
+						<p:menuitem value="Níves de urgência"
+							actionListener="#{pcController.load('URGENCY')}"
+							update=":tabView:auxiliary-menu-content" />
+						<p:menuitem value="Criticidade"
+							actionListener="#{pcController.load('CRITICALY')}"
+							update=":tabView:auxiliary-menu-content" />
+						<p:menuitem value="Status"
+							actionListener="#{pcController.load('STATUS')}"
+							update=":tabView:auxiliary-menu-content" />
+					</p:submenu>
+					<p:tooltip for="segmentsCnae" value="Segmentos oficiais conforme tabela CNAE" showEffect="fade" hideEffect="fade" />
+					<p:tooltip for="segmentsNickname" value="Segmentos cadastrados e utilizados pelas empresas" showEffect="fade" hideEffect="fade" />
+				</p:menu>
+			</h:form>
+		</ui:define>
+	</ui:decorate>
+
+	<h:panelGroup layout="block" id="auxiliary-menu-content">
+
+		<ui:fragment rendered="#{pcController.isLoaded('ECONOMICACTIVITY')}">
+			<ui:include src="economicActivity.xhtml"/>
+		</ui:fragment>
+		<ui:fragment rendered="#{pcController.isLoaded('SEGMENT')}">
+			<ui:include src="segment.xhtml"/>
+		</ui:fragment>
+		<ui:fragment rendered="#{pcController.isLoaded('REQUIREMENT')}">
+			<ui:include src="requirement.xhtml"/>
+		</ui:fragment>
+		<ui:fragment rendered="#{pcController.isLoaded('SHIPPING')}">
+			<ui:include src="shipping.xhtml"/>
+		</ui:fragment>
+		<ui:fragment rendered="#{pcController.isLoaded('URGENCY')}">
+			<ui:include src="urgency.xhtml"/>
+		</ui:fragment>
+		<ui:fragment rendered="#{pcController.isLoaded('CRITICALY')}">
+			<ui:include src="critically.xhtml"/>
+		</ui:fragment>
+		<ui:fragment rendered="#{pcController.isLoaded('STATUS')}">
+			<ui:include src="status.xhtml"/>
+		</ui:fragment>
+		
+
+	</h:panelGroup>
+
+</ui:composition>

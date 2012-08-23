@@ -1,0 +1,126 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+		
+		<p:fieldset id="display"
+			legend="Situação: Aprovado"
+			style="height: 40%; margin-bottom: 5px;">
+			<h:panelGrid columns="3" style="float: left;" cellpading="15">
+				<h:outputLabel value="Nome Fantasia" />
+				<h:outputLabel value="Razão Social" />
+				<h:outputLabel value="CNPJ" />
+				<p:inputText id="supplierCompanyInfoFancyName" value="João pé de Feijão" size="30" maxlength="50" />
+				<p:inputText id="supplierCompanyInfoCompanyName" value="Fornecedor 1 e Cia Ltda" size="30" maxlength="50" />
+				<p:inputText id="supplierCompanyInfoCnpj" value="99.999.999/9999-99" size="30" maxlength="50" />
+
+				<h:outputLabel value="Inscrição Estadual" />
+				<h:outputLabel value="Inscrição Municipal" />
+				<h:outputText value="GLN" />
+				<p:inputText id="supplierCompanyInfoStateInscription" value="123123123" size="30" maxlength="50" />
+				<p:inputText id="supplierCompanyInfoCityInscription" value="123123123123" size="30" maxlength="50" />
+				<p:inputText id="supplierCompanyInfoGln" value="123-123-123" size="30" maxlength="50" />
+
+				<h:outputLabel value="Site" />
+				<h:outputLabel value="Observações" />
+				<h:outputLabel value="Palavras Chave" />
+				<p:inputText id="supplierCompanyInfoWebsite" value="http://www.google.com.br" size="30" maxlength="50" />
+				<p:inputTextarea id="supplierCompanyInfoObservation" rows="6" cols="30"  value="Empresa de grande porte situada no vales dos sinos e filiada a rede XPTO de distribuição"/> 
+				<p:inputTextarea id="supplierCompanyInfoKeyWords" rows="6" cols="30"  value="milho, arroz, feijao, amendoim, trigo, ervilha, lentilha"/> 
+			</h:panelGrid>
+		</p:fieldset>
+		
+		<p:fieldset id="contact"
+			legend="Contatos"
+			style="height: 40%; margin-bottom: 5px;">
+			<h:panelGrid columns="3" style="float: left;" cellpading="15">
+				<h:outputLabel value="Nome" />
+				<h:outputLabel value="Sobrenome" />
+				<h:outputLabel value="Cargo" />
+				<p:inputText id="supplierCompanyContactFirstName" value="Paulo Eduardo" size="30" maxlength="50" />
+				<p:inputText id="supplierCompanyContactLastName" value="Kopzinski Mello"/> 
+				<p:inputText id="supplierCompanyContactJobTitle" value="Desenvolvedor"/>
+			</h:panelGrid>
+		</p:fieldset>
+			
+		<p:fieldset id="address"
+			legend="Endereços"
+			style="height: 40%; margin-bottom: 5px;">
+			<h:panelGrid columns="3" style="float: left;" cellpading="15">
+				<h:outputLabel value="Tipo" />
+				<h:outputLabel value="Cep" />
+				<h:outputLabel value="" />
+				<p:selectOneMenu value="addressType"  var="p">
+			        <f:selectItem itemLabel="Endereco Principal" itemValue="01" />
+			        <f:selectItem itemLabel="Endereco Cobrança" itemValue="02" />
+			        <f:selectItem itemLabel="Endereco Entrega" itemValue="03" />
+			  	</p:selectOneMenu>				
+				<p:inputText id="supplierCompanyAddressZipCode" value="91.310-001" size="30" maxlength="50" />
+				<p:commandButton value="Consultar CEP" />
+				
+				<h:outputLabel value="Estado" />
+				<h:outputLabel value="Cidade" />
+				<h:outputLabel value="Bairro" />
+				<p:selectOneMenu value="state"  var="p">
+			        <f:selectItem itemLabel="AC" itemValue="01" />
+			        <f:selectItem itemLabel="RS" itemValue="02" />
+			        <f:selectItem itemLabel="SP" itemValue="03" />
+				</p:selectOneMenu>	
+				<p:inputText id="supplierCompanyAddressCity" value="Porto Alegre" size="30" maxlength="50" />
+				<p:inputText id="supplierCompanyAddressNeighborhood" value="Vila Jardim" size="30" maxlength="50" />
+				
+				<h:outputLabel value="Logradouro" />
+				<h:outputLabel value="Número" />
+				<h:outputLabel value="Complemento" />
+				<p:inputText id="supplierCompanyAddressStreet" value="Av Protasio Alves" size="30" maxlength="50" />
+				<p:inputText id="supplierCompanyAddressNumber" value="58582"/> 
+				<p:inputText id="supplierCompanyAddressComplement" value="204"/>
+			</h:panelGrid>
+		</p:fieldset>
+		
+		<p:fieldset id="phone"
+			legend="Telefones"
+			style="height: 40%; margin-bottom: 5px;">
+			<h:panelGrid columns="4" style="float: left;" cellpading="15">
+				<h:outputLabel value="Tipo" />
+				<h:outputLabel value="Número" />
+				<h:outputLabel value="Ramal" />
+				<h:outputLabel value="Observaçao" />
+				<p:selectOneMenu value="phoneType"  var="p">
+			        <f:selectItem itemLabel="Comercial" itemValue="01" />
+			        <f:selectItem itemLabel="Celular" itemValue="02" />
+			        <f:selectItem itemLabel="Fax" itemValue="03" />
+				</p:selectOneMenu>	
+				<p:inputText id="supplierCompanyPhoneNumber" value="(51) 9998-3929" size="30" maxlength="50" />
+				<p:inputText id="supplierCompanyExtension" value="111"/> 
+				<p:inputText id="supplierCompanyObservation" value="Ramal da Secretaria"/>
+			</h:panelGrid>
+		</p:fieldset>
+		
+		<p:fieldset id="email"
+			legend="Emails"
+			style="height: 40%; margin-bottom: 5px;">
+			<h:panelGrid columns="2" style="float: left;" cellpading="15">
+				<h:outputLabel value="Email" />
+				<p:inputText id="supplierCompanyEmail" value="eduardo.mello@esales.com.br" size="30" maxlength="50" />
+			</h:panelGrid>
+		</p:fieldset>		
+		
+		<p:fieldset id="economicActivity"
+			legend="Atividade Economica"
+			style="height: 40%; margin-bottom: 5px;">
+			<h:panelGrid columns="2" style="float: left;" cellpading="15">
+				<h:outputLabel value="CNAE" />
+				<h:outputLabel value="Descrição" />
+				<p:inputText id="supplierCompanyEconomicActivityCnae" value="10.1.234.12" size="30" maxlength="50" />
+				<p:inputText id="supplierCompanyEconomicActivityDescription" value="Feijão e cereais" size="30" maxlength="50" />
+			</h:panelGrid>
+		</p:fieldset>		
+		
+
+<!-- 	</p:dialog> -->
+				
+				
+</ui:composition>

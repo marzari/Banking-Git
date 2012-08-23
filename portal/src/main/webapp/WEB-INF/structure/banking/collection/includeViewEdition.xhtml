@@ -1,0 +1,110 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<p:fieldset legend="Editar..." toggleable="true">
+		<h:panelGrid id="filter" columns="2" cellpadding="5">
+
+			<h:outputText value="Documento: " />
+			<p:selectOneMenu disabled="true">
+				<f:selectItem itemLabel="Padrão..." itemValue="" />
+				<f:selectItem itemLabel="Tradicional" itemValue="" />
+				<f:selectItem itemLabel="Escritural" itemValue="#" />
+			</p:selectOneMenu>
+
+			<h:outputText value="Distribuição: " />
+			<p:selectOneMenu disabled="true">
+				<f:selectItem itemLabel="Padrão..." itemValue="" />
+				<f:selectItem itemLabel="Banco distribui" itemValue="" />
+				<f:selectItem itemLabel="Cliente distribui" itemValue="#" />
+				<f:selectItem itemLabel="Banco envia e-mail" itemValue="#" />
+				<f:selectItem itemLabel="Banco envia SMS" itemValue="" />
+			</p:selectOneMenu>
+
+			<h:outputText value="Carteira: " />
+			<p:selectOneMenu disabled="true">
+				<f:selectItem itemLabel="Padrão..." itemValue="" />
+				<f:selectItem itemLabel="Cobrança Simples" itemValue="#" />
+				<f:selectItem itemLabel="Cobrança Vinculada" itemValue="#" />
+				<f:selectItem itemLabel="Cobrança Caucionada" itemValue="DMI" />
+				<f:selectItem itemLabel="Cobrança Descontada" itemValue="#" />
+				<f:selectItem itemLabel="Cobrança Vendor" itemValue="#" />
+			</p:selectOneMenu>
+
+			<h:outputText value="Convênio: " />
+			<p:selectOneMenu
+				value="#{collectionController.selectionBean.collectionAccountId}">
+				<f:selectItem itemLabel="Padrão..." itemValue="" />
+				<f:selectItems value="#{collectionAccountController.beans}" var="ca"
+					itemValue="#{ca.id}" itemLabel="#{ca.name}" />
+			</p:selectOneMenu>
+
+			<h:outputText value="Espécie: " />
+			<p:selectOneMenu value="#{collectionController.especie}">
+				<f:selectItem itemLabel="Padrão..." itemValue="DM" />
+				<f:selectItem itemLabel="Cheque" itemValue="CHEQUE" />
+				<f:selectItem itemLabel="Duplicata mercantil" itemValue="DM" />
+				<f:selectItem itemLabel="Duplicata mercantil por indicação" itemValue="DMI" />
+				<f:selectItem itemLabel="Duplicata de Serviço" itemValue="DS" />
+				<f:selectItem itemLabel="Duplicata de serviço por indicação" itemValue="DSI" />
+				<f:selectItem itemLabel="Duplicata rural" itemValue="DR" />
+				<f:selectItem itemLabel="Letra de câmbio" itemValue="LC" />
+				<f:selectItem itemLabel="Nota de credito comercial" itemValue="NCM" />
+				<f:selectItem itemLabel="Nota de credito a exportação" 	itemValue="NCE" />
+				<f:selectItem itemLabel="Nota de credito industrial" itemValue="NCI" />
+				<f:selectItem itemLabel="Nota de credito rural" itemValue="NCR" />
+				<f:selectItem itemLabel="Triplicata mercantil" itemValue="TM" />
+				<f:selectItem itemLabel="Triplicata de serviço" itemValue="TS" />
+				<f:selectItem itemLabel="Nota de seguro" itemValue="NS" />
+				<f:selectItem itemLabel="Recibo" itemValue="RECIBO" />
+				<f:selectItem itemLabel="Fatura" itemValue="FATURA" />
+				<f:selectItem itemLabel="Nota de debito" itemValue="ND" />
+				<f:selectItem itemLabel="Apólice de seguro" itemValue="AS" />
+				<f:selectItem itemLabel="Mensalidade escolar" itemValue="ME" />
+				<f:selectItem itemLabel="Parcela de seguro" itemValue="PS" />
+				<f:selectItem itemLabel="Nota fiscal" itemValue="NF" />
+				<f:selectItem itemLabel="Documento de divida" itemValue="DD" />
+				<f:selectItem itemLabel="Cédula de produto rural" itemValue="CPR" />
+				<f:selectItem itemLabel="Divida ativa de estado" itemValue="DAE" />
+				<f:selectItem itemLabel="Divida ativa de município" itemValue="DAM" />
+				<f:selectItem itemLabel="Divida ativa da união" itemValue="DAU" />
+				<f:selectItem itemLabel="Encargos condominiais" itemValue="EC" />
+				<f:selectItem itemLabel="Outros..." itemValue="DESCONHECIDA" />
+			</p:selectOneMenu>
+
+			<h:outputText value="Cadastro: " />
+			<p:selectOneMenu disabled="true">
+				<f:selectItem itemLabel="Padrão..." itemValue="" />
+				<f:selectItem itemLabel="Cobrança registrada" itemValue="" />
+				<f:selectItem itemLabel="Cobrança sem registro" itemValue="#" />
+				<f:selectItem itemLabel="Registrada / Sem débito automático"
+					itemValue="#" />
+			</p:selectOneMenu>
+
+
+		</h:panelGrid>
+
+		<p:commandButton value="Alterar" onclick="cd.show()"
+			style="float: right;" />
+
+
+		<p:confirmDialog message="Você tem certeza que deseja alterar os dados selecionados?"
+                 header="Alterando dados..." severity="info"
+			widgetVar="cd">
+			<p:commandButton value="Altere agora"
+				actionListener="#{collectionController.doAlterations}"
+				update=":banking-tab:form:collectiontable"
+				oncomplete="cd.hide();" />
+			<p:commandButton value="Ainda não" onclick="cd.hide();"
+				type="button" />
+		</p:confirmDialog>
+
+
+	</p:fieldset>
+
+
+
+
+</ui:composition>

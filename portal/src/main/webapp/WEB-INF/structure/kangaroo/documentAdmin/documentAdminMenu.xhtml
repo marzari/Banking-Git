@@ -1,0 +1,37 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	
+	template="/layout/window.xhtml">
+	
+	<ui:param name="windowClass" value="window-menu"/>
+	<ui:param name="windowTitle" value=""/>
+	
+	<ui:define name="windowBody">
+	
+		<h:form prependId="false">
+		
+		   	<p:menu maxHeight="480" style="width: 90%; margin: 0 auto;">  
+		
+		        <p:submenu label="Layouts"> 
+	        		<p:menuitem value="Referential" update="mapping-tab:documentAdmin-content" actionListener="#{mappingMenu.loadContent('/mapping/documentAdmin/referential.xhtml')}"/>
+	        		<p:menuitem value="Physical" update="mapping-tab:documentAdmin-content" actionListener="#{mappingMenu.loadContent('/mapping/documentAdmin/physical.xhtml')}"/>
+	        	</p:submenu>
+	        	<p:submenu label="Processors">
+	        		<p:menuitem value="Importer" update="mapping-tab:documentAdmin-content" actionListener="#{mappingMenu.loadContent('/mapping/documentAdmin/importer.xhtml')}"/>
+	        		<p:menuitem value="Exporter" update="mapping-tab:documentAdmin-content" actionListener="#{mappingMenu.loadContent('/mapping/documentAdmin/exporter.xhtml')}"/>
+	        	</p:submenu>
+				<p:submenu label="Utils">
+					<p:menuitem value="Terminal" update="mapping-tab:documentAdmin-content" actionListener="#{mappingMenu.loadContent('/mapping/mql/terminal.xhtml')}"/>
+					<p:menuitem value="Editor" update="mapping-tab:documentAdmin-content" actionListener="#{mappingMenu.loadContent('/mapping/mql/editor.xhtml')}"/>
+				</p:submenu>
+						         
+		    </p:menu>
+		
+		</h:form>
+	
+	</ui:define>
+		
+</ui:composition>

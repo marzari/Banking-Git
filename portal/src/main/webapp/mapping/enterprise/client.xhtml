@@ -1,0 +1,133 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	
+	template="/layout/window.xhtml">
+	
+	<ui:param name="windowClass" value="window-full"/>
+	<ui:param name="windowTitle" value="Clients"/>
+	
+	<ui:define name="windowBody">
+	
+		<h:form>
+	
+			<h:panelGroup layout="block" style="margin: 10px;">
+				<h:panelGrid columns="3" cellpadding="5">
+					<h:outputLabel value="Selecione a Empresa"/>
+					<p:selectOneMenu style="width: 200px;" value="#{kgClientController.companyId}">
+						<f:selectItems value="#{kgCompanyController.beans}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>  
+					</p:selectOneMenu>
+					<p:commandButton value="OK" update="clientTableBase" actionListener="#{kgClientController.handleCompanyChange}"/>  
+				</h:panelGrid>
+			</h:panelGroup>
+			
+			<hr/>
+	
+			<h:panelGroup layout="block" id="clientTableBase" style="width: 700px; margin: 50px;" >
+			
+				<p:dataTable id="clientTable" value="#{kgClientController.beans}" var="att">
+				
+				    <p:column headerText="Identificação">
+				    	<h:outputText value="#{att.name}"/>
+				    </p:column>
+				    
+				    <p:column headerText="Status">
+				    	<h:outputText value="#{att.status}"/>
+				    </p:column>
+				    
+				    <p:column headerText="Protocolo">
+				    	<h:outputText value="#{att.protocol}"/>
+				    </p:column>
+				    
+				    <p:column headerText="URL">
+				    	<h:outputText value="#{att.configUrl}"/>
+				    </p:column>
+				    
+				    <p:column style="width:10px">
+						<p:commandLink update="@form:clientFormBase" oncomplete="clientDialog.show();">
+							<p:graphicImage value="/resources/images/edit.png" height="12" width="12" />
+							<f:setPropertyActionListener value="#{att}" target="#{kgClientController.editing}"/>
+						</p:commandLink>
+					</p:column>
+					<p:column style="width:10px">
+						<p:commandLink oncomplete="confirmation.show();">
+							<p:graphicImage value="/resources/images/delete.png" height="12" width="12" />
+							<f:setPropertyActionListener value="#{att}" target="#{kgClientController.editing}"/>
+						</p:commandLink>
+					</p:column>
+					
+				</p:dataTable>
+				<p:confirmDialog message="Você tem certeza que deseja desativar esta empresa?" header="Confirmação de exclusão" severity="alert" widgetVar="confirmation">  
+			        <p:commandButton value="Sim, tenho certeza" update="clientTableBase" oncomplete="confirmation.hide()" actionListener="#{kgClientController.delete}"/>  
+			        <p:commandButton value="Não" onclick="confirmation.hide()" type="button"/>   
+			    </p:confirmDialog>
+				
+				<p:commandLink onclick="clientDialog.show();" style="margin: 3px;" styleClass="ui-icon-refresh">
+					<p:graphicImage value="/resources/images/add.png" height="12" width="12" />
+				</p:commandLink>
+				
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" style="position: absolute; top: 0; ">
+			
+				<p:dialog header="Editor" widgetVar="clientDialog" height="400" width="800" modal="true">
+					  
+					<p:fieldset id="clientFormBase" legend="Cadastro de Clients" style="height: 80%; margin-bottom: 5px;">
+			             
+			           	<h:panelGroup rendered="#{kgClientController.has}">
+			             	
+							<h:panelGrid columns="2" style="float: left;" cellpading="15">
+							
+								<h:outputLabel value="Identificação"/>
+								<p:inputText value="#{kgClientController.editing.name}" required="true" size="20" maxlength="20"/>
+								
+								<h:outputLabel value="Status"/>
+								<p:inputText value="#{kgClientController.editing.status}" disabled="true" size="20" maxlength="20"/>
+								
+								<h:outputLabel value="Protocolo"/>
+								<p:inputText value="#{kgClientController.editing.protocol}" required="true" size="20" maxlength="20"/>
+								
+								<h:outputLabel value="Username"/>
+								<p:inputText value="#{kgClientController.editing.username}" required="true" size="20" maxlength="20"/>
+								
+								<h:outputLabel value="Password"/>
+								<p:inputText value="#{kgClientController.editing.password}" required="true" size="20" maxlength="20"/>
+								
+								<h:outputLabel value="Base Url"/>
+								<p:inputText value="#{kgClientController.editing.baseUrl}" required="true" size="50" maxlength="50"/>
+								
+								<h:outputLabel value="Config Url"/>
+								<p:inputText value="#{kgClientController.editing.configUrl}" required="true" size="50" maxlength="50"/>
+								
+								<h:outputLabel value="Update Url"/>
+								<p:inputText value="#{kgClientController.editing.updateUrl}" required="true" size="50" maxlength="50"/>
+								
+								<h:outputLabel value="Monitor Url"/>
+								<p:inputText value="#{kgClientController.editing.monitorUrl}" required="true" size="50" maxlength="50"/>
+								
+								
+							</h:panelGrid>
+						
+						</h:panelGroup>
+						
+					</p:fieldset>
+					
+					<p:toolbar>
+						<p:toolbarGroup align="right">
+							<p:commandButton type="push" value="Novo" image="ui-icon-document" actionListener="#{kgClientController.create}" update="clientFormBase" />
+							<p:commandButton type="push" value="Salvar" image="ui-icon-disk" actionListener="#{kgClientController.save}" update="clientFormBase clientTableBase"/>
+							<p:commandButton type="push" value="Limpar" image="ui-icon-note" actionListener="#{kgClientController.clean}" update="clientFormBase" />
+						</p:toolbarGroup>
+					</p:toolbar>
+					
+				</p:dialog>
+				
+			</h:panelGroup>
+			
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

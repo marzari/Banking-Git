@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:decorate template="/layout/window.xhtml">
+	
+		#{procurementSupplierController.begin(3)}
+	
+		<ui:param name="windowClass" value="window-full" />
+		<ui:param name="windowTitle" value="Gerenciamento de Fornecedores" />
+
+		<ui:define name="windowBody">
+
+			<h:form id="procurementSupplierForm">
+
+				<p:dataTable id="asTable" var="sup"
+					value="#{procurementSupplierController.dataModel}" paginator="true"
+					selection="#{procurementSupplierController.selectedCollections}"
+					rows="10" resizable="true">
+
+					<p:column selectionMode="multiple" />
+
+					<f:facet name="header">
+						<p:commandButton id="modalDialogButton" value="Filtro"
+							onclick="dlg2.show();" type="button" style="float: left;" />
+					</f:facet>
+
+					<p:column headerText="Nome Fantasia">
+						<h:outputText value="#{sup.supplier.name}" />
+					</p:column>
+
+					<p:column headerText="CNPJ">
+						<h:outputText
+							value="#{sup.supplier.register.getRegistration('cnpj').value}" />
+					</p:column>
+
+					<p:column style="width:40px">
+						<p:commandButton id="selectButton" update=":procurementSupplierForm:display" process="@this"
+								oncomplete="supplierDetailDialog.show()" icon="ui-icon-search" title="View">
+							<f:setPropertyActionListener value="#{sup}" target="#{procurementSupplierController.editing}" />
+						</p:commandButton>
+					</p:column>
+
+					<f:facet name="footer">
+						<p:commandButton value="Importar" type="button" onclick="supplierImporterDialog.show();" />
+						<p:commandButton value="Gerar Remessa" actionListener="#{procurementSupplierController.export}" oncomplete="supplierExporterDialog.show();"/>
+					</f:facet>
+
+				</p:dataTable>
+
+				<ui:fragment rendered="#{procurementSupplierController.has}">
+					<ui:include src="supplierIncludeModalDetails.xhtml" />
+				</ui:fragment>
+
+				<p:dialog header="Importar Fornecedores" widgetVar="supplierImporterDialog" height="200" width="400" modal="true">
+					<p:fileUpload fileUploadListener="#{procurementSupplierController.handleFileUpload}" mode="advanced" update=":procurementSupplierForm"/>
+				</p:dialog>
+
+				<p:dialog header="Exportar Fornecedores" widgetVar="supplierExporterDialog" height="200" width="400">
+					<p:commandLink id="downloadLink" value="Download" ajax="false">
+						<p:fileDownload value="#{procurementSupplierController.file}" />
+					</p:commandLink>
+				</p:dialog>
+
+			</h:form>
+
+		</ui:define>
+
+	</ui:decorate>
+
+</ui:composition>

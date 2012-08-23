@@ -1,0 +1,90 @@
+ 
+/*  high-level */
+
+html, body {
+	height: 100%;
+	width: 100%;
+	margin: 0 auto;
+	
+	font-size: 0.89em;
+}
+
+/* .security-wrapper {
+	height: 100%;
+	width: 100%;
+} */
+
+.banner-wrapper {
+	overflow: hidden;
+}
+
+.apps-other-wrapper {
+/* 	margin: 0 -45px 0 -75px; */
+	padding: 0 75px 0 75px;
+	position: relative;
+}
+
+.apps-other-wrapper .apps-other-slider {
+	height: 83px;
+	margin-top: 35px;
+	overflow: hidden;
+}
+
+.common-first-body {
+	position: relative;
+	width: 100%;
+} 
+
+.common-main-footer {
+	width: 100%;
+	font-size: 8pt;
+}
+ 
+/*  medium level */
+ 
+.logo-wrapper {
+	position: relative;
+	top: 0px;
+	left: 67px;
+	float: left;
+	z-index: 999;
+}
+
+.portalbar-wrapper {
+	background-color: #EDEDED;
+}
+
+.portalbar-wrapper h1 {
+	position: relative;
+	top: 0px;
+	left: 50px;
+	margin: 0;
+	display: inline;
+}
+
+/* low level */
+.signinout-wrapper {
+	position: absolute;
+	top: 0px;
+	right: 3%;
+	font-size: 0.7em;
+}
+
+.signinout-wrapper input {
+	padding: 5px;
+	width: 120px;
+}
+
+.signinout-wrapper button {
+	font-size: 0.9em;
+}
+
+.logged-menubutton .ui-button-text {
+	line-height: 10pt;
+}
+
+.logged-menubutton {
+	line-height: 10pt;
+	padding: 1px;
+	font-size: 0.8em;
+}

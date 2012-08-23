@@ -1,0 +1,17 @@
+html, body  {
+	height : 100%
+}
+
+body {
+    padding:0;
+    margin: 0 auto;
+    font-size: 8pt;
+}
+
+th, td{
+	 font-size: 9pt !important;
+}
+
+.ui-datatable th, .ui-datatable td{
+	text-align: center;
+}

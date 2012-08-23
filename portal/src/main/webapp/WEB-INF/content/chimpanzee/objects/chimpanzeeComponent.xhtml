@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core" template="/layout/window.xhtml">
+
+	<ui:param name="windowClass" value="window-full" />
+	<ui:param name="windowTitle" value="Cadastro de Servidores EDI" />
+
+	<ui:define name="windowBody">
+
+		<h:panelGroup layout="block" id="objectsbase">
+				
+			<ui:fragment rendered="#{chimpanzeeComponentController.editingServer}">
+				<ui:include src="server.xhtml"/>		
+			</ui:fragment>
+			<ui:fragment rendered="#{chimpanzeeComponentController.editingClient}">
+				<ui:include src="client.xhtml"/>		
+			</ui:fragment>
+			<ui:fragment rendered="#{chimpanzeeComponentController.editingEbox}">
+				<ui:include src="ebox.xhtml"/>		
+			</ui:fragment>
+			<ui:fragment rendered="#{chimpanzeeComponentController.editingRule}">
+				<ui:include src="rule.xhtml"/>		
+			</ui:fragment>
+		
+		</h:panelGroup>
+	
+		<h:form>
+		
+			<p:fieldset>
+				<p:contextMenu for="serverTree">
+					<p:menuitem value="View" 
+						icon="ui-icon-search" oncomplete="documentDialog.show()" />
+					<p:menuitem value="Delete"
+						actionListener="#{chimpanzeeComponentController.deleteNode}" update="serverTree"
+						icon="ui-icon-close" />
+				</p:contextMenu>
+
+				<p:tree value="#{chimpanzeeComponentController.root}" var="node" id="serverTree" style="width: 700px;" selectionMode="single" selection="#{chimpanzeeComponentController.selectedNode}">
+					<p:ajax event="select" update=":objectsbase" listener="#{chimpanzeeComponentController.onNodeSelect}" />
+					<p:treeNode>
+						<h:outputText value="#{node.fullDescription}"/>
+					</p:treeNode>
+				</p:tree>
+
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

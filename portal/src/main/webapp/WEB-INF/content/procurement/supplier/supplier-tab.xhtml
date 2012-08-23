@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:decorate template="/layout/window.xhtml">
+		<ui:param name="windowClass" value="window-menu" />
+		<ui:param name="windowTitle" value="" />
+		<ui:define name="windowBody">
+			<h:form>
+				<p:menu>
+					<p:submenu label="Fornecedores">
+						<p:menuitem value="Manutenção" actionListener="#{pcController.load('SUPPLIERMAINTAIN')}" update=":tabView:supplier-menu-content"/>
+					</p:submenu>
+					<p:submenu label="Segmentos">
+						<p:menuitem value="Atribuição de Segmentos" actionListener="#{pcController.load('SUPPLIERASSIGN')}" update=":tabView:supplier-menu-content"/>
+					</p:submenu>
+				</p:menu>
+			</h:form>
+		</ui:define>
+	</ui:decorate>
+
+	<h:panelGroup layout="block" id="supplier-menu-content">
+
+		<ui:fragment rendered="#{pcController.isLoaded('SUPPLIERASSIGN')}">
+			<ui:include src="segmentAssign.xhtml"/>
+		</ui:fragment>
+		<ui:fragment rendered="#{pcController.isLoaded('SUPPLIERMAINTAIN')}">
+			<ui:include src="supplierMaintain.xhtml"/>
+		</ui:fragment>
+
+	</h:panelGroup>
+
+</ui:composition>

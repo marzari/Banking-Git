@@ -1,0 +1,66 @@
+<jboss-deployment-structure>
+	<ear-subdeployments-isolated>true</ear-subdeployments-isolated>
+	
+	<deployment>
+		<dependencies>
+			<module name="org.jboss.msc" />
+			<module name="sun.jdk" />
+		</dependencies>
+	</deployment>
+	
+	
+	<module name="deployment.architecture.jar"/>
+	<module name="deployment.utils.jar"/>
+	<module name="deployment.security.jar"/>
+	<module name="deployment.portalManager.jar"/>
+	
+	<module name="deployment.kangaroo-document.jar"/>
+	<module name="deployment.kangaroo-process.jar"/>
+	<module name="deployment.kangaroo-delivery.jar"/>
+	<module name="deployment.kangaroo-mql.jar" />
+	<module name="deployment.kangaroo-components-file.jar" />
+	
+	<module name="deployment.environment.jar"/>
+	<module name="deployment.register.jar"/>
+	<module name="deployment.enterprise.jar"/>
+	
+	<module name="deployment.banking.jar"/>
+	<module name="deployment.offer.jar"/>
+	<module name="deployment.accounting.jar"/>
+	<module name="deployment.financial.jar"/>
+	
+	<module name="deployment.budget.jar"/>
+	<module name="deployment.procurement.jar"/>
+	<module name="deployment.contract.jar"/>
+	
+	<module name="deployment.old-enterprise-model.jar" />
+	
+	<sub-deployment name="portal-piggy.war">
+		<dependencies>
+		
+			<module name="org.jboss.msc" />
+			<module name="sun.jdk" />
+			
+			<module name="deployment.kangaroo-document.jar" />
+			<module name="deployment.kangaroo-process.jar" />
+			<module name="deployment.kangaroo-delivery.jar" />
+			<module name="deployment.kangaroo-mql.jar" />
+			<module name="deployment.kangaroo-components-file.jar" />
+			
+			<module name="deployment.architecture.jar" />
+			<module name="deployment.utils.jar" />
+			<module name="deployment.portalManager.jar" />
+			<module name="deployment.environment.jar" />
+			<module name="deployment.banking.jar" />
+			<module name="deployment.budget.jar" />
+			<module name="deployment.enterprise.jar" />
+			<module name="deployment.register.jar" />
+			<module name="deployment.offer.jar" />
+			<module name="deployment.procurement.jar" />
+			<module name="deployment.security.jar" />
+			<module name="deployment.contract.jar" />
+			
+		</dependencies>
+	</sub-deployment>
+	
+</jboss-deployment-structure>

@@ -1,0 +1,61 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:composition>
+
+<h:form>
+
+<p:fieldset legend="Entidade" style="padding: 50px;">
+
+<h:panelGroup layout="block" id="partyTableBase" style="width: 100%; width: 400px;">
+
+	<p:dataTable id="partyTable" var="att" value="#{partyController.beans}" resizableColumns="true">
+		  
+		<p:ajax event="rowEdit" listener="#{partyController.saveParty}"/>
+	  	
+		<p:column headerText="Nome" style="width:150px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.name}"/></f:facet>  
+				<f:facet name="input">
+					<p:inputText value="#{att.name}" size="40" maxlength="40"/>
+				</f:facet>  
+			</p:cellEditor>  
+		</p:column>
+
+		<p:column style="width:30px">
+			<p:rowEditor/>
+		</p:column>
+		<p:column style="width:30px">
+			<p:commandLink oncomplete="confirmation.show();">
+				<p:graphicImage value="/images/delete.png" height="12" width="12"/>
+				<f:setPropertyActionListener value="#{att}" target="#{partyController.bean}" />
+			</p:commandLink>
+		</p:column>
+       
+	</p:dataTable>
+	
+	<p:confirmDialog message="Você tem certeza que deseja desativar esta entidade" header="Confirmação de exclusão" severity="alert" widgetVar="confirmation">  
+        <p:commandButton value="Sim, tenho certeza" update="partyTableBase" oncomplete="confirmation.hide()" actionListener="#{partyController.delete}"/>  
+        <p:commandButton value="Não" onclick="confirmation.hide()" type="button"/>   
+    </p:confirmDialog>
+	
+	<p:commandLink actionListener="#{partyController.addParty}" update="partyTableBase" style="margin: 3px;">
+		<p:graphicImage value="/images/add.png" height="12" width="12" />
+	</p:commandLink>
+
+</h:panelGroup>
+		
+</p:fieldset>
+
+</h:form>
+
+</ui:composition>
+
+</h:body>
+
+</html>

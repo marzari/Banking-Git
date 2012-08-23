@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:component>
+	
+	<h:panelGroup>
+	
+		<p:fieldset legend="Conta Corrente" toggleable="true" toggleSpeed="500" collapsed="true">
+			<ui:include src="accounts/checkingAccount.xhtml"/>
+		</p:fieldset>  
+	    
+	    <p:fieldset legend="Cartão de Crédito" toggleable="true" toggleSpeed="500" collapsed="true"> 
+	    	<ui:include src="accounts/creditCardAccount.xhtml"/>
+	    </p:fieldset>  
+	    
+	    <p:fieldset legend="Caixa Pequeno" toggleable="true" toggleSpeed="500" collapsed="true">  
+	    	<ui:include src="accounts/cashAccount.xhtml"/>
+	    </p:fieldset>  
+	    
+	    <p:fieldset legend="Conta Investimento" toggleable="true" toggleSpeed="500" collapsed="true">  
+	    	<ui:include src="accounts/investmentAccount.xhtml"/>
+	    </p:fieldset>  
+	    
+	    <p:fieldset legend="Conta Poupança" toggleable="true" toggleSpeed="500" collapsed="true">  
+	    	<ui:include src="accounts/savingsAccount.xhtml"/>
+	    </p:fieldset>  
+	    
+	</h:panelGroup>
+
+</ui:component>
+
+</h:body>
+	    
+</html>

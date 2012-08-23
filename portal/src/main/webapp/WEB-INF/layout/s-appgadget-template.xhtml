@@ -1,0 +1,21 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<p:panel header="#{appTitle}" styleClass="s-app-gadget">
+	
+		<img src="#{resource['primefaces-esales-theme-default:images/'.concat(appIcon).concat('-icon-small.png')]}" class="image" />
+	
+		<p class="description">#{appDescription}</p>
+	
+		<h:form style="margin-top: 30%; width: 95%; font-size: 0.8em; ">
+			<p:commandLink update=":security-wrapper" rendered="#{toSeeMore}" value="Mais Informações" 
+				actionListener="#{sessionController.attemptLogout}" process="@this" styleClass="more-info">
+			</p:commandLink>
+		</h:form>
+	
+	</p:panel>
+	
+</ui:composition>

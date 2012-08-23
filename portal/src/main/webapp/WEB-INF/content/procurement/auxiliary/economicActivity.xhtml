@@ -1,0 +1,112 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:decorate template="/layout/window.xhtml">
+
+		<ui:param name="windowClass" value="window-full" />
+		<ui:param name="windowTitle" value="Segmentos" />
+
+		<ui:define name="windowBody">
+			
+			#{economicActivityController.begin(3)}
+		
+			<h:form id="economicActivityForm">
+				
+				<p:fieldset id="economicActivityFormBase"
+							legend="Cadastro de segmento (CNAE)"
+							style="height: 80%; margin-bottom: 5px;">
+							
+				<h:panelGroup rendered="#{economicActivityController.has}">
+								
+							<h:panelGrid columns="3" style="float: left;" cellpading="15">
+
+									<h:outputLabel value="Cnae" />
+									<h:outputLabel value="Descrição" />
+									<h:outputLabel  />
+									
+									<p:inputText id="economicActivityCnae"
+										value="#{economicActivityController.editing.cnae}" size="30"
+										maxlength="30" title="Código Nacional de Atividade Econômica" />
+
+									
+									<p:inputText
+										value="#{economicActivityController.editing.description}"
+										size="30" maxlength="30" />
+										
+									<p:commandButton type="submit" value="Salvar" icon="ui-icon-disk"
+									id="economicActivitySave"
+									actionListener="#{economicActivityController.save}"
+									oncomplete="economicActivityDialog.hide();"
+									update=":economicActivityForm:economicActivityFormBase economicActivityList" ajax="false"/>
+
+								</h:panelGrid>
+							</h:panelGroup>
+							<p:focus for="economicActivityCnae" />
+						</p:fieldset>
+			
+				<p:dataTable var="economicActivity"
+					value="#{economicActivityController.beans}" sortBy="#{economicActivity.cnae}" orderBy="ascending"
+					id="economicActivityList"
+					paginator="true" rows="10"  rowsPerPageTemplate="5,10,20,50"
+					paginatorTemplate="O sistema retornou #{economicActivityController.beans.size().toString()} registros. {PageLinks}  {RowsPerPageDropdown}">
+					
+
+					<p:column headerText="CNAE" sortBy="#{economicActivity.cnae}">
+						<h:outputText value="#{economicActivity.cnae}" />
+					</p:column>
+
+					<p:column headerText="Descricao" sortBy="#{economicActivity.description}">
+						<h:outputText value="#{economicActivity.description}" />
+					</p:column>
+
+					<p:column style="width:10px">
+						<p:commandLink update=":economicActivityForm:economicActivityFormBase">
+							<p:graphicImage value="/resources/images/edit.png" height="12"
+								width="12" />
+							<f:setPropertyActionListener value="#{economicActivity}"
+								target="#{economicActivityController.editing}" />
+						</p:commandLink>
+					</p:column>
+					<p:column style="width:10px">
+						<p:commandLink oncomplete="confirmation.show();">
+							<p:graphicImage value="/resources/images/delete.png" height="12"
+								width="12" />
+							<f:setPropertyActionListener value="#{economicActivity}"
+								target="#{economicActivityController.editing}" />
+						</p:commandLink>
+					</p:column>
+
+				</p:dataTable>
+
+				<p:confirmDialog message="Excluir este segmento"
+					header="Confirmação de exclusão" severity="alert"
+					widgetVar="confirmation">
+					<p:commandButton value="Sim, tenho certeza"
+						update="economicActivityList" oncomplete="confirmation.hide()"
+						actionListener="#{economicActivityController.delete}" />
+					<p:commandButton value="Não" onclick="confirmation.hide()"
+						type="button" />
+				</p:confirmDialog>
+
+				<p:commandLink style="margin: 3px;" styleClass="ui-icon-refresh"
+					actionListener="#{economicActivityController.create}"
+					update=":economicActivityForm:economicActivityFormBase">
+					<p:graphicImage value="/resources/images/add.png" height="12"
+						width="12" />
+				</p:commandLink>
+
+
+				<!-- Modal to forms -->
+			
+
+
+
+			</h:form>
+		</ui:define>
+
+	</ui:decorate>
+
+</ui:composition>

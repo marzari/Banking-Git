@@ -1,0 +1,13 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+
+	<h:form enctype="multipart/form-data">
+		<p:fileUpload fileUploadListener="#{mqlLayoutImporterController.handleFileUpload}" mode="advanced" update="messages"  />
+		<p:growl id="messages" showDetail="true"/>  
+	</h:form>
+
+</ui:composition>

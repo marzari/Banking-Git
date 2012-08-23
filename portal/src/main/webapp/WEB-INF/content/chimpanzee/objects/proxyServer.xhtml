@@ -1,0 +1,140 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:form id="formRegistryProxyServer">
+	
+		#{proxyServerController.begin(3)}
+
+		<h:panelGroup id="ProxyServerCreation">
+
+			<p:fieldset legend="Cadastro de Proxies"
+				rendered="#{proxyServerController.has}">
+				<h:panelGrid columns="4" style="float: float;" cellpading="40">
+
+					<h:outputLabel value="Host" />
+					<p:inputText id="hostServ" size="20"
+						title="Host ex: servidor esales"
+						value="#{proxyServerController.editing.host}" />
+
+					<h:outputLabel value="Usuário" />
+					<p:inputText id="userServer"
+						value="#{proxyServerController.editing.user}" size="20"
+						title="User ex: admin" />
+
+					<h:outputLabel value="Porta" />
+					<p:inputText id="portServ"
+						value="#{proxyServerController.editing.port}" size="20"
+						title="Port ex: 8085" required="true" />
+
+					<h:outputLabel value="Senha" />
+					<p:inputText id="passServer"
+						value="#{proxyServerController.editing.password}" size="20"
+						title="Pass ex: adminadmin" />
+
+					<h:outputLabel value="Tipo" />
+					<p:selectOneMenu value="#{proxyServerController.editing.type}">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItem itemLabel="SOCKS4" itemValue="SOCKS4" />
+						<f:selectItem itemLabel="SOCKS5" itemValue="SOCKS5" />
+						<f:selectItem itemLabel="HTTP" itemValue="HTTP" />
+					</p:selectOneMenu>
+
+					<p:tooltip for="hostServ" showEvent="focus" hideEvent="blur" />
+
+					<p:commandButton value="Salvar" update="@form proxyList"
+						process="@form" actionListener="#{proxyServerController.save}" />
+
+					<p:tooltip for="portServ" showEvent="focus" hideEvent="blur" />
+					<p:tooltip for="userServer" showEvent="focus" hideEvent="blur" />
+					<p:tooltip for="passServer" showEvent="focus" hideEvent="blur" />
+
+				</h:panelGrid>
+			</p:fieldset>
+		</h:panelGroup>
+		
+		<h:panelGroup id="proxyList">
+			<p:dataTable id="proxys" var="proxys"
+				value="#{proxyServerController.beans}" style="float"
+				paginator="true" rows="10" rowsPerPageTemplate="5,10,20,50"
+				sortOrder="descending"
+				paginatorTemplate="O sistema retornou #{proxyServerController.beans.size().toString()} registros. {PageLinks}  {RowsPerPageDropdown}">
+
+				<!-- 				selectionMode="single"  -->
+				<p:columnGroup type="header">
+					<p:row>
+						<p:column colspan="7" style="width:20px" headerText="Proxies List" />
+					</p:row>
+
+					<p:row>
+						<p:column rowspan="2" style="width:20px" headerText="Host/IP" />
+						<p:column rowspan="2" style="width:20px" headerText="Porta" />
+						<p:column rowspan="2" style="width:20px" headerText="Tipo" />
+						<p:column colspan="2" style="width:20px" headerText="Autenticação" />
+						<p:column rowspan="2" style="width:20px" headerText="Editar" />
+						<p:column rowspan="2" style="width:20px" headerText="Deletar" />
+					</p:row>
+
+					<p:row>
+						<p:column style="width:20px" headerText="Usuário" />
+						<p:column style="width:20px" headerText="Senha" />
+					</p:row>
+
+
+				</p:columnGroup>
+				<p:column>
+					<h:outputText value="#{proxys.host}" />
+				</p:column>
+				<p:column>
+					<h:outputText value="#{proxys.port}" />
+				</p:column>
+				<p:column>
+					<h:outputText value="#{proxys.type}" />
+				</p:column>
+				<p:column>
+					<h:outputText value="#{proxys.user}" />
+				</p:column>
+				<p:column>
+					<h:outputText value="#{proxys.password}" />
+				</p:column>
+				<p:column>
+					<p:commandLink update="@form">
+						<p:graphicImage value="/resources/images/edit.png" height="12"
+							width="12" />
+						<f:setPropertyActionListener value="#{proxys}"
+							target="#{proxyServerController.editing}" />
+					</p:commandLink>
+				</p:column>
+				<p:column>
+					<p:commandLink oncomplete="confirmation.show();" update="@form">
+						<p:graphicImage value="/resources/images/delete.png" height="12"
+							width="12" />
+						<f:setPropertyActionListener value="#{proxys}"
+							target="#{proxyServerController.editing}" />
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</h:panelGroup>
+
+		<p:confirmDialog message="Excluir Proxy?"
+			header="Confirmação de exclusão" severity="alert"
+			widgetVar="confirmation"
+			closable="false">
+			<p:commandButton value="Sim, tenho certeza" update="@form proxyList"
+				oncomplete="confirmation.hide()"
+				actionListener="#{proxyServerController.delete}" />
+			<p:commandButton value="Não" onclick="confirmation.hide()"
+				type="button" />
+		</p:confirmDialog>
+
+		<p:commandLink style="margin: 3px;" styleClass="ui-icon-refresh"
+			actionListener="#{proxyServerController.create}" update="@form"
+			process="@this">
+			<p:graphicImage value="/resources/images/add.png" height="12"
+				width="12" />
+		</p:commandLink>
+
+	</h:form>
+</ui:composition>

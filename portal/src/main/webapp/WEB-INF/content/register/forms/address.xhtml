@@ -1,0 +1,66 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:form>
+		!!!! <p:commandLink value="aaa" actionListener="#{parentController.qualquer}" process="@this"  type="push"/> !!!!
+	</h:form>
+	
+	<p:fieldset legend="Endereços" toggleable="true" styleClass="addressFieldset">
+		<h:form id="addressForm" styleCLass="addressFormStyle" rendered="#{legalRegisterController.addressController.has}">
+			<h:panelGrid id="editAddress" columns="2" cellpadding="5">
+				<ui:remove>
+<!-- 					<h:outputLabel value="Categoria"/> -->
+<!-- 						<p:selectManyCheckbox value="#{legalRegisterController.addressController.editing.categories}" converter="categoryConverter"> -->
+<!-- 						<f:selectItems value="#{categoryDimensionController.getCategoriesFromDimension('Contatos')}" var="cat" itemValue="#{cat}" itemLabel="#{cat.name}"/> -->
+<!-- 					</p:selectManyCheckbox> -->
+				</ui:remove>
+			
+				<h:outputLabel value="Logradouro" />
+				<h:outputLabel value="Número" />
+					
+				<p:inputText size="30" maxlength="30" value="#{legalRegisterController.addressController.editing.street}" />
+				<p:inputText size="30" maxlength="30" value="#{legalRegisterController.addressController.editing.number}" />
+				
+				<h:outputLabel value="" />
+				<p:commandButton value="Salvar" id="addressSaveButton" actionListener="#{legalRegisterController.addressController.save}" update="@(.addressFieldset)" />
+				
+			</h:panelGrid>
+		</h:form>
+		<h:form id="addressNewAndClean">
+			<p:commandLink value="Novo Endereço" actionListener="#{legalRegisterController.addressController.create}" update="@(.addressFieldset)"/>
+			<p:commandLink value=" addressClean" actionListener="#{parentController.clean}" update="@(.addressFieldset)"/>
+
+		</h:form>
+		<h:form id="addressCarouselForm" styleClass="addressCarouselForm">
+			<p:carousel id="addressCarousel" value="#{legalRegisterController.editing.addresses}" var="address" 
+				headerText="Endereços" rendered="#{legalRegisterController.editing.addresses.size() > 0}" styleClass="addressCarousel">
+				<p:column> 
+					<h:panelGrid columns="2" cellpadding="5">  
+						.<h:outputText id="street" value="#{address.street}" />
+						.<h:outputText id="number" value="#{address.number}" />
+		            </h:panelGrid>  
+					<p:commandButton value="Editar" id="addressEditButton" update="@(.addressFieldset)">
+						<f:setPropertyActionListener value="#{address}"   
+							target="#{legalRegisterController.addressController.editing}" />
+					</p:commandButton>
+					<p:commandButton value="Excluir" id="addressDeleteButton" oncomplete="addressConfirmationDialog.show()">
+						<f:setPropertyActionListener value="#{address}"   
+							target="#{legalRegisterController.addressController.editing}" />
+					</p:commandButton>
+				</p:column>  
+			</p:carousel>
+			<p:confirmDialog message="Excluir este Endereço?"
+				header="Confirmação de exclusão" severity="alert"
+				widgetVar="addressConfirmationDialog">
+				<p:commandButton value="Sim, tenho certeza" update="@(.addressFieldset)"
+					oncomplete="addressConfirmationDialog.hide()" 
+					actionListener="#{legalRegisterController.addressController.delete}" />
+				<p:commandButton value="Não" onclick="addressConfirmationDialog.hide()"
+					type="button" />
+			</p:confirmDialog>
+		</h:form>
+	</p:fieldset>
+	
+</ui:composition>

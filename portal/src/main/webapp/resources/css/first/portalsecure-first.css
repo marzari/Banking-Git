@@ -1,0 +1,38 @@
+#secure-first-body {
+	height: 100%;
+	width: 100%;
+}
+
+.signinout-wrapper .logged-item {
+	text-decoration: none;
+}
+
+.applicationsbar-title {
+	float: left;
+	margin-left: 42px;
+}
+
+
+.applicationsbar-title h1 {
+	margin: 0;
+	font-size: 20px;
+	position: relative;
+	top: 0px;
+	left: 50px;
+	margin: 0;
+}
+
+.applicationsbar-applicationsMenu {
+	float: right;
+	font-size: 0.9em;
+	margin-right: 40px;
+}
+
+.applicationsbar-applicationsMenu-menubar {
+	border: none !important;
+	background: transparent;
+}
+
+.applicationsbar-applicationsMenu-menubar .ui-menuitem-text {
+	color: olive;
+}

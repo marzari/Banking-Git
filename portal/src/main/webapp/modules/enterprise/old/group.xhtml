@@ -1,0 +1,59 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:composition>
+
+<h:form>
+
+<h:panelGroup layout="block" id="companyGroupTableBase" style="width: 300px; margin: 50px;" >
+
+	<p:dataTable var="att" value="#{companyGroupController.beans}">  
+		  
+		<p:ajax event="rowEdit" listener="#{companyGroupController.saveGroup}"/>
+		
+		<f:facet name="header">
+			Grupo Econômico  
+        </f:facet> 
+	  	
+		<p:column headerText="Nome" style="width:150px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.name}"/></f:facet>  
+				<f:facet name="input"><p:inputText value="#{att.name}" style="width:90%"/></f:facet>  
+			</p:cellEditor>  
+		</p:column>
+
+		<p:column style="width:10px">
+			<p:rowEditor/>
+		</p:column>
+		<p:column style="width:10px">
+			<p:commandLink oncomplete="confirmation.show();">
+				<p:graphicImage value="/images/delete.png" height="12" width="12"/>
+				<f:setPropertyActionListener value="#{att}" target="#{companyGroupController.bean}" />
+			</p:commandLink>
+		</p:column>
+       
+	</p:dataTable>
+	
+	<p:confirmDialog message="Você tem certeza que deseja desativar este grupo" header="Confirmação de exclusão" severity="alert" widgetVar="confirmation">  
+        <p:commandButton value="Sim, tenho certeza" update="companyGroupTableBase" oncomplete="confirmation.hide()" actionListener="#{companyGroupController.delete}"/>  
+        <p:commandButton value="Não" onclick="confirmation.hide()" type="button"/>   
+    </p:confirmDialog>
+	
+	<p:commandLink actionListener="#{companyGroupController.addGroup}" update="companyGroupTableBase" style="margin: 3px;">
+		<p:graphicImage value="/images/add.png" height="12" width="12" />
+	</p:commandLink>
+
+</h:panelGroup>
+
+</h:form>
+
+</ui:composition>
+
+</h:body>
+
+</html>

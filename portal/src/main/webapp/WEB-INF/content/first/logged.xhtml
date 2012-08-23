@@ -1,0 +1,90 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<h:form>
+	
+	<h:panelGrid columns="15" cellpading="25" styleClass="signinout-wrapper">
+	
+		<!-- Removendo imagens -->
+		<ui:remove>
+			<p:commandLink update=":security-wrapper" actionListener="#{sessionController.attemptLogout}" process="@this" styleClass="logged-item">
+				<p:graphicImage value="/resources/images/icons/messages.png" style="height: 100%; margin-right: 20px;" />
+			</p:commandLink>
+			<p:commandLink update=":security-wrapper" actionListener="#{sessionController.attemptLogout}" process="@this" styleClass="logged-item">
+				<p:graphicImage value="/resources/images/icons/users-icon.png" style="height: 100%; margin-right: 20px;" />
+			</p:commandLink>
+			<p:commandLink update=":security-wrapper" actionListener="#{sessionController.attemptLogout}" process="@this" styleClass="logged-item">
+				<p:graphicImage value="/resources/images/notificationBell.png" style="height: 120%; margin-right: 20px;" />
+			</p:commandLink>
+		</ui:remove>
+		
+		<h:outputText value="Olá, #{sessionController.loggedUser.fullName}" styleClass="logged-item"/>
+		<span class="menu-separator ui-icon ui-splitter dark" styleClass="logged-item"/>
+		
+		<ui:fragment rendered="#{sessionController.hasPermissionTo('view', 'profile')}">
+			<p:commandLink value="Perfil" update=":secure-first-body" 
+				actionListener="#{secureSiteController.load('PROFILE')}" process="@this" styleClass="logged-item"/>
+		</ui:fragment>
+		<ui:fragment rendered="#{sessionController.hasPermissionTo('view', 'profile')}">
+			<span class="menu-separator ui-icon ui-splitter dark" styleClass="logged-item"/>
+		</ui:fragment>
+		
+		<p:commandLink value="Chat" update=":secure-first-body" 
+			actionListener="#{secureSiteController.load('SUPPORT')}" process="@this" styleClass="logged-item"/>
+		<span class="menu-separator ui-icon ui-splitter dark" styleClass="logged-item"/>
+			
+		<p:commandLink value="Notícias" update=":secure-first-body" 
+			actionListener="#{secureSiteController.load('NEWS')}" process="@this" styleClass="logged-item"/>
+		<span class="menu-separator ui-icon ui-splitter dark" styleClass="logged-item"/>
+		
+		<p:commandLink value="Sair" update=":secure-first-body" 
+			actionListener="#{sessionController.attemptLogout}" process="@this" styleClass="logged-item logout"/>
+		<p:commandLink value="" update=":secure-first-body" 
+			actionListener="#{sessionController.attemptLogout}" process="@this" styleClass="logged-item ui-circle-x"/>
+		<span class="menu-separator ui-icon ui-splitter dark" styleClass="logged-item"/>
+		
+		<p:commandLink actionListener="#{languageController.setLanguage('pt_BR')}" process="@this" update=":security-wrapper" styleClass="ui-icon-refresh">
+			<img src="#{resource['primefaces-esales-theme-default:images/brazil.png']}" />
+		</p:commandLink>
+		<p:commandLink actionListener="#{languageController.setLanguage('en_US')}" process="@this" update=":security-wrapper" styleClass="ui-icon-refresh">
+			<img src="#{resource['primefaces-esales-theme-default:images/usa.png']}" />
+		</p:commandLink>
+		<p:commandLink actionListener="#{languageController.setLanguage('es_ES')}" process="@this" update=":security-wrapper" styleClass="ui-icon-refresh">
+			<img src="#{resource['primefaces-esales-theme-default:images/spain.png']}" />
+		</p:commandLink>
+		
+		<ui:remove>
+			<p:commandLink id="loggedMenuButton">
+				<p:graphicImage value="/resources/images/icons/arrow-down.png" />
+			</p:commandLink>
+			<p:menu overlay="true" trigger="loggedMenuButton" my="left top" at="left bottom">
+				
+				<p:menuitem value="Notícias" actionListener="#{secureSiteController.load('NEWS')}" 
+					styleClass="logged-item" update=":secure-first-body" style="font-size: 0.7em"/>
+				<p:menuitem value="Suporte" actionListener="#{secureSiteController.load('SUPPORT')}" 
+					styleClass="logged-item" update=":secure-first-body" style="font-size: 0.7em"/>
+				<p:separator/>
+				<p:menuitem value="Minha Conta" actionListener="#{sessionController.attemptLogout}" 
+					styleClass="logged-item" update=":security-wrapper" style="font-size: 0.7em"/>
+				
+				<p:separator rendered="#{sessionController.hasPermissionTo('view', 'administration')}"/>
+				<p:menuitem value="Administração" actionListener="#{secureSiteController.load('ADMIN')}" 
+					styleClass="logged-item" update=":secure-first-body" style="font-size: 0.7em"
+					rendered="#{sessionController.hasPermissionTo('view', 'administration')}"/>
+				<p:separator/>
+				
+				<p:menuitem value="Sign Out" actionListener="#{sessionController.attemptLogout}" 
+					styleClass="logged-item" update=":security-wrapper" style="font-size: 0.7em"/>
+			</p:menu>
+		</ui:remove>
+		
+	
+	</h:panelGrid>
+	
+	</h:form>
+	
+	
+</ui:composition>

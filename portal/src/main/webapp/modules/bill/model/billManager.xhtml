@@ -1,0 +1,131 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:kui="http://java.sun.com/jsf/composite/comp/ui">
+
+<h:body>
+
+<ui:composition>
+
+<h:form>
+
+	<h:panelGrid columns="4" cellpadding="5">
+
+		<p:selectOneMenu value="#{billManagerController.company}" converter="companyConverter" style="width: 250px;">  
+			<f:selectItem itemLabel="Selecione Empresa" itemValue=""/>  
+			<f:selectItems value="#{companyController.beans}" var="cp" itemValue="#{cp}" itemLabel="#{cp.behavior.name}"/>
+			<p:ajax update="methodSearch"/>  
+		</p:selectOneMenu>
+	
+		<h:panelGroup layout="block" id="methodSearch" style="width: 150px;">
+	
+			<p:selectOneMenu value="#{billManagerController.searchMethod}" style="width: 150px;" rendered="#{billManagerController.hasCompany()}">
+				<f:selectItem itemLabel="Tipo de faturamento" itemValue="" />  
+				<f:selectItem itemValue="BYDATE" itemLabel="Por data" />
+				<f:selectItem itemValue="BYCONTRACTITEM" itemLabel="Por item de contrato" />
+				<p:ajax update="specificSearch"/> 
+			</p:selectOneMenu>
+			
+		</h:panelGroup>
+		
+		<h:panelGroup layout="block" id="specificSearch" style="width: 200px;">
+			
+			 <p:autoComplete rendered="#{billManagerController.isByContractItemSearch()}" 
+                    value="#{billManagerController.selectedItem}" minQueryLength="3"    
+                    completeMethod="#{billManagerController.getItensAC}"/>
+                    
+             <p:calendar value="#{billManagerController.selected}" pattern="dd/MM/yyyy" 
+             		rendered="#{billManagerController.isByDateSearch()}" >
+             	<p:ajax event="dateSelect" update="okButton" />  
+             </p:calendar>
+			
+		</h:panelGroup>
+		
+		<h:panelGroup layout="block" id="okButton" style="width: 200px;">
+			<p:commandButton value="OK" update="contractItemForBill" rendered="#{billManagerController.searchReady()}" 
+	             actionListener="#{billManagerController.doSearch}" /> 
+        </h:panelGroup>
+	
+	</h:panelGrid>
+	
+	<h:panelGroup layout="block" id="contractItemForBill" style="margin: 20px 0px;">
+	
+		<p:dataTable value="#{billManagerController.items}" var="cib">
+  
+	        <f:facet name="header">
+	            Faturamento Itens de Contrato
+	        </f:facet>
+	
+			<p:column headerText="Referência" style="width:50px">
+				<p:cellEditor>
+					<f:facet name="output"><h:outputText value="#{cib.reference}" converter="dateCalendarConverter" pattern="dd/MM/yyyy"/></f:facet>
+					<f:facet name="input"><h:outputText value="#{cib.reference}" converter="dateCalendarConverter" pattern="dd/MM/yyyy"/></f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Empresa" style="width:200px">
+				<p:cellEditor>
+					<f:facet name="output"><h:outputText value="#{cib.company.behavior.name}"/></f:facet>
+					<f:facet name="input"><h:outputText value="#{cib.company.behavior.name}"/></f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Cliente" style="width:200px">
+				<p:cellEditor>
+					<f:facet name="output"><h:outputText value="#{cib.costumer.behavior.name}"/></f:facet>
+					<f:facet name="input"><h:outputText value="#{cib.costumer.behavior.name}"/></f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Contrato" style="width:70px">
+				<p:cellEditor>
+					<f:facet name="output"><h:outputText value="#{cib.contract.name}"/></f:facet>
+					<f:facet name="input"><h:outputText value="#{cib.contract.name}"/></f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Situação C" style="width:50px">
+				<p:cellEditor>
+					<f:facet name="output"><h:outputText value="#{cib.contractSituation}"/></f:facet>
+					<f:facet name="input"><h:outputText value="#{cib.contractSituation}"/></f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Item" style="width:70px">
+				<p:cellEditor>
+					<f:facet name="output"><h:outputText value="#{cib.contractItem.name}"/></f:facet>
+					<f:facet name="input"><h:outputText value="#{cib.contractItem.name}"/></f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Situação I" style="width:50px">
+				<p:cellEditor>
+					<f:facet name="output"><h:outputText value="#{cib.contractItemSituation}"/></f:facet>
+					<f:facet name="input"><h:outputText value="#{cib.contractItemSituation}"/></f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Faturado" style="width:50px">
+				<p:cellEditor>
+					<f:facet name="output"><h:outputText value="#{cib.billingStatus}"/></f:facet>
+					<f:facet name="input"><h:outputText value="#{cib.billingStatus}"/></f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="OS" style="width:50px">
+				<p:cellEditor>
+					<f:facet name="output"><h:outputText value="#{cib.bill.number}"/></f:facet>
+					<f:facet name="input"><h:outputText value="#{cib.bill.number}"/></f:facet>
+				</p:cellEditor>
+			</p:column>
+			
+			<p:column style="width:20px">
+	            <p:rowEditor/>
+	        </p:column>
+
+	    </p:dataTable>
+	
+	</h:panelGroup>
+	
+
+</h:form>
+
+</ui:composition>
+
+</h:body>
+
+</html>

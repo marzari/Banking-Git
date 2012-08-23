@@ -1,0 +1,119 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core" template="/layout/window.xhtml">
+
+	<ui:param name="windowClass" value="window-full" />
+	<ui:param name="windowTitle"
+		value="Cadastramento e Manutencao de perfis" />
+
+	<ui:define name="windowBody">
+
+		<h:form id="formRegistryProfileTop">
+
+			<p:fieldset id="formSchedulingTop" legend="Cadastro de Perfil"
+				style="height: 80%; margin-bottom: 5px;">
+
+				<h:panelGroup rendered="#{profileComponentController.has}">
+
+					<h:panelGrid columns="4" style="float: float;" cellpading="40"
+						border="1">
+
+						<h:outputLabel value="Nome:" />
+						<p:inputText id="nameProfile" size="11" title="Nome ex: Leandro"
+							value="#{profileComponentController.editing.nome}"
+							required="true" />
+						<h:outputLabel />
+						<h:outputLabel />
+
+							<p:pickList id="pickList"
+								value="#{groupServerController.dualListGroup}" var="servers"
+								converter="serverConverter" itemLabel="#{servers.nome}"
+								itemValue="#{servers}">
+								<f:facet name="originalSource">Servidores Disponíveis</f:facet>
+								<f:facet name="target">Servidores Atribuídos</f:facet>
+							</p:pickList>
+
+
+					</h:panelGrid>
+				</h:panelGroup>
+
+				<p:commandButton id="saveMonitor" value="Salvar"
+					style="float:right;"
+					update=":formRegistryScheduling:formSchedulingTop agendamentoList"
+					actionListener="#{schedulingComponentController.save}" />
+			</p:fieldset>
+
+
+			<p:dataTable id="agendamentoList" var="agendamento"
+				value="#{schedulingComponentController.beans}" paginator="true"
+				rows="10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15">
+				<f:facet name="header">  
+           				Agendamentos  
+       				</f:facet>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Nome" />
+					</f:facet>
+					<h:outputText value="#{agendamento.nome}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Pasta" />
+					</f:facet>
+					<h:outputText value="#{agendamento.multiplicidade}" />
+				</p:column>
+
+
+
+
+				<p:column style="width:10px">
+					<p:commandLink
+						update=":formRegistryScheduling:formSchedulingTop :formRegistryScheduling:formSchedulingDown">
+						<p:graphicImage value="/resources/images/edit.png" height="12"
+							width="12" />
+						<f:setPropertyActionListener value="#{agendamento}"
+							target="#{schedulingComponentController.editing}" />
+					</p:commandLink>
+				</p:column>
+
+				<p:column style="width:10px">
+					<p:commandLink oncomplete="confirmation.show();"
+						update=":formRegistryScheduling:formSchedulingTop :formRegistryScheduling:formSchedulingDown">
+						<p:graphicImage value="/resources/images/delete.png" height="12"
+							width="12" />
+						<f:setPropertyActionListener value="#{agendamento}"
+							target="#{schedulingComponentController.editing}" />
+					</p:commandLink>
+				</p:column>
+
+			</p:dataTable>
+			<p:confirmDialog message="Excluir tipo de criticidade?"
+				header="Confirmação de exclusão" severity="alert"
+				widgetVar="confirmation">
+				<p:commandButton value="Sim, tenho certeza"
+					update=":formRegistryScheduling:formSchedulingTop agendamentoList"
+					oncomplete="confirmation.hide()"
+					actionListener="#{schedulingComponentController.delete}" />
+				<p:commandButton value="Não" onclick="confirmation.hide()"
+					type="button" />
+			</p:confirmDialog>
+
+			<p:commandLink style="margin: 3px;" styleClass="ui-icon-refresh"
+				actionListener="#{schedulingComponentController.create}"
+				update=":formRegistryScheduling:formSchedulingTop :formRegistryScheduling:formSchedulingDown">
+				<p:graphicImage value="/resources/images/add.png" height="12"
+					width="12" />
+			</p:commandLink>
+
+
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

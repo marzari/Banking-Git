@@ -1,0 +1,397 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:composition>
+
+<p:toolbar>
+
+	<p:toolbarGroup align="left">
+	
+		<p:commandButton type="push" value="Salvar" image="ui-icon-disk" actionListener="#{realizedOfferController.save}" update="realizedOfferBase"/>
+		<p:commandButton type="push" value="Limpar" image="ui-icon-note" actionListener="#{realizedOfferController.clean}" update="realizedOfferBase"/>
+		
+	</p:toolbarGroup>
+	
+</p:toolbar>
+
+<h:panelGroup layout="block" id="realizedOfferBase">
+
+	<h:panelGroup layout="block" id="realizedOfferForm">
+	
+		<h:panelGroup layout="block" class="left_panel" style="width: 290px; margin-top: 10px; height: 450px; float: left; ">
+			
+			<p:fieldset legend="Unidades de Instalação" style="margin: 6px;" >
+				
+				<h:panelGrid columns="2" style="float: left; width: 29%;" cellpadding="5">
+				
+					<h:outputLabel value="Unidade" />  
+					<p:selectOneMenu value="#{realizedOfferController.bean.offer}" converter="realizedOfferConverter" style="width: 150px;">
+						<f:selectItems value="#{realizedInstrumentController.availableOffers}" var="ro" itemLabel="#{ro.name}" itemValue="#{ro}"/>
+						<p:ajax update="specifics" listener="#{realizedOfferController.onOfferSelect}" />
+					</p:selectOneMenu>
+					
+			        <h:outputLabel value="Descrição" />
+			        <p:inputText value="#{realizedOfferController.bean.description}" size="20" maxlength="20" style="float: left"/>
+					
+				</h:panelGrid>
+				
+			</p:fieldset>
+			
+			<p:fieldset legend="Situação" style="margin: 6px;" >
+			
+				<h:panelGrid columns="3" cellpadding="5" id="offerSituationResume">
+				
+					<h:outputLabel value="Situação"/>
+					<p:inputText label="Nome" value="#{realizedOfferController.bean.lastSituation}" size="15" maxlength="15" disabled="true"/>
+					<p:commandButton value="Adicionar" onclick="rosit.show()" type="button" style="margin-left: 7px;"/>
+					
+				</h:panelGrid>
+			
+			</p:fieldset>
+		
+		</h:panelGroup>
+		
+		
+		<h:panelGroup layout="block" class="middle_panel" style="width: 290px; margin-top: 10px; height: 450px; float: left; ">
+			
+			<p:accordionPanel autoHeight="false" style="height: 300px;">
+				
+			    <p:tab title="Correção Monetária">  
+			    
+					<h:panelGroup layout="block" style="height: 220px;">
+	
+					 	<h:panelGrid columns="2" cellpadding="5">
+
+							<h:outputLabel value="Índice"/>
+							<p:selectOneMenu value="#{realizedOfferController.bean.inflationIndex}" style="width: 100px;">  
+								<f:selectItem itemLabel=" -- x -- " itemValue="NONE" />  
+								<f:selectItem itemLabel="IGPM" itemValue="IGPM" />  
+								<f:selectItem itemLabel="IPCA" itemValue="IPCA" />
+								<f:selectItem itemLabel="INPC" itemValue="INPC" />  
+							</p:selectOneMenu>
+
+							<h:outputLabel value="Data base"/>
+							<p:calendar value="#{realizedOfferController.bean.inflationBaseDate}" converter="#{dateCalendarConverter}" pattern="dd/MM/yyyy" />
+				
+							<h:outputLabel value="Atualiza Automático"/>
+							<p:selectBooleanCheckbox value="#{realizedOfferController.bean.automatic}"/>
+
+							<h:outputLabel value="Histórico"/>
+							<p:commandButton value="Visualizar" onclick="roinfl.show();" style="margin-left: 7px;"/>
+
+						</h:panelGrid>
+
+					</h:panelGroup>
+
+				</p:tab>
+  
+				<p:tab title="Informações Comerciais">
+						
+					<h:panelGroup layout="block" style="height: 220px;" id="offerOwnersResume">
+					
+						<h:panelGrid columns="2" cellpadding="5">
+						
+							<h:outputLabel value="Vendedor"/>
+							<p:inputText label="Nome" value="#{realizedOfferController.bean.lastSellerDescription}" size="15" maxlength="15" disabled="true" style="float:left;"/>
+							
+							<h:outputLabel value="Regional"/>
+							<p:inputText label="Nome" value="#{realizedOfferController.bean.lastRegionalDescription}" size="15" maxlength="15" disabled="true" style="float:left;"/>
+							
+							<h:outputLabel value="Gerente de conta"/>
+							<p:inputText label="Nome" value="#{realizedOfferController.bean.lastManagerDescription}" size="15" maxlength="15" disabled="true" style="float:left;"/>
+						
+						</h:panelGrid>
+						
+						<p:commandButton value="Detalhar" onclick="roowner.show()" type="button" style="margin-left: 7px;"/>
+					 
+					</h:panelGroup>
+				 
+				</p:tab>
+ 
+				<p:tab title="Comissões">
+				 
+					<h:panelGroup id="comissionTableBaseRO" layout="block" style="height: 220px;">
+							
+						<p:dataTable value="#{realizedOfferController.bean.comissions}" var="att">
+  
+				  			<p:ajax event="rowEdit" listener="#{realizedOfferController.saveEditingComission}" update="@none"/>
+				  		
+					        <f:facet name="header">
+					            Tabela de Comissões
+					        </f:facet>
+					
+					        <p:column headerText="Vendedor">
+					            <p:cellEditor>
+					                <f:facet name="output"><h:outputText value="#{att.representative.behavior.name}"/></f:facet>
+					                <f:facet name="input">
+					                	<p:autoComplete value="#{att.representative}" size="15" maxlength="15"
+							            	completeMethod="#{realizedInstrumentController.getAvailableRepresentatives}" var="c" 
+							            	itemLabel="#{c.name}" itemValue="#{c}" converter="representativeConverter"/> 
+					                </f:facet>
+					            </p:cellEditor>
+					        </p:column>
+					        
+					        <p:column headerText="B">
+					            <p:cellEditor>
+					                <f:facet name="output"><h:outputText value="#{att.baseValueRate}"/></f:facet>
+					                <f:facet name="input"><p:spinner value="#{att.baseValueRate}" min="1" max="100" size="3" maxlength="3" stepFactor="0.5"/></f:facet>
+					            </p:cellEditor>
+					        </p:column>
+					        
+					        <p:column headerText="D">
+					            <p:cellEditor>
+					                <f:facet name="output"><h:outputText value="#{att.duration}"/></f:facet>
+					                <f:facet name="input"><p:spinner value="#{att.duration}" min="1" max="48" size="2" maxlength="2"/></f:facet>
+					            </p:cellEditor>
+					        </p:column>
+					        
+					        <p:column headerText="C">
+					            <p:cellEditor>
+					                <f:facet name="output"><h:outputText value="#{att.comissionRate}"/></f:facet>
+					                <f:facet name="input"><p:spinner value="#{att.comissionRate}" min="1" max="99" size="3" maxlength="3" stepFactor="0.5"/></f:facet>
+					            </p:cellEditor>
+					        </p:column>
+					        
+					        <p:column>
+					            <p:rowEditor/>
+					        </p:column>
+					  
+					    </p:dataTable>
+					    
+					    <p:commandLink actionListener="#{realizedOfferController.addComission}" style="margin: 3px;" update="comissionTableBaseRO">
+							<p:graphicImage value="/images/add.png" height="12" width="12" />
+						</p:commandLink>
+					
+					</h:panelGroup>
+				  
+				</p:tab>
+				
+				<p:tab title="CRM">
+					 
+					<h:panelGroup layout="block" style="height: 220px;">
+						
+						<h:panelGrid columns="2" cellpadding="5" >
+				
+							<h:outputLabel value="Oportunidade"/>
+							<p:inputText/>
+						
+						</h:panelGrid>
+					
+					</h:panelGroup>
+				  
+				</p:tab>
+			    
+			</p:accordionPanel>
+			
+		</h:panelGroup>
+		
+		
+		<h:panelGroup layout="block" class="right_panel" style="width: 290px; margin-top: 10px; height: 450px; float: left; ">
+		
+		
+		
+		</h:panelGroup>
+	
+	</h:panelGroup>
+	
+	<p:dialog widgetVar="rosit" modal="true">
+
+		<h:panelGroup layout="block" id="situationBaseRO">
+		
+			<p:dataTable value="#{realizedOfferController.bean.situations}" var="att">
+  
+	  			<p:ajax event="rowEdit" listener="#{realizedOfferController.saveEditingSituation}" update="offerSituationResume"/>
+	  		
+		        <f:facet name="header">
+		            Histórico de Situação
+		        </f:facet>
+		
+		        <p:column headerText="Data" style="width:80px">
+		            <p:cellEditor>
+		                <f:facet name="output"><h:outputText value="#{att.when}" converter="dateCalendarConverter"/></f:facet>
+		                <f:facet name="input"><p:calendar value="#{att.when}" converter="dateCalendarConverter" pattern="dd/MM/yyyy" style="width:90%"/></f:facet>
+		            </p:cellEditor>
+		        </p:column>
+		  
+		        <p:column headerText="Situação" style="width:80px">
+		            <p:cellEditor>
+		                <f:facet name="output"><h:outputText value="#{att.situation}"/></f:facet>
+		                <f:facet name="input">
+		                	<p:selectOneMenu value="#{att.situation}" style="width:60px">
+								<f:selectItem itemLabel="Ativo" itemValue="ACTIVE"/>
+								<f:selectItem itemLabel="Cancelado" itemValue="CANCELED"/>
+								<f:selectItem itemLabel="Suspenso" itemValue="SUSPENDED"/>
+								<f:selectItem itemLabel="Bloqueado" itemValue="BLOCKED"/>
+		                	</p:selectOneMenu>
+		                </f:facet>
+		            </p:cellEditor>
+		        </p:column>
+		        
+		        <p:column headerText="Observação" style="width:250px">
+		            <p:cellEditor>
+		                <f:facet name="output"><h:outputText value="#{att.note}"/></f:facet>
+		                <f:facet name="input"><p:inputText value="#{att.note}" style="width:90%"/></f:facet>
+		            </p:cellEditor>
+		        </p:column>
+		        
+		        <p:column style="width:10px">
+		            <p:rowEditor/>
+		        </p:column>
+		  
+		    </p:dataTable>
+		    <p:commandLink actionListener="#{realizedOfferController.addSituation}" style="margin: 3px;" update="situationBaseRO">
+				<p:graphicImage value="/images/add.png" height="12" width="12" />
+			</p:commandLink>
+		
+		</h:panelGroup>
+	
+	</p:dialog>
+	
+	<p:dialog widgetVar="roinfl" minHeight="450" minWidth="700" modal="true">
+
+		<h:panelGroup layout="block" id="inflationBaseRO">
+		
+			<p:dataTable value="#{realizedOfferController.bean.adjustments}" var="att">
+  
+	  			<p:ajax event="rowEdit" listener="#{realizedOfferController.saveEditingAdjustment}" update="@none"/>
+	  		
+		        <f:facet name="header">
+		            Histórico de Ajuste de Inflação
+		        </f:facet>
+		
+		        <p:column headerText="Data" style="width:60px">
+		            <p:cellEditor>
+		                <f:facet name="output"><h:outputText value="#{att.when}" converter="dateCalendarConverter"/></f:facet>
+		                <f:facet name="input"><p:calendar value="#{att.when}" converter="dateCalendarConverter" pattern="dd/MM/yyyy" style="width:60px"/></f:facet>
+		            </p:cellEditor>
+		        </p:column>
+		  
+		        <p:column headerText="Indice" style="width:60px">
+		            <p:cellEditor>
+		                <f:facet name="output"><h:outputText value="#{att.index}"/></f:facet>
+		                <f:facet name="input">
+		                	<p:selectOneMenu value="#{att.index}" style="width:60px">
+								<f:selectItem itemLabel="IGPM" itemValue="IGPM"/>
+								<f:selectItem itemLabel="IPCA" itemValue="IPCA"/>
+								<f:selectItem itemLabel="INPC" itemValue="INPC"/>
+		                	</p:selectOneMenu>
+		                </f:facet>
+		            </p:cellEditor>
+		        </p:column>
+		        
+		        <p:column headerText="Valor" style="width:60px">
+		            <p:cellEditor>
+		                <f:facet name="output"><h:outputText value="#{att.value}"/></f:facet>
+		                <f:facet name="input"><p:inputText value="#{att.value}" style="width:90%"/></f:facet>
+		            </p:cellEditor>
+		        </p:column>
+		        
+		        <p:column headerText="Data Atualização" style="width:80px">
+		            <p:cellEditor>
+		                <f:facet name="output"><h:outputText value="#{att.whenUpdate}" converter="dateCalendarConverter"/></f:facet>
+		                <f:facet name="input"><h:outputText value="#{att.whenUpdate}" converter="dateCalendarConverter"/></f:facet>
+		            </p:cellEditor>
+		        </p:column>
+		        
+		        <p:column headerText="Modo Atualização" style="width:80px">
+		            <p:cellEditor>
+		                <f:facet name="output"><h:outputText value="#{att.whoUpdated}"/></f:facet>
+		                <f:facet name="input"><h:outputText value="#{att.whoUpdated}"/></f:facet>
+		            </p:cellEditor>
+		        </p:column>
+		        
+		        <p:column headerText="Observação" style="width:200px">
+		            <p:cellEditor>
+		                <f:facet name="output"><h:outputText value="#{att.note}"/></f:facet>
+		                <f:facet name="input"><p:inputText value="#{att.note}" style="width:90%"/></f:facet>
+		            </p:cellEditor>
+		        </p:column>
+		        
+		        <p:column style="width:10px">
+		            <p:rowEditor/>
+		        </p:column>
+		  
+		    </p:dataTable>
+		
+		</h:panelGroup>
+	
+	</p:dialog>
+	
+	<p:dialog widgetVar="roowner" minHeight="250" minWidth="750" modal="true">
+
+		<h:panelGroup layout="block" id="ownerBaseRO">
+		
+			<p:dataTable value="#{realizedOfferController.bean.owners}" var="att">
+  
+	  			<p:ajax event="rowEdit" listener="#{realizedOfferController.saveEditingOwner}" update="@none"/>
+	  		
+		        <f:facet name="header">
+		            Histórico de Responsáveis
+		        </f:facet>
+		
+		        <p:column headerText="Data" style="width:80px">
+		            <p:cellEditor>
+		                <f:facet name="output"><h:outputText value="#{att.when}" converter="dateCalendarConverter"/></f:facet>
+		                <f:facet name="input"><p:calendar value="#{att.when}" converter="dateCalendarConverter" pattern="dd/MM/yyyy" style="width:90%"/></f:facet>
+		            </p:cellEditor>
+		        </p:column>
+		  
+		        <p:column headerText="Vendedor" style="width:150px">
+		            <p:cellEditor>
+		                <f:facet name="output"><h:outputText value="#{att.representative}"/></f:facet>
+		                <f:facet name="input">
+		                	<p:autoComplete value="#{att.representative}" size="35" maxlength="35"
+				            	completeMethod="#{realizedOfferController.getAvailableRepresentatives}" var="c" 
+				            	itemLabel="#{c.behavior.name}" itemValue="#{c}" converter="representativeConverter"/> 
+		                </f:facet>
+		            </p:cellEditor>
+		        </p:column>
+		        
+		        <p:column headerText="Regional" style="width:150px">
+		            <p:cellEditor>
+		                <f:facet name="output"><h:outputText value="#{att.regional}"/></f:facet>
+		                <f:facet name="input">
+		                	<p:autoComplete value="#{att.regional}" size="35" maxlength="35"
+				            	completeMethod="#{realizedOfferController.getAvailableRegionals}" var="c" 
+				            	itemLabel="#{c.behavior.name}" itemValue="#{c}" converter="regionalConverter"/> 
+		                </f:facet>
+		            </p:cellEditor>
+		        </p:column>
+		        
+		        <p:column headerText="Gerente de Conta" style="width:150px">
+		            <p:cellEditor>
+		                <f:facet name="output"><h:outputText value="#{att.manager}"/></f:facet>
+		                <f:facet name="input">
+		                	<p:autoComplete value="#{att.regional}" size="35" maxlength="35"
+				            	completeMethod="#{realizedOfferController.getAvailableManagers}" var="c" 
+				            	itemLabel="#{c.behavior.name}" itemValue="#{c}" converter="representativeConverter"/> 
+		                </f:facet>
+		            </p:cellEditor>
+		        </p:column>
+		        
+		        <p:column style="width:10px">
+		            <p:rowEditor/>
+		        </p:column>
+		  
+		    </p:dataTable>
+		    
+		    <p:commandLink actionListener="#{realizedOfferController.addOwner}" style="margin: 3px;" update="ownerBaseRO">
+				<p:graphicImage value="/images/add.png" height="12" width="12" />
+			</p:commandLink>
+		
+		</h:panelGroup>
+	
+	</p:dialog>
+
+</h:panelGroup>
+
+</ui:composition>
+
+</h:body>
+
+</html>

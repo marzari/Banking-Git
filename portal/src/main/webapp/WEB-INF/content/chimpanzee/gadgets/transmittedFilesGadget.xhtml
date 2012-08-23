@@ -1,0 +1,65 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<p:panel id="#{gadgetId}" header="Trafego de Arquivos"
+		toggleable="true" closable="true" toggleSpeed="500"
+		widgetVar="my#{gadgetId}">
+
+		<p:panel widgetVar="editing#{gadgetId}" collapsed="true"
+			toggleable="true" closeTitle="true">
+
+			<h:panelGrid columns="2" cellpading="10">
+				<h:outputLabel value="Unidade de Medida" />
+				<h:outputLabel />
+
+			</h:panelGrid>
+		</p:panel>
+
+		<h:panelGroup layout="block" widgetVar="my#{gadgetId}" rendered="#{not gadgetBean.editing}">
+
+			<h:form>
+	
+			<p:selectOneMenu value="#{gadgetBean.type}">
+
+				<f:selectItem itemLabel="Bar Chart" itemValue="bar" />
+				<f:selectItem itemLabel="Line Chart" itemValue="line" />
+				<f:selectItem itemLabel="Speedometer" itemValue="speed" />
+
+				<p:ajax update="base#{gadgetId}"  listener="#{gadgetBean.doNothing}"/>
+
+			</p:selectOneMenu>
+			
+			<h:panelGroup layout="block" id="base#{gadgetId}">
+			
+				<p:lineChart rendered="#{gadgetBean.type == 'line'}"
+					value="#{chimpanzeeDashboardController.info}" legendPosition="e"
+					title="Linear Chart" minY="0" maxY="150" />
+	
+				<p:barChart rendered="#{gadgetBean.type == 'bar'}"
+					value="#{chimpanzeeDashboardController.info}" legendPosition="e"
+					title="Basic Bar Chart" minY="0" maxY="150" />
+
+			</h:panelGroup>
+			
+			</h:form>
+
+		</h:panelGroup>
+
+
+		<f:facet name="options">
+			<h:form>
+				<p:menu>
+					<p:submenu label="Settings">
+						<p:menuitem value="Edit" icon="ui-icon-pencil"
+							onclick="editing#{gadgetId}.toggle();" />
+					</p:submenu>
+				</p:menu>
+			</h:form>
+		</f:facet>
+
+	</p:panel>
+
+</ui:composition>

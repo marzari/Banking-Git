@@ -1,0 +1,131 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:composition>
+
+<h:form>
+
+<h:panelGroup layout="block" id="supplierTableBase" style="width: 500px; margin: 50px;" >
+		
+	<p:dataTable id="supplierTable" value="#{supplierController.beans}" var="att">
+	
+		<p:ajax event="rowEdit" listener="#{supplierController.saveSupplier}"/>
+	
+		<f:facet name="header">
+			Fornecedores  
+        </f:facet>
+        
+        <p:column style="width:16px">
+			<p:rowToggler />
+		</p:column>
+	
+	    <p:column headerText="Nome / Razão Social">
+	    	<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.name}"/></f:facet>
+				<f:facet name="input"><p:inputText value="#{att.name}" style="width:90%"/></f:facet>
+			</p:cellEditor>
+	    </p:column>
+	    <p:column headerText="CPF / CNPJ" style="width: 120px;">
+	    	<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.defaultRegistration}"/></f:facet>
+				<f:facet name="input">
+					<p:inputMask value="#{att.register.getRegistration('cpf').value}" required="true" mask="999.999.999-99" size="20" maxlength="20" rendered="#{att.isIndividual()}"/>
+					<p:inputMask value="#{att.register.getRegistration('cnpj').value}" required="true" mask="99.999.999/9999-99" size="20" maxlength="20" rendered="#{att.isLegal()}"/>
+				</f:facet>
+			</p:cellEditor>
+	    </p:column>
+	    
+	    <p:column style="width:10px">
+			<p:rowEditor/>
+		</p:column>
+		
+		<p:rowExpansion>
+		
+			<h:panelGroup layout="block">
+		 	
+			 	<h:panelGroup layout="block" rendered="#{att.isIndividual()}">
+			 	
+				 	<h:outputStylesheet>
+				 		.label {
+				 			width: 100px;
+				 		}
+				 	</h:outputStylesheet>
+				 
+			    	<h:panelGrid columns="2" style="float: left; margin: 20px; border: none; width: 500px;" cellpadding="5" columnClasses="label, value">
+					
+						<h:outputLabel value="Nome"/>
+						<h:panelGroup>
+							<p:inputText label="Nome" value="#{att.name}" size="25" maxlength="25"/>
+							<p:inputText label="Ultimo Nome" value="#{att.name}" size="25" maxlength="25" style="margin-left: 5px;"/>
+						</h:panelGroup>
+						
+						<h:outputLabel value="CPF"/>
+						<p:inputMask value="#{att.register.getRegistration('cpf').value}" required="true" mask="999.999.999-99" size="20" maxlength="20"/>
+						
+						<h:outputLabel value="Data de Nascimento"/>
+						<p:calendar value="#{att.register.birth}" converter="#{dateCalendarConverter}" pattern="dd/MM/yyyy"/>  
+					
+					</h:panelGrid>
+					
+					<p:commandButton type="push" value="Salvar" image="ui-icon-disk">
+						<f:setPropertyActionListener value="#{att}" target="#{supplierController.beanToBeSaved}" />
+					</p:commandButton>
+				
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" rendered="#{att.isLegal()}">
+			 	
+				 	<h:outputStylesheet>
+				 		.label {
+				 			width: 100px;
+				 		}
+				 	</h:outputStylesheet>
+				 
+			    	<h:panelGrid columns="2" style="float: left; margin: 20px; border: none; width: 500px;" cellpadding="5" columnClasses="label, value">
+					
+						<h:outputLabel value="Razão Social"/>
+						<p:inputText value="#{att.register.companyName}" required="true" size="50" maxlength="50"/>
+						
+						<h:outputLabel value="CNPJ"/>
+						<p:inputMask value="#{att.register.getRegistration('cnpj').value}" required="true" mask="99.999.999/9999-99" size="20" maxlength="20"/>
+						
+						<h:outputLabel value="Inscrição Estadual"/>
+						<p:inputText value="#{att.register.getRegistration('inscrest').value}" size="20" maxlength="20"/>
+						
+						<h:outputLabel value="Inscrição Municipal"/>
+						<p:inputText value="#{att.register.getRegistration('inscrmun').value}" size="20" maxlength="20"/>
+						
+						<h:outputLabel value="Nome Fantasia"/>
+						<p:inputText value="#{att.register.fancyName}" size="50" maxlength="50"/>
+						
+					</h:panelGrid>
+					
+					<p:commandButton type="push" value="Salvar" image="ui-icon-disk">
+						<f:setPropertyActionListener value="#{att}" target="#{supplierController.beanToBeSaved}" />
+					</p:commandButton>
+				
+				</h:panelGroup>
+				
+			</h:panelGroup>
+			
+	    </p:rowExpansion>  
+		
+	</p:dataTable>
+	
+	<p:commandButton type="push" value="Novo PJ" actionListener="#{supplierController.addSupplier('legal')}" update="supplierTableBase" />
+	<p:commandButton type="push" value="Novo PF" actionListener="#{supplierController.addSupplier('individual')}" update="supplierTableBase" />
+	
+</h:panelGroup>
+
+</h:form>
+
+</ui:composition>
+
+</h:body>
+
+</html>

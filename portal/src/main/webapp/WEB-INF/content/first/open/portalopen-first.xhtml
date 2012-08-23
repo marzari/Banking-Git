@@ -1,0 +1,24 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="../portalcommon-first.xhtml">
+	
+	<ui:define name="portalbar-wrapper">
+	
+		<h:outputStylesheet library="css" name="first/portalopen-first.css" />
+		
+		<div class="ui-bar-dark">
+			<!-- <h1>#{i18n['portal.title']}</h1> -->
+			<ui:include src="../login.xhtml"/>
+		</div>
+	
+	</ui:define>
+	
+	<ui:define name="common-first-body">
+	
+		<ui:include src="../../second/open/portalopen-second.xhtml"/>
+	
+	</ui:define>
+	
+</ui:composition>

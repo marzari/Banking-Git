@@ -1,0 +1,51 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:panelGroup layout="block" style="float: left;  height: 100%; margin-top: 5px;">
+	
+		<h:form style="height: 100%">
+	
+		<p:menu type="tiered" style="width:200px; font-size: 0.8em; height: 100%;">
+			
+			<p:menuitem value="#{i18n['name.applications']}" update=":admin-tab:generalContent" actionListener="#{contentController.load('PORTAL.GENERAL.APPLICATIONS')}" />
+			
+			<p:submenu label="#{i18n['name.userManagement']}">
+				<p:menuitem value="#{i18n['name.users']}" update=":admin-tab:generalContent" actionListener="#{contentController.load('PORTAL.GENERAL.USERMANAGEMENT.USER')}" />
+				<p:menuitem value="#{i18n['name.groups']}" update=":admin-tab:generalContent" actionListener="#{contentController.load('PORTAL.GENERAL.USERMANAGEMENT.GROUP')}" />
+				<p:menuitem value="#{i18n['name.permissions']}" update=":admin-tab:generalContent" actionListener="#{contentController.load('PORTAL.GENERAL.USERMANAGEMENT.PERMISSIONS')}" />
+			</p:submenu>
+			
+			<p:submenu label="#{i18n['name.looknfeel']}">
+				<p:menuitem value="#{i18n['name.style']}" update=":admin-tab:generalContent" actionListener="#{contentController.load('SECURITY.GENERAL.LOOKNFEEL.STYLE')}" />
+				<p:menuitem value="#{i18n['name.layout']}" update=":admin-tab:generalContent" actionListener="#{contentController.load('SECURITY.GENERAL.LOOKNFEEL.LAYOUT')}" />
+			</p:submenu>
+		</p:menu>
+		
+		</h:form>
+		
+	</h:panelGroup>
+
+	<h:panelGroup id="generalContent" layout="block" style="float: left; margin-left: 50px; height: 100%;">
+		
+		<ui:fragment rendered="#{contentController.isLoaded('PORTAL.GENERAL.APPLICATIONS')}">
+			<ui:include src="general-applications.xhtml"/>
+		</ui:fragment>
+		
+		<ui:fragment rendered="#{contentController.isLoaded('PORTAL.GENERAL.USERMANAGEMENT.USER')}">
+			<ui:include src="general-security-users.xhtml"/>
+		</ui:fragment>
+		
+		<ui:fragment rendered="#{contentController.isLoaded('PORTAL.GENERAL.USERMANAGEMENT.GROUP')}">
+			<ui:include src="general-security-groups.xhtml"/>
+		</ui:fragment>
+		
+		<ui:fragment rendered="#{contentController.isLoaded('PORTAL.GENERAL.USERMANAGEMENT.PERMISSIONS')}">
+			<ui:include src="general-security-permissions.xhtml"/>
+		</ui:fragment>
+		
+	</h:panelGroup>
+
+</ui:composition>

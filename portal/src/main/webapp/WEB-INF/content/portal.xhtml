@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>#{i18n['portal.title']}</title>
+
+	<h:outputStylesheet library="css" name="templateportal.css" />
+
+</h:head>
+
+<h:body>
+
+	<h:panelGroup layout="block" id="security-wrapper" styleClass="security-wrapper">
+
+		<f:view locale="#{languageController.language}" />
+
+		<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();" />
+		
+		<p:growl id="systemGrowl" showDetail="true" globalOnly="true" autoUpdate="true" escape="false" />
+
+		<ui:fragment rendered="#{not sessionController.logged}">
+			<ui:include src="first/open/portalopen-first.xhtml" />
+		</ui:fragment>
+
+		<ui:fragment rendered="#{sessionController.logged}">
+			<ui:include src="first/secure/portalsecure-first.xhtml" />
+		</ui:fragment>
+
+		<p:dialog modal="true" widgetVar="statusDialog" draggable="false" closable="false" showHeader="false">
+			<p:graphicImage value="/resources/images/ajax-loader.gif" />
+		</p:dialog>
+
+	</h:panelGroup>
+
+</h:body>
+
+</html>

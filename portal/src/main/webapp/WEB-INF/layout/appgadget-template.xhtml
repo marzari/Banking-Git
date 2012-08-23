@@ -1,0 +1,37 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<p:panel header="#{appTitle}" styleClass="app-gadget">
+		
+		<img src="#{resource['primefaces-esales-theme-default:images/'.concat(appIcon).concat('-icon.png')]}" class="image" />
+	
+		<p class="description">#{appDescription}</p>
+		
+		<h:form style="margin-top: 70%; width: 95%;">
+			<h:panelGrid columns="2" cellpading="10" style="font-size: 0.8em; width: 100%;">
+			
+				<h:panelGroup layout="block">
+					<ui:insert name="registerButton"/>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" rendered="#{toTry}" styleClass="button try-it">
+					<p:commandLink update="#{updateT}" value="Experimente" 
+						actionListener="#{actionListener}" process="@this">
+					</p:commandLink>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" rendered="#{toRegister}" styleClass="button register">
+					<p:commandLink update=":open-second-body" value="Registre-se" 
+						actionListener="#{publicMenu.load('REGISTRY.PROCUREMENT')}" process="@this">
+					</p:commandLink>
+				</h:panelGroup>
+				
+			</h:panelGrid>
+		</h:form>
+		
+	</p:panel>
+	
+</ui:composition>

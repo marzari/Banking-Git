@@ -1,0 +1,136 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	
+	template="/layout/window.xhtml">
+	
+	<ui:param name="windowClass" value="window-full"/>
+	<ui:param name="windowTitle" value="Workflow"/>
+
+	<ui:define name="windowBody">
+	
+		<h:form>
+		
+			<h:panelGroup layout="block" style="margin: 10px;">
+				<h:panelGrid columns="6" cellpadding="5">
+					<h:outputLabel value="Selecione a Empresa"/>
+					<p:selectOneMenu style="width: 200px;" value="#{kgProcessController.companyId}">
+						<f:selectItems value="#{kgCompanyController.beans}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>  
+					</p:selectOneMenu>
+					<p:commandButton value="OK" update="processTableBase" actionListener="#{kgProcessController.handleCompanyChange}"/>
+				</h:panelGrid>
+			</h:panelGroup>
+			
+			<hr/>
+		
+			<h:panelGroup layout="block" style="width: 100%; height: 45%;">
+			
+				<h:panelGroup layout="block" id="processTableBase" style="width: 25%; margin: 30px; float: left;" >
+				
+					<p:dataTable id="processTable" value="#{kgProcessController.beans}" var="atta">
+					
+						<p:column headerText="Nome">
+							<h:outputText value="#{atta.name}"/>
+						</p:column>
+					    
+						<p:column headerText="Descrição">
+							<h:outputText value="#{atta.description}"/>
+						</p:column>
+	
+						<p:column style="width:10px">
+							<p:commandLink update="@form:workflowTableBase">
+								<p:graphicImage value="/resources/images/edit.png" height="12" width="12" />
+								<f:setPropertyActionListener value="#{atta}" target="#{kgProcessController.selectedProcess}" />
+							</p:commandLink>
+						</p:column>
+	
+					</p:dataTable>
+					
+					<p:commandLink onclick="workflowDialog.show();" style="margin: 3px;" styleClass="ui-icon-refresh">
+						<p:graphicImage value="/resources/images/add.png" height="12" width="12" />
+					</p:commandLink>
+					
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" id="workflowTableBase" style="width: 30%; margin: 30px; float: left;" >
+					
+					<p:dataTable id="flowTable" value="#{kgProcessController.availableFlows}" var="attb">
+					
+						<p:column headerText="Type">
+					    	<h:outputText value="#{attb.type}"/>
+					    </p:column>
+						
+					    <p:column headerText="Nome">
+					    	<h:outputText value="#{attb.name}"/>
+					    </p:column>
+					    
+					    <p:column headerText="Descrição">
+					    	<h:outputText value="#{attb.description}"/>
+					    </p:column>
+					    
+					    <p:column style="width:10px">
+							<p:commandLink update="@form:workflowItemTableBase">
+								<p:graphicImage value="/resources/images/edit.png" height="12" width="12" />
+								<f:setPropertyActionListener value="#{attb}" target="#{kgProcessController.selectedFlow}" />
+							</p:commandLink>
+						</p:column>
+						
+					</p:dataTable>
+					
+					<p:commandLink onclick="workflowDialog.show();" style="margin: 3px;" styleClass="ui-icon-refresh">
+						<p:graphicImage value="/resources/images/add.png" height="12" width="12" />
+					</p:commandLink>
+					
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" id="workflowItemTableBase" style="width: 30%; margin: 30px; float: left;" >
+					
+					<p:dataTable id="flowItemTable" value="#{kgProcessController.availableItems}" var="attc">
+					
+					    <p:column headerText="Nome">
+					    	<h:outputText value="#{attc.name}"/>
+					    </p:column>
+					    
+					    <p:column headerText="Descrição">
+					    	<h:outputText value="#{attc.description}"/>
+					    </p:column>
+					    
+					    <p:column headerText="Ordem">
+					    	<h:outputText value="#{attc.order}"/>
+					    </p:column>
+					    
+					    <p:column headerText="Component">
+					    	<h:outputText value="#{attc.component}"/>
+					    </p:column>
+					    
+					    <p:column style="width:10px">
+							<p:commandLink update="@form:workflowComponentBase">
+								<p:graphicImage value="/resources/images/edit.png" height="12" width="12" />
+								<f:setPropertyActionListener value="#{attc}" target="#{kgProcessController.selectedItem}" />
+							</p:commandLink>
+						</p:column>
+					    
+					</p:dataTable>
+					
+					<p:commandLink onclick="workflowDialog.show();" style="margin: 3px;" styleClass="ui-icon-refresh">
+						<p:graphicImage value="/resources/images/add.png" height="12" width="12" />
+					</p:commandLink>
+					
+				</h:panelGroup>
+				
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" id="workflowComponentBase" style="width: 100%; height: 50%;">
+				
+				<p:fieldset legend="#{kgProcessController.selectedItem.component}" rendered="#{kgProcessController.selectedItem != null}" style="height: 80%;">
+				</p:fieldset>
+			
+			</h:panelGroup>
+			
+		</h:form>
+		
+	</ui:define>	
+
+</ui:composition>

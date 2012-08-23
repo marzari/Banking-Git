@@ -1,0 +1,128 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:kui="http://java.sun.com/jsf/composite/comp/ui">
+
+<ui:composition>
+
+<h:form>
+
+<p:selectOneMenu value="#{categoryController.dimension}" converter="categoryDimensionConverter" style="margin: 20px; width: 150px; float: left;">  
+    <f:selectItem itemLabel="Selectione Dimensão" itemValue="" />  
+    <f:selectItems value="#{categorizedApplicationController.dimensionController.beans}" var="catdim" itemLabel="#{catdim.name}" itemValue="#{catdim}"/>  
+    <p:ajax update="categoryBase" listener="#{categoryController.handleDimensionSelect}"/>  
+</p:selectOneMenu>  
+
+<h:panelGroup layout="block" style="float: left; margin: 20px; width: 1000px; " >
+
+<p:fieldset id="categoryBase" legend="Categorias" style="float: left; margin: 20px; width: 350px; " >
+
+	<h:panelGroup layout="block" rendered="#{categoryController.hasDimension()}">
+	
+		<p:dataTable var="cat" value="#{categoryController.dimension.categories}" dblClickSelect="true"
+			selectionMode="single" selection="#{categoryController.parent}">  
+		  
+			<p:ajax event="rowEdit" listener="#{categoryController.saveCategory}"/>
+			<p:ajax event="rowSelect" update="@form:categoryChildBase"/>
+		  	
+			<p:column headerText="Código" style="width:50px">
+				<p:cellEditor>
+					<f:facet name="output"><h:outputText value="#{cat.code}"/></f:facet>  
+					<f:facet name="input"><p:inputText value="#{cat.code}" style="width:100%"/></f:facet>  
+				</p:cellEditor>  
+			</p:column>
+			<p:column headerText="Nome" style="width:80px">  
+				<p:cellEditor>
+					<f:facet name="output"><h:outputText value="#{cat.name}"/></f:facet>  
+					<f:facet name="input"><p:inputText value="#{cat.name}" style="width:100%"/></f:facet>  
+				</p:cellEditor>  
+			</p:column>
+			<p:column headerText="Descrição" style="width:150px">  
+				<p:cellEditor>
+					<f:facet name="output"><h:outputText value="#{cat.description}"/></f:facet>  
+					<f:facet name="input"><p:inputText value="#{cat.description}" style="width:100%"/></f:facet>  
+				</p:cellEditor>
+			</p:column>
+			<p:column style="width:30px">
+				<p:rowEditor/>
+			</p:column>
+			<p:column style="width:30px">
+				<p:commandLink oncomplete="confirmation.show();">
+					<p:graphicImage value="/images/delete.png" height="12" width="12"/>
+					<f:setPropertyActionListener value="#{att}" target="#{categoryController.bean}" />
+				</p:commandLink>
+			</p:column>
+        
+		</p:dataTable>
+		<p:confirmDialog message="Você tem certeza que deseja desativar esta dimensão de categorias" header="Confirmação de exclusão" severity="alert" widgetVar="confirmation">  
+	        <p:commandButton value="Sim, tenho certeza" update="categoryBase" oncomplete="confirmation.hide()" actionListener="#{categoryController.delete}"/>  
+	        <p:commandButton value="Não" onclick="confirmation.hide()" type="button"/>   
+	    </p:confirmDialog>
+		
+		<p:commandLink actionListener="#{categoryController.addCategory}" update="categoryBase" style="margin: 3px;">
+			<p:graphicImage value="/images/add.png" height="12" width="12" />
+		</p:commandLink>
+	
+	</h:panelGroup>
+	
+</p:fieldset>
+
+<p:fieldset id="categoryChildBase" legend="Sub-Categorias" style="float: left; margin: 20px; width: 350px; ">
+
+	<h:panelGroup layout="block" rendered="#{categoryController.hasParent()}">
+
+		<p:dataTable var="cat" value="#{categoryController.parent.childs}">  
+				
+			<p:ajax event="rowEdit" listener="#{categoryController.saveChild}"/>
+					  
+			<p:column headerText="Código" style="width:50px">  
+				<p:cellEditor>  
+					<f:facet name="output"><h:outputText value="#{cat.code}"/></f:facet>  
+					<f:facet name="input"><p:inputText value="#{cat.code}" style="width:100%"/></f:facet>  
+				</p:cellEditor>  
+			</p:column>
+			<p:column headerText="Nome" style="width:80px">  
+				<p:cellEditor>
+					<f:facet name="output"><h:outputText value="#{cat.name}"/></f:facet>  
+					<f:facet name="input"><p:inputText value="#{cat.name}" style="width:100%"/></f:facet>  
+				</p:cellEditor>  
+			</p:column>
+			<p:column headerText="Descrição" style="width:150px">  
+				<p:cellEditor>
+					<f:facet name="output"><h:outputText value="#{cat.description}"/></f:facet>  
+					<f:facet name="input"><p:inputText value="#{cat.description}" style="width:100%"/></f:facet>  
+				</p:cellEditor>  
+			</p:column>
+			<p:column style="width:30px">
+				<p:rowEditor/>
+			</p:column>
+			<p:column style="width:30px">
+				<p:commandLink oncomplete="confirmation.show();">
+					<p:graphicImage value="/images/delete.png" height="12" width="12"/>
+					<f:setPropertyActionListener value="#{att}" target="#{categoryController.bean}" />
+				</p:commandLink>
+			</p:column>
+			
+		</p:dataTable>
+		
+		<p:confirmDialog message="Você tem certeza que deseja desativar esta categoria" header="Confirmação de exclusão" severity="alert" widgetVar="confirmation">  
+	        <p:commandButton value="Sim, tenho certeza" update="categoryChildBase" oncomplete="confirmation.hide()" actionListener="#{categoryController.delete}"/>  
+	        <p:commandButton value="Não" onclick="confirmation.hide()" type="button"/>   
+	    </p:confirmDialog>
+		
+		<p:commandLink actionListener="#{categoryController.addChild}" update="categoryChildBase" style="margin: 3px;">
+			<p:graphicImage value="/images/add.png" height="12" width="12" />
+		</p:commandLink>
+		
+	</h:panelGroup>
+	
+</p:fieldset>
+</h:panelGroup>
+
+</h:form>
+
+</ui:composition>
+
+</html>

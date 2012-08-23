@@ -1,0 +1,119 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	
+	template="/layout/window.xhtml">
+	
+	<ui:param name="windowClass" value="window-full"/>
+	<ui:param name="windowTitle" value="Fornecedor"/>
+	
+	<ui:define name="windowBody">
+		
+		<h:form style="margin: 50px;">
+	
+		<h:panelGroup layout="block" id="supplierTable">
+		
+			<p:dataTable value="#{supplierController.beans}" var="att">
+		
+				<f:facet name="header">
+					Fornecedores
+		        </f:facet>
+		        
+		        <p:column style="width:16px">
+					<p:rowToggler />
+				</p:column>
+			
+			    <p:column headerText="Nome / Razão Social" style="width: 220px;">
+			    	<h:outputText value="#{att.defaultName}"/>
+			    </p:column>
+			    <p:column headerText="CPF / CNPJ" style="width: 220px;">
+					<h:outputText value="#{att.defaultRegistration}"/>
+			    </p:column>
+			    
+				<p:rowExpansion>
+				
+					<h:panelGroup layout="block">
+				 	
+					 	<h:panelGroup layout="block" rendered="#{att.isIndividual()}">
+					 	
+						 	<h:outputStylesheet>
+						 		.label {
+						 			width: 100px;
+						 		}
+						 	</h:outputStylesheet>
+						 
+					    	<h:panelGrid columns="2" style="float: left; margin: 20px; border: none; width: 500px;" cellpadding="5" columnClasses="label, value">
+							
+								<h:outputLabel value="Nome"/>
+								<h:panelGroup>
+									<p:inputText label="Nome" value="#{att.name}" size="25" maxlength="25"/>
+									<p:inputText label="Ultimo Nome" value="#{att.name}" size="25" maxlength="25" style="margin-left: 5px;"/>
+								</h:panelGroup>
+								
+								<h:outputLabel value="CPF"/>
+								<p:inputMask value="#{att.register.registrations['cpf'].value}" required="true" mask="999.999.999-99" size="20" maxlength="20"/>
+								
+								<h:outputLabel value="Data de Nascimento"/>
+								<p:calendar value="#{att.register.birth}" converter="#{dateCalendarConverter}" pattern="dd/MM/yyyy"/>  
+							
+								<p:commandButton type="push" value="Salvar" icon="ui-icon-disk">
+								<f:setPropertyActionListener value="#{att}" target="#{supplierController.bean}" />
+								
+							</p:commandButton>
+							
+							</h:panelGrid>
+							
+						</h:panelGroup>
+						
+						<h:panelGroup layout="block" rendered="#{att.isLegal()}">
+					 	
+						 	<h:outputStylesheet>
+						 		.label {
+						 			width: 100px;
+						 		}
+						 	</h:outputStylesheet>
+						 
+					    	<h:panelGrid columns="2" style="float: left; margin: 20px; width: 500px;" cellpadding="5" columnClasses="label, value">
+							
+								<h:outputLabel value="Razão Social"/>
+								<p:inputText value="#{att.register.companyName}" required="true" size="50" maxlength="50"/>
+								
+								<h:outputLabel value="CNPJ"/>
+								<p:inputMask value="#{att.register.registrations['cnpj'].value}" required="true" mask="99.999.999/9999-99" size="20" maxlength="20"/>
+								
+								<h:outputLabel value="Inscrição Estadual"/>
+								<p:inputText value="#{att.register.registrations['inscrest'].value}" size="20" maxlength="20"/>
+								
+								<h:outputLabel value="Inscrição Municipal"/>
+								<p:inputText value="#{att.register.registrations['inscrmun'].value}" size="20" maxlength="20"/>
+								
+								<h:outputLabel value="Nome Fantasia"/>
+								<p:inputText value="#{att.register.fancyName}" size="50" maxlength="50"/>
+								
+								<h:outputLabel value=""/>
+								<p:commandButton type="push" value="Salvar" icon="ui-icon-disk" update="@form" actionListener="#{supplierController.save}">
+									<f:setPropertyActionListener value="#{att}" target="#{supplierController.bean}" />
+								</p:commandButton>
+								
+							</h:panelGrid>
+							
+						</h:panelGroup>
+						
+					</h:panelGroup>
+					
+			    </p:rowExpansion>
+			
+			</p:dataTable>
+		
+		</h:panelGroup>
+	
+		<p:commandButton value="Novo PJ" actionListener="#{supplierController.addSupplier('legal')}" update="supplierTable" />
+		<p:commandButton value="Novo PF" actionListener="#{supplierController.addSupplier('individual')}" update="supplierTable" />
+	
+	</h:form>
+	
+	</ui:define>
+
+</ui:composition>

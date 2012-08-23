@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="kangaroo" description="Kangaroo" icon="resources/images/kangarooIcon.png" page="kangaroo.xhtml">
+</application>

@@ -1,0 +1,182 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core" template="/layout/window.xhtml">
+
+	<ui:param name="windowClass" value="window-full" />
+	<ui:param name="windowTitle" value="Cadastro de Regras de Processamento" />
+
+	<ui:define name="windowBody">
+
+		<h:form id="formRegistryRulez">
+			<p:fieldset id="resgistryFormBase"
+				legend="Cadastro de Regras de Processamentos"
+				style="height: 80%; margin-bottom: 5px;">
+
+				<p:growl id="growl" sticky="true" showDetail="true" />
+
+				<p:wizard widgetVar="wiz" showStepStatus="true">
+
+					<p:tab id="servCreation" title="Server Creation">
+						<h:panelGroup>
+							<h:panelGrid columns="5" style="float: float;" cellpading="40">
+
+								<h:outputLabel value="Servidor Pai:" />
+								<p:selectOneMenu>
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItem itemLabel="serv1 " itemValue="val_serv" />
+									<f:selectItem itemLabel="serv2" itemValue="val_serv" />
+									<f:selectItem itemLabel="serv3" itemValue="val_serv" />
+								</p:selectOneMenu>
+
+								<h:outputLabel value="Nome:" />
+								<p:inputText id="nameServer" size="11"
+									title="Nome ex: servidor esales" />
+								<h:outputLabel />
+
+								<h:outputLabel value="Protocolo:" />
+								<p:selectOneMenu>
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItem itemLabel="protocol1" itemValue="val_protoc1" />
+									<f:selectItem itemLabel="protocol2" itemValue="val_protoc2" />
+									<f:selectItem itemLabel="protocol3" itemValue="val_protoc3" />
+								</p:selectOneMenu>
+
+								<h:outputLabel value="Ativo:" />
+								<p:selectOneMenu required="true">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItem itemLabel="Yes" itemValue="activeServer" />
+									<f:selectItem itemLabel="No" itemValue="inactiveServer" />
+								</p:selectOneMenu>
+								<h:outputLabel />
+
+								<h:outputLabel value="Código:" />
+								<p:inputText id="codServer" size="11" required="true"
+									title="Código ex: 231 " />
+
+								<h:outputLabel value="Tipo:" />
+								<p:selectOneMenu required="true">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItem itemLabel="Server" itemValue="activeServer" />
+									<f:selectItem itemLabel="Client" itemValue="inactiveServer" />
+								</p:selectOneMenu>
+								<h:outputLabel />
+
+								<h:outputLabel value="IP/Host Server:" />
+								<p:inputText id="ipHostServer" size="40"
+									title="IP/Host ex:192.166.200/esales.com.br " />
+
+								<h:outputLabel value="Port:" />
+								<p:inputText id="portServer" size="11" title="Porta ex: 8080" />
+								<h:outputLabel />
+
+
+								<h:outputLabel value="Timeuot:" />
+								<p:inputText id="connectTimeout" size="11"
+									title="Timeuot ex: 120" />
+
+
+								<h:outputLabel value="Proxy Server:" />
+								<p:selectOneMenu required="true">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItem itemLabel="200.200.150.100"
+										itemValue="activeServer" />
+									<f:selectItem itemLabel="220.220.152.101"
+										itemValue="inactiveServer" />
+								</p:selectOneMenu>
+
+								<p:tooltip for="nameServer" showEvent="focus" hideEvent="blur" />
+								<p:tooltip for="codServer" showEvent="focus" hideEvent="blur" />
+								<p:tooltip for="ipHostServer" showEvent="focus" hideEvent="blur" />
+								<p:tooltip for="portServer" showEvent="focus" hideEvent="blur" />
+								<p:tooltip for="connectTimeout" showEvent="focus"
+									hideEvent="blur" />
+							</h:panelGrid>
+							<h:outputLabel
+								value="Os campos em vermelho devem ser completados" />
+						</h:panelGroup>
+					</p:tab>
+
+					<p:tab id="envRecBD" title="Envio/Recepção do Banco de Dados">
+						<h:panelGroup>
+							<h:panelGrid columns="5" style="float: float;" cellpading="40">
+								<h:outputLabel value="Servidor do Banco:" />
+								<p:selectOneMenu>
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItem itemLabel="Oracle" itemValue="oracle" />
+									<f:selectItem itemLabel="Firebird" itemValue="firebird" />
+									<f:selectItem itemLabel="MySQL" itemValue="mysql" />
+								</p:selectOneMenu>
+
+								<h:outputLabel value="IP/Host" />
+								<p:inputText id="ipHostBd" size="40"
+									title="IP/Host ex:192.166.200/esales.com.br " />
+								<h:outputLabel />
+
+								<h:outputLabel value="Usuário do Banco" />
+								<p:inputText id="userBd" size="40"
+									title="Usuário do banco ex:admin" />
+
+								<h:outputLabel value="Senha do Banco" />
+								<p:inputText id="passBd" size="40"
+									title="Senha do Banco ex:root" />
+
+								<p:tooltip for="ipHostBd" showEvent="focus" hideEvent="blur" />
+								<p:tooltip for="userBd" showEvent="focus" hideEvent="blur" />
+								<p:tooltip for="passBd" showEvent="focus" hideEvent="blur" />
+
+
+							</h:panelGrid>
+						</h:panelGroup>
+					</p:tab>
+
+					<p:tab id="remoteAcess" title="Acesso Remoto">
+						<h:panelGroup>
+							<h:panelGrid columns="4" style="float: float;" cellpading="40">
+								<h:outputLabel value="Servidor do Banco:" />
+								<p:selectOneMenu>
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItem itemLabel="Oracle" itemValue="oracle" />
+									<f:selectItem itemLabel="Firebird" itemValue="firebird" />
+									<f:selectItem itemLabel="MySQL" itemValue="mysql" />
+								</p:selectOneMenu>
+
+								<h:outputLabel value="IP/Host" />
+								<p:inputText id="ipHostAcessRemote" size="40"
+									title="IP/Host ex:192.166.200/esales.com.br " />
+
+								<h:outputLabel value="Porta" />
+								<p:inputText id="portAcessRemote" size="40"
+									title="Porta ex:8085 " />
+
+								<h:outputLabel value="Usuário do Acesso Remoto" />
+								<p:inputText id="userAcessRemote" size="40"
+									title="Usuário do Acesso Remoto ex:admin" />
+
+								<h:outputLabel value="Senha do Acesso Remoto" />
+								<p:inputText id="passAcessRemote" size="40"
+									title="Senha do Acesso Remoto ex:teste" />
+
+								<p:tooltip for="ipHostAcessRemote" showEvent="focus"
+									hideEvent="blur" />
+								<p:tooltip for="portAcessRemote" showEvent="focus"
+									hideEvent="blur" />
+								<p:tooltip for="userAcessRemote" showEvent="focus"
+									hideEvent="blur" />
+								<p:tooltip for="passAcessRemote" showEvent="focus"
+									hideEvent="blur" />
+
+
+							</h:panelGrid>
+						</h:panelGroup>
+						<p:commandButton id="saveServer" value="Salvar"
+							style="float:right;" update="resgistryFormBase" />
+					</p:tab>
+				</p:wizard>
+
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

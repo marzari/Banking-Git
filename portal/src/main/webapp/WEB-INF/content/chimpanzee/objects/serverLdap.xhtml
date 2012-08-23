@@ -1,0 +1,111 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core" template="/layout/window.xhtml">
+	
+	<ui:param name="windowClass" value="window-full" />
+	<ui:param name="windowTitle" value="Cadastramento e Manutenção de Servidores" />
+	
+	<ui:define name="windowBody">
+		
+		#{serverLdapController.begin(3)}
+
+		<h:form id="formLdapServer">
+
+			<p:commandLink styleClass="ui-main-command"
+				actionListener="#{serverLdapController.create}"
+				update=":formRegistryMonitorFolders:resgistryFormBaseee :formRegistryMonitorFolders:resgistryFormBasee">
+				<p:graphicImage
+					value="#{resource['primefaces-esales-theme-default:images/main-command-plus.png']}"
+					height="24" width="23" />
+				<span>Inserir Novo Servidor</span>
+			</p:commandLink>
+
+			<h:panelGroup id="ServerLdapCreation">
+
+				<p:fieldset legend="Cadastro de Servidores Ldap"
+					rendered="#{serverLdapController.has}">
+
+					<h:panelGrid columns="2" style="float: float;" cellpading="40">
+
+						<h:outputLabel value="Host/Ip: *" />
+						<p:inputText id="ipHostLdap" size="40"
+							title="IP/Host ex:192.166.200/esales.com.br"
+							value="#{serverLdapController.editing.host}" required="true" />
+
+						<h:outputLabel value="Porta: *" />
+						<p:inputText id="portLdap" size="30" title="porta: 8080"
+							value="#{serverLdapController.editing.porta}" required="true" />
+
+						<h:outputLabel value="Autenticação: *" />
+						<p:selectOneMenu
+							value="#{serverLdapController.editing.auth}" size="35"
+							required="true">
+							<f:selectItem itemLabel="Select One" itemValue=" " />
+							<f:selectItem itemLabel="SIMPLE" itemValue="SIMPLE" />
+							<f:selectItem itemLabel="SSL" itemValue="SSL" />
+							<f:selectItem itemLabel="NONE" itemValue="NONE" />
+						</p:selectOneMenu>
+
+
+						<p:tooltip for="ipHostLdap" showEvent="focus" hideEvent="blur" />
+						<p:tooltip for="portLdap" showEvent="focus" hideEvent="blur" />
+					</h:panelGrid>
+					<p:commandButton value="Salvar" update="@form listLdapServer"
+						process="@form" actionListener="#{serverLdapController.save}" />
+				</p:fieldset>
+			</h:panelGroup>
+
+			<h:panelGroup id="listLdapServer">
+				<p:dataTable id="serverLdap" var="serverLdap"
+					value="#{serverLdapController.beans}" style="float"
+					paginator="true" rows="10" rowsPerPageTemplate="5,10,20,50"
+					sortOrder="descending"
+					paginatorTemplate="O sistema retornou #{serverLdapController.beans.size().toString()} registros. {PageLinks}  {RowsPerPageDropdown}">
+
+					<p:column headerText="Host/Ip">
+						<h:outputText value="#{serverLdap.host}" />
+					</p:column>
+
+					<p:column headerText="Porta">
+						<h:outputText value="#{serverLdap.porta}" />
+					</p:column>
+
+					<p:column headerText="Autenticação">
+						<h:outputText value="#{serverLdap.auth}" />
+					</p:column>
+
+					<p:column>
+						<p:commandLink update="@form">
+							<p:graphicImage value="/resources/images/edit.png" height="12"
+								width="12" />
+							<f:setPropertyActionListener value="#{serverLdap}"
+								target="#{serverLdapController.editing}" />
+						</p:commandLink>
+					</p:column>
+					<p:column>
+						<p:commandLink oncomplete="confirmation.show();" update="@form">
+							<p:graphicImage value="/resources/images/delete.png" height="12"
+								width="12" />
+							<f:setPropertyActionListener value="#{serverLdap}"
+								target="#{serverLdapController.editing}" />
+						</p:commandLink>
+					</p:column>
+
+				</p:dataTable>
+			</h:panelGroup>
+
+			<p:confirmDialog message="Excluir Servidor?"
+				header="Confirmação de exclusão" severity="alert"
+				widgetVar="confirmation" closable="false" modal="true">
+				<p:commandButton value="Sim, tenho certeza"
+					update="@form listLdapServer" oncomplete="confirmation.hide()"
+					actionListener="#{serverLdapController.delete}" />
+				<p:commandButton value="Não" onclick="confirmation.hide()"
+					type="button" />
+			</p:confirmDialog>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

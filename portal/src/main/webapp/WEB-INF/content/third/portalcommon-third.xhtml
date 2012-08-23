@@ -1,0 +1,21 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<h:outputStylesheet library="css" name="third/portalcommon-third.css" />
+	
+	<h:panelGroup layout="block" styleClass="applicationbar-wrapper ui-bar-light">
+		<ui:insert name="applicationbar-wrapper"/>
+	</h:panelGroup>
+	
+	<h:panelGroup layout="block" styleClass="favoritesbar-wrapper">
+		<ui:insert name="favoritesbar-wrapper"/>
+	</h:panelGroup>
+	
+	<h:panelGroup layout="block" styleClass="common-third-body">
+		<ui:insert name="common-third-body"/>
+	</h:panelGroup>
+	
+</ui:composition>

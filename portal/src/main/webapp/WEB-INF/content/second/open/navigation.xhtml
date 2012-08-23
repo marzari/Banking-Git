@@ -1,0 +1,34 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<h:form prependId="false" style="margin: 0px">
+	
+		<div class="main-navigation">
+			
+			<p:commandLink type="push" update=":open-second-body" actionListener="#{publicMenu.load('DEFAULT')}" styleClass="menu-item">  
+				<h:outputText value="Inicio" />  
+			</p:commandLink>
+			<div class="ui-splitter light"></div>
+			<p:commandLink type="push" update=":open-second-body" actionListener="#{publicMenu.load('PROJECT')}" styleClass="menu-item">  
+				<h:outputText value="Projetos" />  
+			</p:commandLink>
+			<div class="ui-splitter light"></div>
+			<p:commandLink type="push" update=":open-second-body" actionListener="#{publicMenu.load('SERVICE')}" styleClass="menu-item">  
+				<h:outputText value="Serviços" />  
+			</p:commandLink>
+			<div class="ui-splitter light"></div>
+			<p:commandLink type="push" update=":open-second-body" actionListener="#{publicMenu.load('CONTACT')}" styleClass="menu-item">  
+				<h:outputText value="Contato" />  
+			</p:commandLink>
+			<div class="ui-splitter light"></div>
+			<p:commandLink type="push" update=":open-second-body" actionListener="#{publicMenu.load('ABOUT')}" styleClass="menu-item">  
+				<h:outputText value="Sobre" />  
+			</p:commandLink>
+		
+		</div>
+	</h:form>
+	
+</ui:composition>

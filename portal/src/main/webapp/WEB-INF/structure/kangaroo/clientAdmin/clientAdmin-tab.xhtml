@@ -1,0 +1,34 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:form>
+
+	<p:dataTable var="cli" value="#{clientRepresentationController.beans}">
+
+		<p:column headerText="Name" style="width:100px">
+			<h:outputText value="#{cli.name}" />
+		</p:column>
+		
+		<p:column headerText="Description" style="width:200px">
+			<h:outputText value="#{cli.description}" />
+		</p:column>
+		
+		<p:column headerText="Version" style="width:100px">
+			<h:outputText value="#{cli.version}" />
+		</p:column>
+		
+		<p:column headerText="Path" style="width:200px">
+			<p:commandLink id="downloadLink" value="Download" ajax="false">
+				<f:setPropertyActionListener value="#{cli}" target="#{clientRepresentationController.selectedBean}" />
+				<p:fileDownload value="#{clientRepresentationController.file}" />
+			</p:commandLink>
+		</p:column>
+		
+	</p:dataTable>
+	
+</h:form>
+
+</ui:composition>

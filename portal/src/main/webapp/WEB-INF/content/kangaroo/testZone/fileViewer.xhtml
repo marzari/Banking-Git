@@ -1,0 +1,121 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	#{mqlFileViewerController.begin(3)}
+	
+	<h:form id="formKgFileViewer">
+	
+		<h:panelGroup layout="block" id="importedLayoutsTable" >
+
+			<p:dataTable var="txi" value="#{mqlFileViewerController.beans}" tableStyle="width:auto">
+	
+				<p:column headerText="Quando" style="width:100px">
+					<h:outputText value="#{txi.when}" />
+				</p:column>
+				
+				<p:column headerText="Referential Layout" style="width:100px">
+					<h:outputText value="#{txi.rlayoutName}" />
+				</p:column>
+				
+				<p:column headerText="Physical Layout" style="width:100px">
+					<h:outputText value="#{txi.playoutName}" />
+				</p:column>
+				
+				<p:column headerText="VC" style="width:20px">
+					<p:commandButton oncomplete="fileContentDialog.show();" update=":formKgFileViewer:fileContentBase" icon="ui-icon-search" title="View file content">
+						<f:setPropertyActionListener value="#{txi}" target="#{mqlFileViewerController.selected}" />
+					</p:commandButton>
+				</p:column>
+				
+				<p:column headerText="VP" style="width:20px">
+					<p:commandButton oncomplete="physicalContentDialog.show();" update=":formKgFileViewer:physicalContentBase" icon="ui-icon-search" title="View physical content" >
+						<f:setPropertyActionListener value="#{txi}" target="#{mqlFileViewerController.selected}" />
+					</p:commandButton>
+				</p:column>
+				
+				<p:column headerText="VR" style="width:20px">
+					<p:commandButton oncomplete="refContentDialog.show();" update=":formKgFileViewer:refContentBase" icon="ui-icon-search" title="View referential content" >
+						<f:setPropertyActionListener value="#{txi}" target="#{mqlFileViewerController.selected}" />
+					</p:commandButton>
+				</p:column>
+	
+			</p:dataTable>
+				
+			<p:dialog header="Conteudo Arquivo" widgetVar="fileContentDialog" resizable="false" width="900" height="500">
+				<h:panelGroup layout="block" id="fileContentBase" rendered="#{mqlFileViewerController.selected != null}">
+					<p:inputTextarea value="#{mqlFileViewerController.selected.content}" rows="50" cols="300"/> 
+				</h:panelGroup>
+			</p:dialog>
+			
+			<p:dialog header="Physical Layout View" widgetVar="physicalContentDialog" width="1000" height="500">
+			
+				<h:panelGroup layout="block" id="physicalContentBase">
+					
+					<p:tree value="#{mqlFileViewerController.proot}" var="node" id="pTreeBase" selectionMode="single" selection="#{mqlFileViewerController.selectedPhysical}">
+						<p:treeNode>
+							<h:outputText value="#{node.name}" />
+						</p:treeNode>
+					</p:tree>
+					
+					<p:commandButton value="View Selected" actionListener="#{mqlFileViewerController.viewPhysical}" update="physicalTable" />
+					
+					<h:panelGroup layout="block" id="physicalTable">
+						
+						<p:dataTable var="car" value="#{mqlFileViewerController.mappedBeans}">
+					        <p:columns value="#{mqlFileViewerController.columns}" var="column" columnIndexVar="colIndex" >  
+					            
+					            <f:facet name="header">#{column.header}</f:facet>  
+					            #{car.map[column.property]}
+					              
+					        </p:columns>  
+					  
+					    </p:dataTable>
+						
+					</h:panelGroup>
+					
+				</h:panelGroup>
+				
+			</p:dialog>
+			
+			<p:dialog header="Referential Layout View" widgetVar="refContentDialog" resizable="false" width="700" height="500">
+			
+				<h:panelGroup layout="block" id="refContentBase">
+				
+					<p:tree value="#{mqlFileViewerController.rroot}" var="node" id="rTreeBase" selectionMode="single" selection="#{mqlFileViewerController.selectedReferential}">
+						<p:treeNode>
+							<h:outputText value="#{node.name}" />
+						</p:treeNode>
+					</p:tree>
+					
+					<p:commandButton value="View Selected" actionListener="#{mqlFileViewerController.viewReferential}" update="referentialTable" />
+					
+					<h:panelGroup layout="block" id="referentialTable">
+						
+						<p:dataTable var="car" value="#{mqlFileViewerController.mappedBeans}">
+					        <p:columns value="#{mqlFileViewerController.columns}" var="column" columnIndexVar="colIndex" >  
+					            
+					            <f:facet name="header">#{column.header}</f:facet>  
+					            #{car.map[column.property]}
+					              
+					        </p:columns>  
+					  
+					    </p:dataTable>
+						
+					</h:panelGroup>
+				
+				</h:panelGroup>
+				
+			</p:dialog>
+		
+		</h:panelGroup>
+
+		<p:commandButton value="Update" type="push"
+			update="importedLayoutsTable"
+			actionListener="#{mqlFileViewerController.update}" />
+		
+	</h:form>
+	
+</ui:composition>

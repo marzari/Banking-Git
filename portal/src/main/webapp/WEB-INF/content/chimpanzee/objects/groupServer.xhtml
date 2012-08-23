@@ -1,0 +1,92 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:form id="registryGroupServer">
+	
+		#{groupServerController.begin(3)}
+	
+		<p:commandLink styleClass="ui-main-command" process="@form"
+			actionListener="#{groupServerController.create}"
+			update="registryGroupServer:registrypickListServer">
+			<p:graphicImage
+				value="#{resource['primefaces-esales-theme-default:images/main-command-plus.png']}"
+				height="24" width="23" />
+			<span>Inserir Novo Servidor</span>
+		</p:commandLink>
+
+		<h:panelGroup id="registrypickListServer"
+			rendered="#{groupServerController.has}">
+			
+			<p:fieldset legend="Cadastro de Grupo de Servidores">
+				<h:panelGroup id="pickListServers">
+
+					<h:outputLabel value="Nome Grupo:" />
+					<p:inputText id="nameServer" size="40"
+						title="Nome ex: servidor esales"
+						value="#{groupServerController.editing.identificacao}" />
+
+					<p:pickList id="pickList"
+						value="#{groupServerController.dualListGroup}" var="servers"
+						converter="serverConverter" itemLabel="#{servers.nome}"
+						itemValue="#{servers}">
+						<f:facet name="originalSource">Servidores Disponíveis</f:facet>
+						<f:facet name="target">Servidores Atribuídos</f:facet>
+					</p:pickList>
+
+				</h:panelGroup>
+
+			</p:fieldset>
+		</h:panelGroup>
+
+		<p:commandButton value="Salvar" update="@form registryGroupServer"
+			process="@form" actionListener="#{groupServerController.save}" />
+		<h:panelGroup id="groupServerList">
+			<p:dataTable id="serv" var="serv"
+				value="#{groupServerController.beans}" style="float"
+				paginator="true" rows="10" rowsPerPageTemplate="5,10,20,50"
+				sortOrder="descending"
+				paginatorTemplate="O sistema retornou #{groupServerController.beans.size().toString()} registros. {PageLinks}  {RowsPerPageDropdown}">
+
+				<p:column headerText="Identificacao">
+					<h:outputText value="#{serv.identificacao}" />
+				</p:column>
+				
+				<p:column headerText="Nome">
+					<h:outputText value="#{serv.serversDescriptions}" />
+				</p:column>
+
+				<p:column>
+					<p:commandLink update="@form">
+						<p:graphicImage value="/resources/images/edit.png" height="12"
+							width="12" />
+						<f:setPropertyActionListener value="#{serv}"
+							target="#{groupServerController.editing}" />
+					</p:commandLink>
+				</p:column>
+				<p:column>
+					<p:commandLink oncomplete="confirmation.show();" update="@form">
+						<p:graphicImage value="/resources/images/delete.png" height="12"
+							width="12" />
+						<f:setPropertyActionListener value="#{serv}"
+							target="#{groupServerController.editing}" />
+					</p:commandLink>
+				</p:column>
+
+			</p:dataTable>
+		</h:panelGroup>
+
+
+		<p:confirmDialog message="Excluir Servidor?"
+			header="Confirmação de exclusão" severity="alert"
+			widgetVar="confirmation" closable="false" modal="true">
+			<p:commandButton value="Sim, tenho certeza" update="@form groupServerList" oncomplete="confirmation.hide()"
+				actionListener="#{groupServerController.delete}" />
+			<p:commandButton value="Não" onclick="confirmation.hide()"
+				type="button" />
+		</p:confirmDialog>
+
+	</h:form>
+</ui:composition>

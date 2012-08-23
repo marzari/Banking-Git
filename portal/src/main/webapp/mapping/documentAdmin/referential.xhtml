@@ -1,0 +1,80 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:param name="windowClass" value="window-full"/>
+	<ui:param name="windowTitle" value="Referential"/>
+	
+	<ui:decorate template="/layout/window.xhtml">
+	
+	<ui:define name="windowBody">
+	
+		<h:form>
+	
+			<p:contextMenu for="referentialLayoutTree">  
+				<p:menuitem value="Adicionar" update="refFormBase referentialLayoutCtxMenu referentialLayoutTree rlmessages" actionListener="#{referentialModelTreeController.addNode}" icon="ui-icon ui-icon-plus" />
+				<p:menuitem value="Deletar" update="refFormBase referentialLayoutCtxMenu referentialLayoutTree rlmessages" actionListener="#{referentialModelTreeController.deleteNode}" icon="ui-icon ui-icon-close"/>				
+				<p:menuitem value="Atualizar" update="refFormBase referentialLayoutCtxMenu referentialLayoutTree rlmessages" actionListener="#{referentialModelTreeController.refreshTree}" icon="ui-icon ui-icon-refresh"/>
+			</p:contextMenu>
+			
+			<p:commandButton id="rfTreeSelectButton" type="submit" value="Editar" update="refFormBase referentialLayoutTree referentialLayoutCtxMenu rlmessages" action="#{referentialModelTreeController.onNodeDblClick}" style="display: none;"/>
+		
+			<h:panelGroup layout="block" id="panelTree">
+							
+				<p:tree id="referentialLayoutTree" value="#{referentialModelTreeController.root}" var="node" selectionMode="single" 
+		    		selection="#{referentialModelTreeController.selectedNode}" >
+		    		
+		    	<p:ajax event="select" listener="#{referentialModelTreeController.onNodeSelect}" update="refFormBase referentialLayoutTree rlmessages"/>
+		    	<p:ajax event="unselect" listener="#{referentialModelTreeController.onNodeUnselect}" update="refFormBase referentialLayoutTree rlmessages"/>
+		    	<p:ajax event="expand" listener="#{referentialModelTreeController.onNodeExpand}" />
+		    	<p:ajax event="collapse" listener="#{referentialModelTreeController.onNodeCollapse}" />  
+		    	
+						
+					<p:treeNode id="nodo1">  
+						<h:outputText value="#{node.name}"/>  
+					</p:treeNode>
+					  
+					<p:treeNode type="layout">
+						<h:outputText value="#{node.versionedName}" styleClass="treeLayoutStyle"/>  
+					</p:treeNode>
+					  
+					<p:treeNode type="segment">  
+						<h:outputText value="#{node.versionedName}" styleClass="treeSegmentStyle"/>  
+					</p:treeNode>
+		       
+		    	</p:tree>
+			
+			</h:panelGroup>
+			
+		</h:form>
+	
+	</ui:define>
+	
+	<ui:define name="lowtoolbar">
+	
+		<h:form prependId="false">
+	
+			<p:toolbar>
+	
+				<p:toolbarGroup align="left">
+					<p:commandButton type="push" image="ui-icon-help"/>
+				</p:toolbarGroup>
+	    		
+   			<p:toolbarGroup align="right" >
+ 			    <p:commandButton type="push" text="#{resources['system.common.object.refresh.message']}" image="ui-icon-refresh" actionListener="#{referentialModelTreeController.refreshTree}" update="referentialLayoutTree" />
+					<p:commandButton type="push" text="#{resources['system.common.object.add.message']}" image="ui-icon-plus" actionListener="#{referentialModelTreeController.addNode}" update="referentialLayoutTree"/>
+					<p:commandButton type="push" text="#{resources['system.common.object.delete.message']}" image="ui-icon-close" actionListener="#{referentialModelTreeController.deleteNode}" update="referentialLayoutTree referentialLayoutCtxMenu"/>
+					<p:commandButton type="push" value="#{resources['system.common.object.close.message']}" update="content-base" actionListener="#{referentialModelTreeController.cleanTreeWindow}"/>
+				</p:toolbarGroup>
+	
+			</p:toolbar>
+	
+		</h:form>
+	
+	</ui:define>
+	
+	</ui:decorate>	
+
+</ui:composition>

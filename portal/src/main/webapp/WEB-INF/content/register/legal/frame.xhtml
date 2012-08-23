@@ -1,0 +1,48 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+		<ui:decorate template="/layout/window.xhtml">
+			#{legalRegisterController.begin(3)}
+			
+			<ui:param name="windowClass" value="window-full" />
+			<ui:param name="windowTitle" value="Cadastro de fornecedor" />
+		
+			<ui:define name="windowBody">
+				<h:panelGroup id="legalRegisterMainPanel">
+				
+					<h:form id="legalRegisterMainForm">
+						<p:commandButton value="Novo Fornecedor" update=":legalRegisterMainPanel" actionListener="#{legalRegisterController.create}" process="@form" >
+							<f:setPropertyActionListener value="#{legalRegisterController.editing}"
+								target="#{legalRegisterController.addressController.register}" />
+							<f:setPropertyActionListener value="#{legalRegisterController.editing}"
+								target="#{legalRegisterController.contactController.register}" />
+						</p:commandButton>
+						<p:commandButton value="Limpar" update=":legalRegisterMainPanel" actionListener="#{legalRegisterController.clean}" process="@form"/>
+					</h:form>
+					
+					<h:panelGroup id="legalRegisterList" rendered="#{not legalRegisterController.has}">
+						<ui:include src="filter.xhtml">
+						     <ui:param name="idList" value="legalRegisterList" />
+						     <ui:param name="filterForm" value="legalRegisterFilterForm" />
+						     <ui:param name="parentController" value="#{legalRegisterController}" />
+						</ui:include>				
+						<ui:include src="list.xhtml">
+						     <ui:param name="idList" value="legalRegisterList" />
+						     <ui:param name="listForm" value="legalRegisterListForm" />
+						     <ui:param name="mainPanel" value="legalRegisterMainPanel" />
+						     <ui:param name="parentController" value="#{legalRegisterController}" />
+						</ui:include>
+					</h:panelGroup>
+					
+					<h:panelGroup id="legalRegisterEdit" rendered="#{legalRegisterController.has}">
+						<ui:include src="form.xhtml" >
+						     <ui:param name="controllerB" value="#{legalRegisterController}" />
+						</ui:include>
+					</h:panelGroup>
+				</h:panelGroup>
+			</ui:define>
+		</ui:decorate>
+</ui:composition>

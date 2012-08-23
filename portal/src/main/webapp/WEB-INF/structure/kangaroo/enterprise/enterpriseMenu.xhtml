@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	
+	template="/layout/window.xhtml">
+	
+	<ui:param name="windowClass" value="window-menu"/>
+	<ui:param name="windowTitle" value=""/>
+	
+	<ui:define name="windowBody">
+	
+		<h:form prependId="false">
+		
+		   	<p:menu maxHeight="480" style="width: 90%; margin: 0 auto;">  
+		
+		        <p:submenu label="Company"> 
+		        	<p:menuitem value="Empresa" update="mapping-tab:enterprise-content" actionListener="#{mappingMenu.loadContent('/mapping/enterprise/company.xhtml')}"/>
+	        		<p:menuitem value="Client" update="mapping-tab:enterprise-content" actionListener="#{mappingMenu.loadContent('/mapping/enterprise/client.xhtml')}"/>
+	        		<p:menuitem value="EBox" update="mapping-tab:enterprise-content" actionListener="#{mappingMenu.loadContent('/mapping/enterprise/box.xhtml')}"/>
+	        		<p:menuitem value="Document" update="mapping-tab:enterprise-content" actionListener="#{mappingMenu.loadContent('/mapping/enterprise/document.xhtml')}"/>
+	        	</p:submenu>
+	        	
+	        	<p:submenu label="Connection">
+	        		<p:menuitem value="Relation" update="mapping-tab:enterprise-content" actionListener="#{mappingMenu.loadContent('/mapping/enterprise/relation.xhtml')}"/>
+	        		<p:menuitem value="Link" update="mapping-tab:enterprise-content" actionListener="#{mappingMenu.loadContent('/mapping/enterprise/link.xhtml')}"/>
+	        	</p:submenu>
+	        	
+	        	<p:submenu label="Social Network">
+	        		<p:menuitem value="My Network" update="mapping-tab:enterprise-content" actionListener="#{mappingMenu.loadContent('/mapping/enterprise/mynetwork.xhtml')}"/>
+	        		<p:menuitem value="My Connections" update="mapping-tab:enterprise-content" actionListener="#{mappingMenu.loadContent('/mapping/enterprise/myconnections.xhtml')}"/>
+	        	</p:submenu>
+	        	
+		    </p:menu>
+		
+		</h:form>
+	
+	</ui:define>
+		
+</ui:composition>

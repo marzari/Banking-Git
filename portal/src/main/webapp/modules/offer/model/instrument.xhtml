@@ -1,0 +1,107 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:composition>
+
+<h:form>
+
+<h:panelGroup layout="block" id="instrumentTableBase" style="width: 750px; margin: 50px;">
+
+	<p:dataTable value="#{instrumentController.beans}" var="att">
+  
+  		<p:ajax event="rowEdit" listener="#{instrumentController.saveInstrument}" update="algorithmTableBase"/>
+  		
+        <f:facet name="header">
+            Cadastro de Instrumento (Tipo de serviço negociado num contrato)
+        </f:facet>
+
+		<p:column headerText="Aplicação ou Produto" style="width:150px">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{att.offer.name} (#{att.offer.description})" /></f:facet>
+                <f:facet name="input">
+                	<p:selectOneMenu value="#{att.offer}" converter="offerConverter" style="width:150px">
+                		<f:selectItem itemLabel="Não vinculado a aplicação" itemValue=""></f:selectItem>
+						<f:selectItems value="#{offerController.beans}" var="al" itemLabel="#{al.name} (#{al.description})" itemValue="#{al}" />  
+					</p:selectOneMenu>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Nome" style="width:150px">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{att.name}" /></f:facet>
+                <f:facet name="input"><p:inputText value="#{att.name}" style="width:90%"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+  
+        <p:column headerText="Descrição" style="width:250px">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{att.description}"/></f:facet>
+                <f:facet name="input"><p:inputText value="#{att.description}" style="width:90%"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        
+		<p:column style="width:10px">
+			<p:commandLink oncomplete="instrumentDialog.show();" update="@form:instrumentFormBase">
+				<p:graphicImage value="/images/magnifier.png" height="12" width="12"/>
+				<f:setPropertyActionListener value="#{att}" target="#{instrumentController.bean}" />
+			</p:commandLink>
+		</p:column>
+		<p:column style="width:10px">
+			<p:rowEditor/>
+		</p:column>
+		<p:column style="width:10px">
+			<p:commandLink oncomplete="confirmation.show();">
+				<p:graphicImage value="/images/delete.png" height="12" width="12"/>
+				<f:setPropertyActionListener value="#{att}" target="#{instrumentController.bean}" />
+			</p:commandLink>
+		</p:column>
+  
+    </p:dataTable>
+    
+    <p:confirmDialog message="Você tem certeza que deseja desativar este instrumento" header="Confirmação de exclusão" severity="alert" widgetVar="confirmation">  
+        <p:commandButton value="Sim, tenho certeza" update="instrumentTableBase" oncomplete="confirmation.hide()" actionListener="#{instrumentController.delete}"/>  
+        <p:commandButton value="Não" onclick="confirmation.hide()" type="button"/>
+    </p:confirmDialog>
+	
+	<p:commandLink actionListener="#{instrumentController.addInstrument}" update="instrumentTableBase" style="margin: 3px;">
+		<p:graphicImage value="/images/add.png" height="12" width="12" />
+	</p:commandLink>
+       
+</h:panelGroup>
+
+<p:dialog header="Editor" widgetVar="instrumentDialog" minHeight="400" minWidth="300" modal="true">  
+    
+    <h:panelGroup layout="block">
+			
+		<p:fieldset id="instrumentFormBase" legend="Vinculação de Algoritmos">
+		           
+			<h:panelGroup rendered="#{instrumentController.has()}">
+		           	
+				<h:outputLabel value="Algoritmos"/>
+				<p:selectManyCheckbox value="#{instrumentController.bean.algorithms}" converter="billAlgorithmConverter" layout="pageDirection">  
+					<f:selectItems value="#{algorithmController.beans}" var="al" itemLabel="#{al.name} - #{al.description}" itemValue="#{al}" />  
+				</p:selectManyCheckbox>
+				
+			</h:panelGroup>
+			
+		</p:fieldset>
+		
+		<p:commandButton type="push" value="Salvar" actionListener="#{instrumentController.save}" oncomplete="instrumentDialog.hide();"/>
+			
+	</h:panelGroup>
+	    
+</p:dialog> 
+
+</h:form>
+
+</ui:composition>
+
+</h:body>
+
+</html>

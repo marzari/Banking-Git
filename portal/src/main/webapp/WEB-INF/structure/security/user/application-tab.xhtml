@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:decorate template="/layout/window.xhtml">
+	
+		<ui:param name="windowClass" value="window-full"/>
+		<ui:param name="windowTitle" value="Aplicações"/>
+	
+		<ui:define name="windowBody">
+		
+			<h:form id="userApplicationForm">
+			
+				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+
+					<p:selectOneMenu value="#{userApplicationController.selectedUserId}" style="width: 200px;" id="userSelection">
+						<f:selectItem itemLabel="Selecione Usuário" itemValue="" />
+						<f:selectItems value="#{userController.beans}" var="user" itemLabel="#{user.fullName}" itemValue="#{user.id}"/>
+					</p:selectOneMenu>
+					<p:commandButton value="OK" update="userApplicationBase" actionListener="#{userApplicationController.dealUserSelection}" />
+					
+				</h:panelGrid>
+				
+				<h:panelGroup layout="block" id="userApplicationBase">
+
+					<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5" rendered="#{userApplicationController.has()}">
+					
+						<h:outputText value="Applications"/>
+						<p:selectManyCheckbox value="#{userApplicationController.selectedUser.applications}" layout="pageDirection">  
+	            			<f:selectItems value="#{portalApplicationController.applications}" var="app" itemLabel="#{app.description}" itemValue="#{app.name}"/>  
+	        			</p:selectManyCheckbox>
+	        			
+	        			<p:commandButton value="Save" update="userApplicationBase" actionListener="#{userApplicationController.save}" />
+	        			
+	        		</h:panelGrid>
+	        		
+				</h:panelGroup>
+
+			</h:form>
+			
+		</ui:define>
+		
+	</ui:decorate>
+
+</ui:composition>

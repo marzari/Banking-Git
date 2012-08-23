@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+
+<p:dialog id="modalDialog" header="Filtro" widgetVar="dlg2"
+				modal="true" height="350" width="620" resizable="false"
+				showEffect="fade" hideEffect="drop">
+
+				<p:fieldset legend="Filtrar Consulta de Titulos"
+					style="margin: 30px">
+
+					<h:form>
+
+						<h:panelGrid id="filter" columns="2" cellpadding="5">
+
+							<h:outputText value="Espécie: " />
+							<p:selectOneMenu
+								value="#{collectionController.filter.selectEspecie}"
+								disabled="true">
+								<f:selectItem itemLabel="Select One" itemValue="" />
+								<f:selectItem itemLabel="Cheque" itemValue="Cheque" />
+								<f:selectItem itemLabel="DM" itemValue="DM" />
+								<f:selectItem itemLabel="Duplicata mercantil por indicação"
+									itemValue="DMI" />
+								<f:selectItem itemLabel="Duplicata de serviço" itemValue="DS" />
+								<f:selectItem itemLabel="Duplicata rural" itemValue="5" />
+								<f:selectItem itemLabel="Letra de câmbio" itemValue="6" />
+								<f:selectItem itemLabel="Nota de crédito a exportação"
+									itemValue="7" />
+								<f:selectItem itemLabel="Nota de crédito industrial"
+									itemValue="8" />
+								<f:selectItem itemLabel="Nota de crédito rual" itemValue="9" />
+								<f:selectItem itemLabel="Triplicata mercantil" itemValue="10" />
+								<f:selectItem itemLabel="Triplicata de serviço" itemValue="11" />
+							</p:selectOneMenu>
+
+							<h:outputText value="Data de geração inicial:" />
+							<p:calendar
+								value="#{collectionController.filter.initialDateGenerate}"
+								pattern="dd/MM/yyyy" />
+
+							<h:outputText value="Data de geração final:" />
+							<p:calendar
+								value="#{collectionController.filter.finalDateGenerate}"
+								pattern="dd/MM/yyyy" />
+
+
+							<h:outputText value="Data inicial de vencimento:" />
+							<p:calendar
+								value="#{collectionController.filter.initialDateMaturity}"
+								pattern="dd/MM/yyyy" />
+
+							<h:outputText value="Data final de vencimento:" />
+							<p:calendar
+								value="#{collectionController.filter.finalDateMaturity}"
+								pattern="dd/MM/yyyy" />
+
+
+						</h:panelGrid>
+
+						<p:commandButton value="Filtrar"
+							actionListener="#{collectionController.executeFilter}"
+							update=":collectionForm:collectiontable"
+							oncomplete="dlg2.hide()" process="@form, @this"
+							style="float: right;" />
+
+					</h:form>
+
+				</p:fieldset>
+			</p:dialog>
+			
+</ui:composition>

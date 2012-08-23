@@ -1,0 +1,92 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:composition>
+
+<h:form>
+
+<h:panelGroup layout="block" id="providerPartnerTableBase" style="padding: 50px; width: 600px;">
+
+	<p:dataTable var="att" value="#{legalPartnerController.beans}">
+	  
+	  	<p:ajax event="rowEdit" listener="#{legalPartnerController.savePartner}"/>
+	  
+		<f:facet name="header">
+		     Prestadores PJ
+		</f:facet>
+	  
+		<p:column style="width:16px">
+			<p:rowToggler />
+		</p:column>
+		
+		<p:column headerText="Razão Social" style="width:200px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.register.companyName}"/></f:facet>
+				<f:facet name="input"><p:inputText value="#{att.register.companyName}" style="width:90%"/></f:facet>
+			</p:cellEditor>
+		</p:column>
+		
+		<p:column headerText="CNPJ" style="width:100px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.register.getRegistration('cnpj').value}"/></f:facet>
+				<f:facet name="input"><p:inputMask value="#{att.register.getRegistration('cnpj').value}" required="true" mask="99.999.999/9999-99" size="20" maxlength="20"/></f:facet>
+			</p:cellEditor>
+		</p:column>
+		
+		<p:column style="width:10px">
+			<p:rowEditor/>
+		</p:column>
+	
+		<p:rowExpansion>
+		 	
+		 	<h:outputStylesheet>
+		 		.label {
+		 			width: 100px;
+		 		}
+		 	</h:outputStylesheet>
+		 
+	    	<h:panelGrid columns="2" style="float: left; margin: 20px; border: none; width: 500px;" cellpadding="5" columnClasses="label, value">
+			
+				<h:outputLabel value="Razão Social"/>
+				<p:inputText value="#{att.register.companyName}" required="true" size="50" maxlength="50"/>
+				
+				<h:outputLabel value="CNPJ"/>
+				<p:inputMask value="#{att.register.getRegistration('cnpj').value}" required="true" mask="99.999.999/9999-99" size="20" maxlength="20"/>
+				
+				<h:outputLabel value="Inscrição Estadual"/>
+				<p:inputText value="#{att.register.getRegistration('inscrest').value}" size="20" maxlength="20"/>
+				
+				<h:outputLabel value="Inscrição Municipal"/>
+				<p:inputText value="#{att.register.getRegistration('inscrmun').value}" size="20" maxlength="20"/>
+				
+				<h:outputLabel value="Nome Fantasia"/>
+				<p:inputText value="#{att.register.fancyName}" size="50" maxlength="50"/>
+				
+			</h:panelGrid>
+			
+			<p:commandButton type="push" value="Salvar" image="ui-icon-disk">
+				<f:setPropertyActionListener value="#{att}" target="#{legalPartnerController.beanToBeSaved}" />
+			</p:commandButton>
+			
+	    </p:rowExpansion>  
+			
+	</p:dataTable>
+	
+	<p:commandLink actionListener="#{legalPartnerController.addPartner('LegalProvider')}" update="providerPartnerTableBase" style="margin: 3px;">
+		<p:graphicImage value="/images/add.png" height="12" width="12" />
+	</p:commandLink>
+	
+</h:panelGroup> 
+
+</h:form>
+
+</ui:composition>
+
+</h:body>
+
+</html>

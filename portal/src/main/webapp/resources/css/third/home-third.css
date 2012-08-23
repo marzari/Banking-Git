@@ -1,0 +1,89 @@
+
+.open-main-body {
+	width: 100%;
+}
+
+/* navigation */
+.navigation-menu {
+	position: absolute;
+	right: 1px;
+	top: 1px;
+}
+
+.navigation-menu form {
+	float: right;
+}
+
+.menu-item {
+	margin-left: 10px;
+	margin-right:  10px;
+	float: left;
+	font-size: 1.1em;
+}
+
+.menu-separator {
+	float: left;
+}
+
+
+/* content */
+.content-wrapper {
+	height: 100%;
+	margin-top: 1%;
+	width: 1150px;
+	position: relative;
+	left: 50%;
+	margin-left: -575px;
+}
+
+.banner-wrapper {
+	margin-left: 70px !important;
+	background-color: #F5F5F5;
+	text-align: center;
+}
+
+.banner-wrapper-text {
+	position: relative;
+	top: 40px; 
+}
+
+.apps-highlights-wrapper {
+	/* margin: 1%; */
+	overflow: hidden;
+	/* width: 75%; */
+	width: 750px;
+}
+
+.app-gadget {
+	float: left;
+	width: 22%;
+	margin-right: 15px;
+}
+
+.apps-other-wrapper {
+	height: 221px;
+	overflow: hidden;
+}
+
+.s-app-gadget {
+	width: 14%;
+	float: left;
+	margin-right: 15px;
+}
+
+.summaries-wrapper {
+	width: 24%;
+	background-color: #F5F5F5;
+	float: right;
+}
+
+.summary-template {
+	width: 100%;
+}
+
+.summary-template h4 {
+	margin: 10px;
+}
+.summary-template p {
+	margin: 10px;	
+}

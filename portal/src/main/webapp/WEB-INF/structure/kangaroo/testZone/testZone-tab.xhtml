@@ -1,0 +1,56 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:form>
+	
+		<p:splitButton value="Cadastrar Layouts com MQL" actionListener="#{testZoneController.load('loadWithMQL')}" update=":kangaroo-tab:selected-wrapper">
+		`
+			<p:menuitem value="Importar arquivo de MQL" actionListener="#{testZoneController.load('importLayout')}" update=":kangaroo-tab:selected-wrapper" />
+			<p:menuitem value="Visualizar layout importado" actionListener="#{testZoneController.load('viewLayout')}" update=":kangaroo-tab:selected-wrapper" />
+			<p:separator />
+			<p:menuitem value="Importar arquivo" actionListener="#{testZoneController.load('importFile')}" update=":kangaroo-tab:selected-wrapper"/>
+			<p:menuitem value="Visualizar arquivo importado" actionListener="#{testZoneController.load('viewFile')}" update=":kangaroo-tab:selected-wrapper"/>
+			<p:separator />
+			<p:menuitem value="Importar Biblioteca Delivery" actionListener="#{testZoneController.load('importDelivery')}" update=":kangaroo-tab:selected-wrapper"/>
+			<p:menuitem value="Testar Delivery" actionListener="#{testZoneController.load('testDelivery')}" update=":kangaroo-tab:selected-wrapper"/>
+			
+		</p:splitButton>
+		
+	</h:form>
+	
+	<h:panelGroup layout="block" id="selected-wrapper">
+		
+		<ui:fragment rendered="#{testZoneController.isLoaded('loadWithMQL')}">
+			<ui:include src="mqlEditor.xhtml"/>
+		</ui:fragment>
+		
+		<ui:fragment rendered="#{testZoneController.isLoaded('viewLayout')}">
+			<ui:include src="layoutViewer.xhtml"/>
+		</ui:fragment>
+		
+		<ui:fragment rendered="#{testZoneController.isLoaded('importLayout')}">
+			<ui:include src="layoutImporter.xhtml"/>
+		</ui:fragment>
+		
+		<ui:fragment rendered="#{testZoneController.isLoaded('importFile')}">
+			<ui:include src="fileImporter.xhtml"/>
+		</ui:fragment>
+		
+		<ui:fragment rendered="#{testZoneController.isLoaded('viewFile')}">
+			<ui:include src="fileViewer.xhtml"/>
+		</ui:fragment>
+		
+		<ui:fragment rendered="#{testZoneController.isLoaded('importDelivery')}">
+			<ui:include src="deliveryImporter.xhtml"/>
+		</ui:fragment>
+		
+		<ui:fragment rendered="#{testZoneController.isLoaded('testDelivery')}">
+			<ui:include src="deliveryTester.xhtml"/>
+		</ui:fragment>
+		
+	</h:panelGroup>
+
+</ui:composition>

@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	<h:form prependId="false">
+	<h:panelGrid columns="1" style="margin: 0 auto; top: 200px; position: relative; font-size: 1.5em;" cellpading="15" styleClass="registerGrid">
+		
+		<p:commandLink type="push" update=":public-main-body" actionListener="#{publicMenu.load('REGISTER.KANGAROO')}" styleClass="menu-item" style="text-decoration: none;">  
+			<h1 class="h1-register">Kangaroo Application</h1>
+		</p:commandLink>
+		
+		<p:commandLink type="push" update=":public-main-body" actionListener="#{publicMenu.load('REGISTER.PROCUREMENT')}" styleClass="menu-item" style="text-decoration: none;">  
+			<h1 class="h1-register">Portal E-Procurement</h1>
+		</p:commandLink>
+
+		<p:commandLink type="push" update=":public-main-body" actionListener="#{publicMenu.load('REGISTER.BANKING')}" styleClass="menu-item" style="text-decoration: none;">  
+			<h1 class="h1-register">Portal Financeiro E-Sales</h1>
+		</p:commandLink>
+		
+	</h:panelGrid>
+	</h:form>
+       
+</ui:composition>

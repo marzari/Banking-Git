@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:panelGroup layout="block" styleClass="#{windowClass}">
+	
+    <div class="window-title ui-big-title-dark">           
+   		<h1>#{windowTitle}</h1>
+    </div>
+	
+    <div class="window-alert">           
+  		<ui:insert name="windowAlert"/>
+    </div>
+    
+    <div class="window-body">
+   		<ui:insert name="windowBody"/>
+    </div>
+    
+    <div class="window-nav">
+   		<ui:insert name="windowNav"/>
+    </div>
+    
+   </h:panelGroup>
+
+</ui:composition>

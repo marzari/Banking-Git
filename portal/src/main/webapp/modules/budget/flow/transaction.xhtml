@@ -1,0 +1,178 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:composition>
+
+<h:form>
+
+<h:panelGroup layout="block" id="transactionsTableBase" style="width: 1200px; height: 400px; margin: 20px;">
+
+	<p:dataTable id="transactionsTable" value="#{flowTransactionController.beans}" var="att" paginator="true" rows="15">
+
+		<f:facet name="header">
+			<p:outputPanel>
+				<h:outputText value="Procurar: " />  
+				<p:inputText id="globalFilter" onkeyup="transactionsTable.filter()" style="width:150px" />  
+			</p:outputPanel>  
+		</f:facet>
+
+
+		<p:column headerText="Categoria" style="width: 80px;" sortBy="#{att.categoryDescription}" filterBy="#{att.categoryDescription}" filterMatchMode="contains">
+       		<h:outputText value="#{att.categoryDescription}" />
+       	</p:column>
+       	<p:column headerText="SubCategoria" style="width: 80px;" sortBy="#{att.subCategoryDescription}" filterBy="#{att.subCategoryDescription}" filterMatchMode="contains">
+       		<h:outputText value="#{att.subCategoryDescription}" />
+       	</p:column>
+       	<p:column headerText="Cedente" style="width: 80px;" sortBy="#{att.payeeDescription}" filterBy="#{att.payeeDescription}" filterMatchMode="contains">
+       		<h:outputText value="#{att.payeeDescription}" />
+       	</p:column>
+		<p:column sortBy="#{att.ocurrence}" filterBy="#{att.ocurrence}" filterMatchMode="contains" headerText="Data" style="width: 80px;">
+			<h:outputText value="#{att.ocurrence}" converter="#{dateCalendarConverter}" />
+		</p:column>
+		<p:column sortBy="#{att.description}" filterBy="#{att.description}" filterMatchMode="contains" headerText="Descrição">
+			<h:outputText value="#{att.description}" />
+		</p:column>
+		<p:column sortBy="#{att.amount}" filterBy="#{att.amount}" filterMatchMode="contains" headerText="Valor" style="width: 80px;">
+			<h:outputText value="#{att.amount}" />
+		</p:column>
+		<p:column sortBy="#{att.accountDescription}" filterBy="#{att.accountDescription}" filterMatchMode="contains" headerText="Conta" style="width: 80px;">
+			<h:outputText value="#{att.accountDescription}" />
+		</p:column>
+		<p:column sortBy="#{att.operationDescription}" filterBy="#{att.operationDescription}" filterMatchMode="contains" headerText="Operação" style="width: 80px;">
+			<h:outputText value="#{att.operationDescription}" />
+		</p:column>
+		<p:column sortBy="#{att.statusDescription}" filterBy="#{att.statusDescription}" filterMatchMode="contains" headerText="Situação" style="width: 80px;">
+			<h:outputText value="#{att.statusDescription}" />
+		</p:column>
+		
+		<p:column style="width:10px">
+			<p:commandLink update="@form:transactionsFormBase" oncomplete="transactionDialog.show()">
+				<p:graphicImage value="/images/edit.png" height="12" width="12"/>
+				<f:setPropertyActionListener value="#{att}" target="#{flowTransactionController.bean}" />
+			</p:commandLink>
+		</p:column>
+		
+		<p:column style="width:10px">
+			<p:commandLink update="@form:entriesTableBase" oncomplete="entryDialog.show()">
+				<p:graphicImage value="/images/dollar.png" height="12" width="12"/>
+				<f:setPropertyActionListener value="#{att}" target="#{flowTransactionController.bean}" />
+			</p:commandLink>
+		</p:column>
+		
+		<p:column style="width:10px">
+			<p:commandLink>
+				<p:graphicImage value="/images/delete.png" height="12" width="12"/>
+				<f:setPropertyActionListener value="#{att}" target="#{flowTransactionController.bean}" />
+			</p:commandLink>
+		</p:column>
+		
+	</p:dataTable>
+	
+	<p:commandLink onclick="transactionDialog.show();" style="margin: 10px;">
+		<p:graphicImage value="/images/add.png" height="12" width="12"/>
+	</p:commandLink>
+	
+</h:panelGroup>
+
+<p:dialog header="Editor" widgetVar="transactionDialog" minHeight="400" minWidth="600" modal="true">
+
+	<p:toolbar>
+		<p:toolbarGroup align="left">
+			<p:commandButton type="push" value="Novo" image="ui-icon-document" 
+				actionListener="#{flowTransactionController.create}" update="transactionsFormBase"/>
+			<p:commandButton type="push" value="Salvar" image="ui-icon-disk"
+				actionListener="#{flowTransactionController.save}" update="transactionsFormBase transactionsTableBase"/>
+			<p:commandButton type="push" value="Limpar" image="ui-icon-note"
+				actionListener="#{flowTransactionController.clean}" update="transactionsFormBase" />
+		</p:toolbarGroup>
+	</p:toolbar>
+
+	<p:fieldset id="transactionsFormBase" legend="Transação" style="position: absolute;">
+          
+		<h:panelGrid columns="2" cellpadding="5" rendered="#{flowTransactionController.has()}">
+	
+			<h:outputText value="Descrição" />  
+			<p:inputText style="margin: 3px;" label="Nome" value="#{flowTransactionController.bean.description}" size="50" maxlength="50"/>
+			
+			<h:outputText value="Valor" /> 
+			<p:inputText style="margin: 3px;" label="Nome" value="#{flowTransactionController.bean.amount}" size="30" maxlength="30"/>
+			    
+			<h:outputText value="Data" /> 
+			<p:calendar value="#{flowTransactionController.bean.ocurrence}" converter="#{dateCalendarConverter}" pattern="dd/MM/yyyy"/>  
+			    
+			<h:outputText value="Conta" /> 
+			<p:autoComplete value="#{flowTransactionController.bean.account}" style="width: 130px;"
+			        completeMethod="#{accountController.getAccountsAC}"
+			        var="account" itemLabel="#{account.description}"   
+			        itemValue="#{account}" converter="accountConverter"/>
+	
+		</h:panelGrid>
+		
+	</p:fieldset>
+
+</p:dialog>
+
+<p:dialog header="Editor" widgetVar="entryDialog" minHeight="150" minWidth="750" modal="true">
+
+	<p:fieldset id="entriesTableBase" legend="Lançamento" style="position: absolute;">
+        
+        <p:dataTable id="entriesTable" value="#{flowTransactionController.entries}" var="ett">
+
+			<p:ajax event="rowEdit" listener="#{flowTransactionController.saveEntry}"/>
+
+			<p:column headerText="Data" style="width:150px">  
+				<p:cellEditor>  
+					<f:facet name="output"><h:outputText value="#{ett.ocurrence}" converter="#{dateCalendarConverter}"/></f:facet>  
+					<f:facet name="input"><p:calendar value="#{ett.ocurrence}" style="width:100%" converter="#{dateCalendarConverter}"/></f:facet>  
+				</p:cellEditor>  
+			</p:column>
+			<p:column headerText="Descrição" style="width:150px">  
+				<p:cellEditor>  
+					<f:facet name="output"><h:outputText value="#{ett.description}"/></f:facet>  
+					<f:facet name="input"><p:inputText value="#{ett.description}" style="width:100%"/></f:facet>  
+				</p:cellEditor>  
+			</p:column>
+			<p:column headerText="Valor" style="width:80px">  
+				<p:cellEditor>  
+					<f:facet name="output"><h:outputText value="#{ett.amount}"/></f:facet>  
+					<f:facet name="input"><p:inputText value="#{ett.amount}" style="width:100%"/></f:facet>  
+				</p:cellEditor>  
+			</p:column>
+			<p:column headerText="Conta" style="width:80px">  
+				<p:cellEditor>  
+					<f:facet name="output"><h:outputText value="#{ett.accountDescription}"/></f:facet>  
+					<f:facet name="input">
+						<p:autoComplete value="#{ett.account}" style="width: 130px;"
+					        completeMethod="#{accountController.getAccountsAC}"
+					        var="account" itemLabel="#{account.description}"   
+					        itemValue="#{account}" converter="accountConverter"/>
+					</f:facet>  
+				</p:cellEditor>  
+			</p:column>
+			
+			<p:column style="width:10px">  
+				<p:rowEditor/>
+			</p:column>  
+			
+		</p:dataTable>
+		
+		<p:commandLink actionListener="#{flowTransactionController.addEntry}" update="entriesTableBase" style="margin: 10px;">
+			<p:graphicImage value="/images/add.png" height="12" width="12"/>
+		</p:commandLink>
+          
+	</p:fieldset>
+
+</p:dialog>
+
+</h:form>
+
+</ui:composition>
+
+</h:body>
+	    
+</html>

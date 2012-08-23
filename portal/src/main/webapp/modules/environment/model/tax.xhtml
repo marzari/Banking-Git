@@ -1,0 +1,75 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:kui="http://java.sun.com/jsf/composite/comp/ui">
+
+<h:body>
+
+<ui:composition>
+
+<h:form>
+
+<h:panelGroup layout="block" id="taxTableBase" style="padding: 50px; width: 500px;">
+
+	<p:dataTable id="taxTable" value="#{taxController.beans}" var="att">
+	
+		<p:ajax event="rowEdit" listener="#{taxController.saveTax}"/>
+		
+		<f:facet name="header">
+            Impostos
+        </f:facet>
+	
+		<p:column headerText="Código" style="width:80px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.code}"/></f:facet>  
+				<f:facet name="input"><p:inputText value="#{att.code}" size="20" style="width: 90%"/></f:facet>  
+			</p:cellEditor>  
+		</p:column>
+		
+		<p:column headerText="Nome" style="width:80px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.name}"/></f:facet>  
+				<f:facet name="input"><p:inputText value="#{att.name}" size="20" style="width: 90%"/></f:facet>  
+			</p:cellEditor>  
+		</p:column>
+		
+		<p:column headerText="Descrição" style="width:150px">
+			<p:cellEditor>
+				<f:facet name="output"><h:outputText value="#{att.description}"/></f:facet>  
+				<f:facet name="input"><p:inputText value="#{att.description}" size="20" style="width: 90%"/></f:facet>  
+			</p:cellEditor>  
+		</p:column>
+		
+		
+		<p:column style="width:10px">
+			<p:rowEditor/>
+		</p:column>
+		<p:column style="width:10px">
+			<p:commandLink oncomplete="confirmation.show();">
+				<p:graphicImage value="/images/delete.png" height="12" width="12"/>
+				<f:setPropertyActionListener value="#{att}" target="#{taxController.bean}" />
+			</p:commandLink>
+		</p:column>
+		
+	</p:dataTable>
+	
+	<p:confirmDialog message="Você tem certeza que deseja desativar este imposto" header="Confirmação de exclusão" severity="alert" widgetVar="confirmation">  
+        <p:commandButton value="Sim, tenho certeza" update="taxTableBase" oncomplete="confirmation.hide()" actionListener="#{taxController.delete}"/>  
+        <p:commandButton value="Não" onclick="confirmation.hide()" type="button"/>   
+    </p:confirmDialog>
+	
+	<p:commandLink actionListener="#{taxController.addTax}" update="taxTableBase" style="margin: 3px;">
+		<p:graphicImage value="/images/add.png" height="12" width="12" />
+	</p:commandLink>
+
+</h:panelGroup>
+
+</h:form>
+	
+</ui:composition>
+
+</h:body>
+
+</html>

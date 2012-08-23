@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="chimpanzee" description="Chimpanzee" icon="resources/images/chimpanzeeIcon.png" page="chimpanzee.xhtml" type="php"/>

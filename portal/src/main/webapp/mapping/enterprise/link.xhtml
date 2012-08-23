@@ -1,0 +1,133 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	
+	template="/layout/window.xhtml">
+	
+	<ui:param name="windowClass" value="window-full"/>
+	<ui:param name="windowTitle" value="Conectores"/>
+	
+	<ui:define name="windowBody">
+	
+		<h:form>
+			
+			<h:panelGroup layout="block" style="margin: 10px;">
+				<h:panelGrid columns="3" cellpadding="5">
+					<h:outputLabel value="Selecione a Empresa"/>
+					<p:selectOneMenu style="width: 200px;" value="#{kgLinkController.companyId}">
+						<f:selectItems value="#{kgCompanyController.beans}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>  
+					</p:selectOneMenu>
+					<p:commandButton value="OK" update="linkTableBase" actionListener="#{kgLinkController.handleCompanyChange}"/>  
+				</h:panelGrid>
+			</h:panelGroup>
+			
+			<hr/>
+	
+			<h:panelGroup layout="block" id="linkTableBase" style="width: 700px; margin: 50px;" >
+			
+				<p:dataTable id="linkTable" value="#{kgLinkController.beans}" var="att">
+				
+					<p:column headerText="Parceiro">
+				    	<h:outputText value="#{att.partnerCompany.name}"/>
+				    </p:column>
+				
+				    <p:column headerText="Caixa Postal A">
+				    	<h:outputText value="#{att.sideOne.name}"/>
+				    </p:column>
+				    
+				    <p:column headerText="Caixa Postal B">
+				    	<h:outputText value="#{att.sideTwo.name}"/>
+				    </p:column>
+				    
+				    <p:column headerText="Documento">
+				    	<h:outputText value="#{att.document}"/>
+				    </p:column>
+				    
+				    <p:column headerText="Data Criação">
+				    	<h:outputText value="#{att.start}"/>
+				    </p:column>
+				    
+				    <p:column headerText="Status">
+				    	<h:outputText value="#{att.status}"/>
+				    </p:column>
+				    
+				    <p:column style="width:10px">
+						<p:commandLink update="@form:linkFormBase" oncomplete="linkDialog.show();">
+							<p:graphicImage value="/resources/images/edit.png" height="12" width="12" />
+							<f:setPropertyActionListener value="#{att}" target="#{kgLinkController.editing}"/>
+						</p:commandLink>
+					</p:column>
+					<p:column style="width:10px">
+						<p:commandLink oncomplete="confirmation.show();">
+							<p:graphicImage value="/resources/images/delete.png" height="12" width="12" />
+							<f:setPropertyActionListener value="#{att}" target="#{kgLinkController.editing}"/>
+						</p:commandLink>
+					</p:column>
+					
+				</p:dataTable>
+				<p:confirmDialog message="Você tem certeza que deseja desativar esta empresa?" header="Confirmação de exclusão" severity="alert" widgetVar="confirmation">  
+			        <p:commandButton value="Sim, tenho certeza" update="linkTableBase" oncomplete="confirmation.hide()" actionListener="#{kgLinkController.delete}"/>  
+			        <p:commandButton value="Não" onclick="confirmation.hide()" type="button"/>   
+			    </p:confirmDialog>
+				
+				<p:commandLink onclick="linkDialog.show();" style="margin: 3px;" styleClass="ui-icon-refresh">
+					<p:graphicImage value="/resources/images/add.png" height="12" width="12" />
+				</p:commandLink>
+				
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" style="position: absolute; top: 0; ">
+			
+				<p:dialog header="Editor" widgetVar="linkDialog" height="400" width="800" modal="true">
+					  
+					<p:fieldset id="linkFormBase" legend="Cadastro de Conectores" style="height: 80%; margin-bottom: 5px;">
+			             
+			           	<h:panelGroup rendered="#{kgLinkController.has}">
+			             	
+							<h:panelGrid columns="2" style="float: left;" cellpading="15">
+							
+								<h:outputLabel value="Parceiro"/>
+								<p:inputText value="#{kgLinkController.editing.partnerCompany.name}" disabled="true" size="20" maxlength="20"/>
+								
+								<h:outputLabel value="Documento"/>
+								<p:inputText value="#{kgLinkController.editing.document}" disabled="true" size="20" maxlength="20"/>
+							
+								<h:outputLabel value="Caixa Postal A"/>
+								<p:autoComplete value="#{kgLinkController.editing.sideOne}" completeMethod="#{kgCompanyController.companyAC}"  
+                       				var="p" itemLabel="#{p.name}" itemValue="#{p}" converter="kgEBoxConverter" forceSelection="true"/>
+								
+								<h:outputLabel value="Caixa Postal B"/>
+								<p:autoComplete value="#{kgLinkController.editing.sideTwo}" completeMethod="#{kgCompanyController.companyAC}"  
+                       				var="p" itemLabel="#{p.name}" itemValue="#{p}" converter="kgEBoxConverter" forceSelection="true"/>
+								
+								<h:outputLabel value="Data Criação"/>
+								<p:inputText value="#{kgLinkController.editing.start}" required="true" size="20" maxlength="20"/>
+								
+								<h:outputLabel value="Status"/>
+								<p:inputText value="#{kgLinkController.editing.status}" disabled="true" size="20" maxlength="20"/>
+								
+							</h:panelGrid>
+						
+						</h:panelGroup>
+						
+					</p:fieldset>
+					
+					<p:toolbar>
+						<p:toolbarGroup align="right">
+							<p:commandButton type="push" value="Novo" image="ui-icon-document" actionListener="#{kgRelationController.create}" update="eboxFormBase" />
+							<p:commandButton type="push" value="Salvar" image="ui-icon-disk" actionListener="#{kgRelationController.save}" update="eboxFormBase eboxTableBase"/>
+							<p:commandButton type="push" value="Limpar" image="ui-icon-note" actionListener="#{kgRelationController.clean}" update="eboxFormBase" />
+						</p:toolbarGroup>
+					</p:toolbar>
+					
+				</p:dialog>
+				
+			</h:panelGroup>
+			
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

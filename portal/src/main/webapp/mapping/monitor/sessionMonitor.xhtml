@@ -1,0 +1,96 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	
+	template="/layout/window.xhtml">
+	
+	<ui:param name="windowClass" value="window-full"/>
+	<ui:param name="windowTitle" value="Monitor de Sessões"/>
+	
+	<ui:define name="windowBody">
+
+		<h:form>
+
+			<h:panelGroup layout="block" style="margin: 10px;">
+				<h:panelGrid columns="6" cellpadding="5">
+					<h:outputLabel value="Selecione a Empresa"/>
+					<p:selectOneMenu style="width: 200px;" value="#{kgSessionMonitorController.companyId}">
+						<f:selectItems value="#{kgCompanyController.beans}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>  
+					</p:selectOneMenu>
+					<p:commandButton value="OK" update="clientMonitorBase" actionListener="#{kgSessionMonitorController.handleCompanyChange}"/>
+				</h:panelGrid>
+			</h:panelGroup>
+
+			<hr/>
+
+			<p:dataTable var="att" value="#{kgSessionMonitorController.sessions}">
+
+				<p:column style="width:16px">
+					<p:rowToggler />
+				</p:column>
+
+				<p:column headerText="Flow">
+					<h:outputText value="#{att.name}" />
+				</p:column>
+				
+				<p:column headerText="Type">
+					<h:outputText value="#{att.type}" />
+				</p:column>
+
+				<p:column headerText="Client">
+					<h:outputText value="#{car.clientName}" />
+				</p:column>
+
+				<p:column headerText="EBox">
+					<h:outputText value="#{car.eboxName}" />
+				</p:column>
+
+				<p:column headerText="Start">
+					<h:outputText value="#{att.formattedStart}" />
+				</p:column>
+
+				<p:column headerText="State">
+					<h:outputText value="#{att.state}" />
+				</p:column>
+				
+				<p:column headerText="Status">
+					<h:outputText value="#{att.status}" />
+				</p:column>
+
+				<p:rowExpansion>
+				
+					<p:dataTable var="ttt" value="#{att.transactions}">
+					
+						<p:column headerText="Start">
+							<h:outputText value="#{ttt.formattedStart}" />
+						</p:column>
+						
+						<p:column headerText="Name">
+							<h:outputText value="#{ttt.name}" />
+						</p:column>
+						
+						<p:column headerText="State">
+							<h:outputText value="#{ttt.state}" />
+						</p:column>
+						
+						<p:column headerText="Status">
+							<h:outputText value="#{ttt.status}" />
+						</p:column>
+						
+						<p:column headerText="Message">
+							<h:outputText value="#{ttt.message}" />
+						</p:column>
+						
+					</p:dataTable>
+
+				</p:rowExpansion>
+
+			</p:dataTable>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

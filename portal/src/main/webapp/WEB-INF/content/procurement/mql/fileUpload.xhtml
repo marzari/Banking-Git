@@ -1,0 +1,26 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:decorate template="/layout/window.xhtml">
+		
+		#{procurementFileImporterController.begin(3)}
+	
+		<ui:param name="windowClass" value="window-full" />
+		<ui:param name="windowTitle" value="Upload de Arquivo" />
+
+		<ui:define name="windowBody">
+
+			<h:form enctype="multipart/form-data">
+				<p:fileUpload
+					fileUploadListener="#{procurementFileImporterController.handleFileUpload}"
+					mode="advanced" update="messages" />
+				<p:growl id="messages" showDetail="true" />
+			</h:form>
+		</ui:define>
+
+	</ui:decorate>
+
+</ui:composition>

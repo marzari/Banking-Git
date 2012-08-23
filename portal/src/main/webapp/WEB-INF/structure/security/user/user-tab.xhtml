@@ -1,0 +1,111 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:decorate template="/layout/window.xhtml">
+	
+		<ui:param name="windowClass" value="window-full"/>
+		<ui:param name="windowTitle" value="Usuário"/>
+	
+		<ui:define name="windowBody">
+		
+			<h:form id="userForm">
+		
+				<p:dataTable id="userTable" value="#{userController.beans}" var="att">
+
+					<p:column headerText="Nome">
+						<h:outputText value="#{att.firstName}"/>
+					</p:column>
+
+					<p:column headerText="Sobrenome">
+						<h:outputText value="#{att.lastName}"/>
+					</p:column>
+
+					<p:column headerText="Email">
+						<h:outputText value="#{att.email}"/>
+					</p:column>
+					
+					<p:column headerText="Telefone">
+						<h:outputText value="#{att.phoneNumber}"/>
+					</p:column>
+
+					<p:column style="width:10px">
+						<p:commandLink update=":security-tab:userForm:userFormBase" oncomplete="userDialog.show();">
+							<p:graphicImage value="/resources/images/edit.png" height="12" width="12" />
+							<f:setPropertyActionListener value="#{att}" target="#{userController.editing}"/>
+						</p:commandLink>
+					</p:column>
+					<p:column style="width:10px">
+						<p:commandLink oncomplete="confirmation.show();">
+							<p:graphicImage value="/resources/images/delete.png" height="12" width="12" />
+							<f:setPropertyActionListener value="#{att}" target="#{userController.editing}"/>
+						</p:commandLink>
+					</p:column>
+					
+				</p:dataTable>
+					
+				<p:confirmDialog message="Você tem certeza que deseja excluir este usuário?" header="Confirmação de exclusão" severity="alert" widgetVar="confirmation">  
+			        <p:commandButton value="Sim, tenho certeza" update="userTable" oncomplete="confirmation.hide()" actionListener="#{userController.delete}"/>  
+			        <p:commandButton value="Não" onclick="confirmation.hide()" type="button"/>   
+			    </p:confirmDialog>
+				
+				<p:commandLink onclick="userDialog.show();" style="margin: 3px;" styleClass="ui-icon-refresh">
+					<p:graphicImage value="/resources/images/add.png" height="12" width="12" />
+				</p:commandLink>
+					
+				<h:panelGroup layout="block" style="position: absolute; top: 0; ">
+				
+					<p:dialog header="Editor" widgetVar="userDialog" height="400" width="800" modal="true">
+						  
+						<p:fieldset id="userFormBase" legend="Cadastro de Usuários" style="height: 80%; margin-bottom: 5px;">
+				             
+				           	<h:panelGroup rendered="#{userController.has}">
+				             	
+								<h:panelGrid columns="2" style="float: left;" cellpading="15">
+								
+									<h:outputLabel value="Nome"/>
+									<p:inputText id="username" value="#{userController.editing.firstName}" required="true"/>
+									
+									<h:outputLabel value="Sobrenome"/>
+									<p:inputText value="#{userController.editing.lastName}" required="true"/>
+									
+									<h:outputLabel value="Email"/>
+									<p:inputText value="#{userController.editing.email}" required="true"/>
+									
+									<h:outputLabel value="Password" />  
+						            <p:password id="pwd1" value="#{userController.editing.credentials.password}" match="pwd2" label="Password"/>  
+						            
+						            <h:outputLabel value="Confirme" />  
+						            <p:password id="pwd2" value="#{userController.editing.credentials.password}" label="Password"/>  
+						  
+									<h:outputLabel value="Telefone"/>
+									<p:inputText value="#{userController.editing.phoneNumber}"/>
+									
+								</h:panelGrid>
+							
+							</h:panelGroup>
+							<p:focus for="username" />
+							
+						</p:fieldset>
+						
+						<p:toolbar>
+							<p:toolbarGroup align="right">
+								<p:commandButton type="push" value="Novo" icon="ui-icon-document" actionListener="#{userController.create}" update=":security-tab:userForm:userFormBase" />
+								<p:commandButton type="push" value="Salvar" icon="ui-icon-disk" actionListener="#{userController.save}" update=":security-tab:userForm" oncomplete="userDialog.hide();"/>
+								<p:commandButton type="push" value="Limpar" icon="ui-icon-note" actionListener="#{userController.clean}" update=":security-tab:userForm:userFormBase" />
+							</p:toolbarGroup>
+						</p:toolbar>
+						
+					</p:dialog>
+					
+				</h:panelGroup>
+					
+			</h:form>
+				
+		</ui:define>
+		
+	</ui:decorate>
+
+</ui:composition>

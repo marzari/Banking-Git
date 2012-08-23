@@ -1,0 +1,38 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+		<ui:decorate template="/layout/window.xhtml">
+		
+			<ui:define name="windowBody">
+				<h:form id="#{idForm}" >
+					<p:fieldset legend="Empresa" toggleable="true">
+						<h:panelGrid id="editLegalRegister" columns="2" cellpadding="5">
+							<h:outputLabel value="Razão Social" required="true" />
+							<h:outputLabel value="Nome Fantasia" />
+							
+							<p:inputText size="30" maxlength="30" value="#{parentController.editing.companyName}" />
+							<p:inputText size="30" maxlength="30" value="#{parentController.editing.fancyName}" />
+							
+							<h:outputLabel value="" />
+							<p:commandButton value="Salvar" id="saveLegalRegisterButton" actionListener="#{legalRegisterController.save}" update=":#{mainPanel}" />
+						</h:panelGrid>
+					</p:fieldset>
+				</h:form>
+				<ui:include src="../forms/address.xhtml">
+				     <ui:param name="mainPanel" value="#{mainPanel}" />
+				     <ui:param name="parentController" value="#{parentController}" />
+				</ui:include>
+				<ui:include src="../forms/contact.xhtml">
+				     <ui:param name="mainPanel" value="#{mainPanel}" />
+				     <ui:param name="parentController" value="#{parentController}" />
+				</ui:include>
+<!-- 				<ui:include src="../forms/activity.xhtml"> -->
+<!-- 				     <ui:param name="mainPanel" value="#{mainPanel}" /> -->
+<!-- 				     <ui:param name="parentController" value="#{legalRegisterController}" /> -->
+<!-- 				</ui:include> -->
+			</ui:define>
+		</ui:decorate>
+</ui:composition>

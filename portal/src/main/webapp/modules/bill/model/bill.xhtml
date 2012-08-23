@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:composition>
+<p:fieldset legend="OS Externa" style="margin: 10px;">
+<h:form>
+	<p:dataTable id="billTable" value="#{billTableController.bills}" var="att">
+		<p:column>									
+			<f:facet name="header"><h:outputText value="Número" /></f:facet>
+		</p:column>
+		<p:column>
+			<f:facet name="header"><h:outputText value="Empresa" /></f:facet>
+		</p:column>
+		<p:column>
+			<f:facet name="header"><h:outputText value="Cliente" /></f:facet>
+		</p:column>
+		<p:column>
+			<f:facet name="header"><h:outputText value="Contrato" /></f:facet>
+		</p:column>
+		<p:column>
+			<f:facet name="header"><h:outputText value="Emissão" /></f:facet>
+		</p:column>
+		<p:column>
+			<f:facet name="header"><h:outputText value="Vencimento" /></f:facet>
+		</p:column>
+		<p:column>
+			<f:facet name="header"><h:outputText value="Situação" /></f:facet>
+		</p:column>
+		<p:column>
+			<f:facet name="header"><h:outputText value="Invoice" /></f:facet>
+		</p:column>
+		<p:column>
+			<f:facet name="header"><h:outputText value="Valor" /></f:facet>
+		</p:column>
+		<p:column style="width:15px">
+			<p:commandButton update="offerFormBase" image="ui-icon ui-icon-search"></p:commandButton>
+		</p:column>
+		<p:column style="width:15px">
+			<p:commandButton update="offerFormBase" image="ui-icon ui-icon-search"></p:commandButton>
+		</p:column>
+	</p:dataTable>
+</h:form>
+</p:fieldset>
+</ui:composition>
+
+</h:body>
+
+</html>

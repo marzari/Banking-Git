@@ -1,0 +1,507 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:composition>
+
+<p:toolbar>
+
+	<p:toolbarGroup align="left">
+	
+		<p:commandButton type="push" value="Salvar" image="ui-icon-disk" actionListener="#{contractItemController.save}" update="contractItemBase"/>
+		<p:commandButton type="push" value="Limpar" image="ui-icon-note" actionListener="#{contractItemController.clean}" update="contractItemBase" />
+		
+	</p:toolbarGroup>
+	
+	<p:toolbarGroup>
+	
+		<p:selectOneMenu value="#{contractItemController.itemId}" style="width: 150px;">  
+			<f:selectItem itemLabel="Selecione Item" itemValue="0" />
+			<f:selectItems value="#{contractController.bean.items}" var="ci" itemValue="#{ci.id}" itemLabel="#{ci.name}"/>
+			<p:ajax update="contractItemBase" listener="#{contractItemController.loadItem}" />
+		</p:selectOneMenu>
+	
+	</p:toolbarGroup>
+	
+</p:toolbar>
+
+<h:panelGroup layout="block" id="contractItemBase">
+
+	<h:panelGroup layout="block" id="contractItemForm">
+	
+		<h:panelGroup layout="block" class="left_panel" style="width: 290px; float: left; margin-Top: 10px; height: 450px; ">
+		
+			<p:fieldset legend="Item de Contrato" style="margin: 10px;" >
+			
+				<h:panelGrid columns="2" style="float: left; width: 30%;" cellpadding="5">
+			
+					<h:outputLabel value="Nome"/>
+					<p:inputText style="margin: 3px;" label="Nome" value="#{contractItemController.bean.name}" size="30" maxlength="30"/>
+	
+					<h:outputText value="Solucão" /> 
+					<p:selectOneMenu value="#{contractItemController.bean.solution}" converter="solutionConverter" style="width: 150px;">  
+			           <f:selectItem itemLabel="Selecione Solução" itemValue=""/>  
+			           <f:selectItems value="#{solutionController.beans}" var="so" itemValue="#{so}" itemLabel="#{so.name}"/>
+			        </p:selectOneMenu>					
+			        
+				</h:panelGrid>
+			
+			</p:fieldset>
+			
+			<p:fieldset legend="Situação" style="margin: 10px;" >
+			
+				<h:panelGrid columns="3" cellpadding="2" id="contractItemSituationResume" >
+				
+					<h:outputLabel value="Situação"/>
+					<p:inputText label="Nome" value="#{contractItemController.bean.lastSituationDescription}" size="15" maxlength="15" disabled="true"/>
+					<p:commandButton value="Adicionar" onclick="cisit.show()" type="button" style="margin-left: 7px;"/>
+					
+				</h:panelGrid>
+			
+			</p:fieldset>
+			
+			<p:fieldset legend="Informações de Cobrança" style="margin: 10px;" >
+			
+				<h:panelGrid columns="6" cellpadding="2">
+				
+					<h:outputLabel value="DE"/>
+					<p:spinner value="#{contractItemController.bean.billingInfo.issueDay}" min="1" max="31" size="2" maxlength="2"/>
+							
+					<h:outputLabel value="DV"/>
+					<p:spinner value="#{contractItemController.bean.billingInfo.maturityDay}" min="1" max="12" size="2" maxlength="2"/>
+							
+					<h:outputText value="MV" />
+					<p:spinner value="#{contractItemController.bean.billingInfo.maturityMonth}" min="-1" max="1" size="2" maxlength="2"/>
+					
+				</h:panelGrid>
+			
+				<h:panelGrid columns="4" cellpadding="5">  
+				      
+					<h:outputText value="OS Auto" />  
+					<p:selectBooleanCheckbox value="#{contractItemController.bean.billingInfo.billAutomatic}" /> 
+					   
+					<h:outputText value="NF Auto" />  
+					<p:selectBooleanCheckbox value="#{contractItemController.bean.billingInfo.invoiceAutomatic}" /> 
+										
+				</h:panelGrid>
+			
+				<h:panelGrid columns="2" cellpadding="5">
+										
+					<h:outputLabel value="Agrupar NF" />  
+					<p:selectOneMenu value="#{contractItemController.bean.billingInfo.invoiceGroup}" style="width: 150px;">  
+					   <f:selectItem itemLabel="Grupo A" itemValue="aaa" />  
+					   <f:selectItem itemLabel="Grupo B" itemValue="bbb" />
+					   <f:selectItem itemLabel="Grupo C" itemValue="ccc" />
+					   <f:selectItem itemLabel="Grupo D" itemValue="ddd" />
+					</p:selectOneMenu>
+					
+					<h:outputLabel value="Conta"/>
+					<p:selectOneMenu value="#{contractItemController.bean.billingInfo.account}" converter="checkingAccountConverter" style="width: 150px;">  
+					   <f:selectItem itemLabel="Selecione Conta" itemValue="" />  
+					   <f:selectItems value="#{checkingAccountController.beans}" var="ca" itemLabel="#{ca.description}" itemValue="#{ca}"/>  
+					</p:selectOneMenu>
+			
+				</h:panelGrid>
+				
+			</p:fieldset>
+		
+		</h:panelGroup>
+		
+		<h:panelGroup layout="block" class="middle_panel" style="width: 290px; float: left; margin: 10px; height: 420px; ">
+		
+			<p:accordionPanel autoHeight="false" style="height: 300px;">
+				
+			    <p:tab title="Correção Monetária">  
+			    
+					<h:panelGroup layout="block" style="height: 220px;">
+	
+					 	<h:panelGrid columns="2" cellpadding="5">
+	
+							<h:outputLabel value="Índice"/>
+							<p:selectOneMenu value="#{contractItemController.bean.inflationIndex}" style="width: 100px;">  
+								<f:selectItem itemLabel=" -- x -- " itemValue="NONE" />  
+								<f:selectItem itemLabel="IGPM" itemValue="IGPM" />  
+								<f:selectItem itemLabel="IPCA" itemValue="IPCA" />
+								<f:selectItem itemLabel="INPC" itemValue="INPC" />  
+							</p:selectOneMenu>
+	
+							<h:outputLabel value="Data base"/>
+							<p:calendar value="#{contractItemController.bean.inflationBaseDate}" converter="#{dateCalendarConverter}" pattern="dd/MM/yyyy" />
+				
+							<h:outputLabel value="Atualiza Automático"/>
+							<p:selectBooleanCheckbox value="#{contractItemController.bean.automatic}"/>
+	
+							<h:outputLabel value="Histórico"/>
+							<p:commandButton value="Visualizar" onclick="ciinfl.show();" style="margin-left: 7px;"/>
+	
+						</h:panelGrid>
+	
+					</h:panelGroup>
+	
+				</p:tab>  
+
+				<p:tab title="Informações Comerciais">
+						
+					<h:panelGroup layout="block" style="height: 220px;" id="contractItemOwnersResume">
+					
+						<h:panelGrid columns="2" cellpadding="5">
+						
+							<h:outputLabel value="Vendedor"/>
+							<p:inputText label="Nome" value="#{contractItemController.bean.lastSellerDescription}" size="15" maxlength="15" disabled="true" style="float:left;"/>
+							
+							<h:outputLabel value="Regional"/>
+							<p:inputText label="Nome" value="#{contractItemController.bean.lastRegionalDescription}" size="15" maxlength="15" disabled="true" style="float:left;"/>
+							
+							<h:outputLabel value="Gerente de conta"/>
+							<p:inputText label="Nome" value="#{contractItemController.bean.lastManagerDescription}" size="15" maxlength="15" disabled="true" style="float:left;"/>
+						
+						</h:panelGrid>
+					 
+					 <p:commandButton value="Detalhar" onclick="ciowner.show()" type="button" style="margin: 7px;"/>
+
+					</h:panelGroup>
+				 
+				</p:tab> 
+ 
+				<p:tab title="Comissões">
+				 
+					<h:panelGroup id="comissionTableBaseCI" layout="block" style="height: 220px;">
+							
+						<p:dataTable value="#{contractItemController.bean.comissions}" var="att">
+  
+				  			<p:ajax event="rowEdit" listener="#{contractItemController.saveEditingComission}" update="@none"/>
+				  		
+					        <f:facet name="header">
+					            Tabela de Comissões
+					        </f:facet>
+					
+					        <p:column headerText="Vendedor">
+					            <p:cellEditor>
+					                <f:facet name="output"><h:outputText value="#{att.salesman.behavior.name}"/></f:facet>
+					                <f:facet name="input">
+					                	<p:autoComplete value="#{att.salesman}" size="15" maxlength="15"
+							            	completeMethod="#{contractItemController.getAvailableRepresentatives}" var="c" 
+							            	itemLabel="#{c.behavior.name}" itemValue="#{c}" converter="representativeConverter"/> 
+					                </f:facet>
+					            </p:cellEditor>
+					        </p:column>
+					        
+					        <p:column headerText="B">
+					            <p:cellEditor>
+					                <f:facet name="output"><h:outputText value="#{att.baseValueRate}"/></f:facet>
+					                <f:facet name="input"><p:spinner value="#{att.baseValueRate}" min="1" max="100" size="3" maxlength="3" stepFactor="0.5"/></f:facet>
+					            </p:cellEditor>
+					        </p:column>
+					        
+					        <p:column headerText="D">
+					            <p:cellEditor>
+					                <f:facet name="output"><h:outputText value="#{att.duration}"/></f:facet>
+					                <f:facet name="input"><p:spinner value="#{att.duration}" min="1" max="48" size="2" maxlength="2"/></f:facet>
+					            </p:cellEditor>
+					        </p:column>
+					        
+					        <p:column headerText="C">
+					            <p:cellEditor>
+					                <f:facet name="output"><h:outputText value="#{att.comissionRate}"/></f:facet>
+					                <f:facet name="input"><p:spinner value="#{att.comissionRate}" min="1" max="99" size="3" maxlength="3" stepFactor="0.5"/></f:facet>
+					            </p:cellEditor>
+					        </p:column>
+					        
+					        <p:column>
+					            <p:rowEditor/>
+					        </p:column>
+					  
+					    </p:dataTable>
+					    <p:commandLink actionListener="#{contractItemController.addComission}" style="margin: 3px;" update="comissionTableBaseCI">
+							<p:graphicImage value="/images/add.png" height="12" width="12" />
+						</p:commandLink>
+					
+					</h:panelGroup>
+				  
+				</p:tab>
+				
+				<p:tab title="CRM">
+				 
+					<h:panelGroup layout="block" style="height: 220px;">
+						
+						<h:panelGrid columns="2" cellpadding="5" >
+				
+							<h:outputLabel value="Oportunidade"/>
+							<p:inputText/>
+						
+						</h:panelGrid>
+					
+					</h:panelGroup>
+				  
+				</p:tab>
+				
+				<p:tab title="Impostos">
+				
+					<h:panelGroup layout="block" style="height: 220px;">
+				 
+						<h:panelGrid columns="1" cellpadding="5">
+						 
+							<h:outputText value="Grupo de Impostos" />
+							<p:selectOneMenu value="#{contractItemController.bean.taxDefinition}" converter="taxRetentionDefinitionConverter" size="20">
+								<f:selectItem itemValue="" itemLabel="Grupo Imposto"/>
+								<f:selectItems value="#{taxRetentionDefinitionController.beans}" var="trdb" itemLabel="#{trdb.name}" itemValue="#{trdb}" />
+							</p:selectOneMenu>
+						
+						</h:panelGrid>
+					
+					</h:panelGroup>
+				 
+				</p:tab>
+				
+			</p:accordionPanel>
+			    
+		</h:panelGroup>
+		
+		<h:panelGroup layout="block" class="right_panel" style="width: 290px; float: left; margin-Top: 10px; height: 420px; ">
+		
+			<p:fieldset legend="Serviços do Contrato" style="margin: 10px;" >
+				
+				<h:panelGroup layout="block" id="realizedInstrumentBaseCI">
+			
+					<p:dataTable value="#{contractItemController.bean.instruments}" var="attc">
+	  
+			  			<p:ajax event="rowEdit" listener="#{contractItemController.saveEditingInstrument}" update="@none"/>
+			  		
+				        <f:facet name="header">
+				            Serviço
+				        </f:facet>
+				
+				        <p:column headerText="Descrição" style="width:120px">
+				            <p:cellEditor>
+				                <f:facet name="output"><h:outputText value="#{attc.descriptionA}"/></f:facet>
+				                <f:facet name="input"><p:inputText value="#{attc.descriptionA}" size="20"/></f:facet>
+				            </p:cellEditor>
+				        </p:column>
+				        
+				        <p:column headerText="Serviço" style="width:100px">
+				            <p:cellEditor>
+				                <f:facet name="output"><h:outputText value="#{attc.instrument.name}"/></f:facet>
+				                <f:facet name="input">
+				                	<p:selectOneMenu value="#{attc.instrument}" converter="realizedInstrumentConverter" style="width: 90%;">  
+									   <f:selectItems value="#{contractItemController.availableInstruments}" var="ri" itemLabel="#{ri.name}" itemValue="#{ri}"/>  
+									</p:selectOneMenu>
+				                </f:facet>
+				            </p:cellEditor>
+				        </p:column>
+				        
+				         <p:column style="width:10px">
+				            <p:rowEditor/>
+				        </p:column>
+				  
+				    </p:dataTable>
+				    <p:commandLink actionListener="#{contractItemController.addInstrument}" style="margin: 3px;" update="realizedInstrumentBaseCI">
+						<p:graphicImage value="/images/add.png" height="12" width="12" />
+					</p:commandLink>
+			    
+			    </h:panelGroup>
+			
+			</p:fieldset>
+		
+		</h:panelGroup>
+		
+		<p:dialog widgetVar="cisit" modal="true">
+
+			<h:panelGroup layout="block" id="situationBaseCI">
+			
+				<p:dataTable value="#{contractItemController.bean.situations}" var="att">
+	  
+		  			<p:ajax event="rowEdit" listener="#{contractItemController.saveEditingSituation}" update="contractItemSituationResume"/>
+		  		
+			        <f:facet name="header">
+			            Histórico de Situação
+			        </f:facet>
+			
+			        <p:column headerText="Data" style="width:80px">
+			            <p:cellEditor>
+			                <f:facet name="output"><h:outputText value="#{att.when}" converter="dateCalendarConverter"/></f:facet>
+			                <f:facet name="input"><p:calendar value="#{att.when}" converter="dateCalendarConverter" pattern="dd/MM/yyyy"/></f:facet>
+			            </p:cellEditor>
+			        </p:column>
+			  
+			        <p:column headerText="Situação" style="width:80px">
+			            <p:cellEditor>
+			                <f:facet name="output"><h:outputText value="#{att.situationDescription}"/></f:facet>
+			                <f:facet name="input">
+			                	<p:selectOneMenu value="#{att.situation}" style="width:90px">
+									<f:selectItem itemLabel="Ativo" itemValue="ACTIVE"/>
+									<f:selectItem itemLabel="Cancelado" itemValue="CANCELED"/>
+									<f:selectItem itemLabel="Suspenso" itemValue="SUSPENDED"/>
+									<f:selectItem itemLabel="Bloqueado" itemValue="BLOCKED"/>
+			                	</p:selectOneMenu>
+			                </f:facet>
+			            </p:cellEditor>
+			        </p:column>
+			        
+			        <p:column headerText="Observação" style="width:250px">
+			            <p:cellEditor>
+			                <f:facet name="output"><h:outputText value="#{att.note}"/></f:facet>
+			                <f:facet name="input"><p:inputText value="#{att.note}" style="width:90%"/></f:facet>
+			            </p:cellEditor>
+			        </p:column>
+			        
+			        <p:column style="width:10px">
+			            <p:rowEditor/>
+			        </p:column>
+			  
+			    </p:dataTable>
+		    	<p:commandLink actionListener="#{contractItemController.addSituation}" style="margin: 3px;" update="situationBaseCI">
+					<p:graphicImage value="/images/add.png" height="12" width="12" />
+				</p:commandLink>
+			
+			</h:panelGroup>
+		
+		</p:dialog>
+		
+		<p:dialog widgetVar="ciinfl" minHeight="450" minWidth="800" modal="true">
+
+			<h:panelGroup layout="block" id="inflationBaseCI">
+			
+				<p:dataTable value="#{contractItemController.bean.adjustments}" var="att">
+	  
+		  			<p:ajax event="rowEdit" listener="#{contractItemController.saveEditingAdjustment}" update="@none"/>
+		  		
+			        <f:facet name="header">
+			            Histórico de Ajuste de Inflação
+			        </f:facet>
+			
+			        <p:column headerText="Data" style="width:60px">
+			            <p:cellEditor>
+			                <f:facet name="output"><h:outputText value="#{att.when}" converter="dateCalendarConverter"/></f:facet>
+			                <f:facet name="input"><p:calendar value="#{att.when}" converter="dateCalendarConverter" pattern="dd/MM/yyyy" style="width:60px"/></f:facet>
+			            </p:cellEditor>
+			        </p:column>
+			  
+			        <p:column headerText="Indice" style="width:60px">
+			            <p:cellEditor>
+			                <f:facet name="output"><h:outputText value="#{att.index}"/></f:facet>
+			                <f:facet name="input">
+			                	<p:selectOneMenu value="#{att.index}" style="width:60px">
+									<f:selectItem itemLabel="IGPM" itemValue="IGPM"/>
+									<f:selectItem itemLabel="IPCA" itemValue="IPCA"/>
+									<f:selectItem itemLabel="INPC" itemValue="INPC"/>
+			                	</p:selectOneMenu>
+			                </f:facet>
+			            </p:cellEditor>
+			        </p:column>
+			        
+			        <p:column headerText="Valor" style="width:60px">
+			            <p:cellEditor>
+			                <f:facet name="output"><h:outputText value="#{att.value}"/></f:facet>
+			                <f:facet name="input"><p:inputText value="#{att.value}" style="width:90%"/></f:facet>
+			            </p:cellEditor>
+			        </p:column>
+			        
+			        <p:column headerText="Data Atualização" style="width:80px">
+			            <p:cellEditor>
+			                <f:facet name="output"><h:outputText value="#{att.whenUpdate}" converter="dateCalendarConverter"/></f:facet>
+			                <f:facet name="input"><h:outputText value="#{att.whenUpdate}" converter="dateCalendarConverter"/></f:facet>
+			            </p:cellEditor>
+			        </p:column>
+			        
+			        <p:column headerText="Modo Atualização" style="width:80px">
+			            <p:cellEditor>
+			                <f:facet name="output"><h:outputText value="#{att.whoUpdated}"/></f:facet>
+			                <f:facet name="input"><h:outputText value="#{att.whoUpdated}"/></f:facet>
+			            </p:cellEditor>
+			        </p:column>
+			        
+			        <p:column headerText="Observação" style="width:200px">
+			            <p:cellEditor>
+			                <f:facet name="output"><h:outputText value="#{att.note}"/></f:facet>
+			                <f:facet name="input"><p:inputText value="#{att.note}" style="width:90%"/></f:facet>
+			            </p:cellEditor>
+			        </p:column>
+			        
+			        <p:column style="width:10px">
+			            <p:rowEditor/>
+			        </p:column>
+			  
+			    </p:dataTable>
+			
+			</h:panelGroup>
+		
+		</p:dialog>
+		
+		<p:dialog widgetVar="ciowner" minHeight="250" minWidth="750" modal="true">
+	
+			<h:panelGroup layout="block" id="ownerBaseCI">
+			
+				<p:dataTable value="#{contractItemController.bean.owners}" var="att">
+	  
+		  			<p:ajax event="rowEdit" listener="#{contractItemController.saveEditingOwner}" update="@none"/>
+		  		
+			        <f:facet name="header">
+			            Histórico de Responsáveis
+			        </f:facet>
+			
+			        <p:column headerText="Data" style="width:80px">
+			            <p:cellEditor>
+			                <f:facet name="output"><h:outputText value="#{att.when}" converter="dateCalendarConverter"/></f:facet>
+			                <f:facet name="input"><p:calendar value="#{att.when}" converter="dateCalendarConverter" pattern="dd/MM/yyyy" style="width:70px"/></f:facet>
+			            </p:cellEditor>
+			        </p:column>
+			  
+			        <p:column headerText="Vendedor" style="width:150px">
+			            <p:cellEditor>
+			                <f:facet name="output"><h:outputText value="#{att.sellerDescription}"/></f:facet>
+			                <f:facet name="input">
+			                	<p:autoComplete value="#{att.seller}" size="25" maxlength="25"
+					            	completeMethod="#{representativeController.getRepresentativesAC}" var="c" 
+					            	itemLabel="#{c.name}" itemValue="#{c}" converter="representativeConverter"/> 
+			                </f:facet>
+			            </p:cellEditor>
+			        </p:column>
+			        
+			        <p:column headerText="Regional" style="width:150px">
+			            <p:cellEditor>
+			                <f:facet name="output"><h:outputText value="#{att.regionalDescription}"/></f:facet>
+			                <f:facet name="input">
+			                	<p:autoComplete value="#{att.regional}" size="25" maxlength="25"
+					            	completeMethod="#{regionalController.getRegionalsAC}" var="c" 
+					            	itemLabel="#{c.name}" itemValue="#{c}" converter="regionalConverter"/> 
+			                </f:facet>
+			            </p:cellEditor>
+			        </p:column>
+			        
+			        <p:column headerText="Gerente de Conta" style="width:150px">
+			            <p:cellEditor>
+			                <f:facet name="output"><h:outputText value="#{att.managerDescription}"/></f:facet>
+			                <f:facet name="input">
+			                	<p:autoComplete value="#{att.regional}" size="25" maxlength="25"
+					            	completeMethod="#{representativeController.getRepresentativesAC}" var="c" 
+					            	itemLabel="#{c.name}" itemValue="#{c}" converter="representativeConverter"/> 
+			                </f:facet>
+			            </p:cellEditor>
+			        </p:column>
+			        
+			        <p:column style="width:10px">
+			            <p:rowEditor/>
+			        </p:column>
+			  
+			    </p:dataTable>
+			     <p:commandLink actionListener="#{contractItemController.addOwner}" style="margin: 3px;" update="ownerBaseCI">
+					<p:graphicImage value="/images/add.png" height="12" width="12" />
+				</p:commandLink>
+			
+			</h:panelGroup>
+		
+		</p:dialog>
+	
+	</h:panelGroup>
+
+</h:panelGroup>
+
+</ui:composition>
+
+</h:body>
+
+</html>

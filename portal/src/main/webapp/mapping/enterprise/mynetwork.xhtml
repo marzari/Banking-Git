@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	
+	template="/layout/window.xhtml">
+	
+	<ui:param name="windowClass" value="window-full"/>
+	<ui:param name="windowTitle" value="My Network"/>
+	
+	<ui:define name="windowBody">
+	
+		<h:form>
+		
+			<h:panelGroup layout="block" style="margin: 10px;">
+				<h:panelGrid columns="3" cellpadding="5">
+					<h:outputLabel value="Selecione a Empresa"/>
+					<p:selectOneMenu style="width: 200px;" value="#{kgNetworkController.companyId}">
+						<f:selectItems value="#{kgCompanyController.beans}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>  
+					</p:selectOneMenu>
+					<p:commandButton value="OK" update="mynetworkTableBase" actionListener="#{kgNetworkController.handleCompanyChange}"/>  
+				</h:panelGrid>
+			</h:panelGroup>
+			
+			<hr/>
+	
+			<h:panelGroup layout="block" id="mynetworkTableBase">
+		
+				<p:panel header="Minhas parcerias" style="width: 30%; height: 80%; margin: 30px; float: left;" >
+	
+					<p:dataGrid var="part" value="#{kgNetworkController.connections}" columns="3" rows="12">
+		
+						<p:column>
+							<p:panel style="text-align:center">
+								<h:panelGrid columns="3" style="width:100%">
+									<h:outputText value="#{part.name}" />
+									<p:graphicImage value="/resources/images/magnifier.png"/>
+									<p:graphicImage value="/resources/images/edit.png"/>
+								</h:panelGrid>
+							</p:panel>
+						</p:column>
+		
+					</p:dataGrid>
+					
+				</p:panel>
+				
+				
+				<p:panel header="Convidar outras empresas" style="width: 30%; height: 80%; margin: 30px; float: left;" >
+	
+					<p:dataGrid var="part" value="#{kgNetworkController.possibilities}" columns="3" rows="12">
+		
+						<p:column>
+							<p:panel style="text-align:center">
+								<h:panelGrid columns="3" style="width:100%">
+									<h:outputText value="#{part.name}" />
+									<p:graphicImage value="/resources/images/add.png"/>
+								</h:panelGrid>
+							</p:panel>
+						</p:column>
+		
+					</p:dataGrid>
+					
+				</p:panel>
+				
+				<p:panel header="Convites Pendentes" style="width: 20%; height: 80%; margin: 30px; float: left;" >
+				</p:panel>
+				
+			</h:panelGroup>
+			
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

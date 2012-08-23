@@ -1,0 +1,13 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<p:panel styleClass="banner">
+		<a href="#{bannerLink}">
+			<img src="#{resource['primefaces-esales-theme-default:images/banners/'.concat(bannerImage)]}" class="image" />
+		</a>
+	</p:panel>
+	
+</ui:composition>

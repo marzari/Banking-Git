@@ -1,0 +1,139 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="../portalcommon-third.xhtml">
+	
+	<ui:define name="common-third-body">
+	
+		<h:outputStylesheet library="css" name="third/home-third.css" />
+		
+		<h:panelGroup layout="block" styleClass="content-wrapper">
+	
+			<h:panelGroup layout="block" styleClass="summaries-wrapper">
+			
+				<ui:decorate template="/WEB-INF/layout/summary-template.xhtml">
+					<ui:param name="summaryTitle" value="MARKET-PLACE"/>
+					<ui:param name="summaryDescription" value="Confira abaixo a lista das &#250;ltimas inser&#231;&#245;es."/>
+					<ui:param name="summaryDescription2" value="Clique para ver mais detalhes."/>
+				</ui:decorate>
+				
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" styleClass="banner-wrapper">
+			
+				<ui:decorate template="/WEB-INF/layout/banner.xhtml">
+					<ui:param name="bannerImage" value="banner-1.png"/>
+					<ui:param name="bannerLink" value="http://google.com"/>
+				</ui:decorate>
+				
+				<div class="navigator">
+					<ul>
+						<li class="active"></li>
+						<li></li>
+						<li></li>
+					</ul>
+				</div>
+				
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" styleClass="apps-highlights-wrapper">
+				
+				<ui:decorate template="/WEB-INF/layout/appgadget-template.xhtml">
+					<ui:param name="appTitle" value="Procurement"/>
+					<ui:param name="appDescription" value="Breve descricao sobre o que se trata o sistema lorem ipsum."/>
+					<ui:param name="appIcon" value="procurement"/>
+					<ui:param name="toTry" value="true"/>
+					<ui:param name="toRegister" value="true"/>
+				</ui:decorate>
+				
+				<ui:decorate template="/WEB-INF/layout/appgadget-template.xhtml">
+					<ui:param name="appTitle" value="Banking"/>
+					<ui:param name="appDescription" value="Breve descricao sobre o que se trata o sistema lorem ipsum."/>
+					<ui:param name="appIcon" value="banking"/>
+					<ui:param name="toTry" value="true"/>
+					<ui:param name="toRegister" value="true"/>
+				</ui:decorate>
+				
+				<ui:decorate template="/WEB-INF/layout/appgadget-template.xhtml">
+					<ui:param name="appTitle" value="Kangaroo"/>
+					<ui:param name="appDescription" value="Breve descricao sobre o que se trata o sistema lorem ipsum."/>
+					<ui:param name="appIcon" value="kangaroo"/>
+					<ui:param name="toTry" value="true"/>
+					<ui:param name="toRegister" value="true"/>
+				</ui:decorate>
+				
+				<ui:decorate template="/WEB-INF/layout/appgadget-template.xhtml">
+					<ui:param name="appTitle" value="Security"/>
+					<ui:param name="appDescription" value="Breve descricao sobre o que se trata o sistema lorem ipsum."/>
+					<ui:param name="appIcon" value="security"/>
+					<ui:param name="toTry" value="true"/>
+					<ui:param name="toRegister" value="true"/>
+				</ui:decorate>
+					
+			</h:panelGroup>
+			
+		</h:panelGroup>
+		
+		<h:panelGroup layout="block" styleClass="apps-other-wrapper ui-light-footer">
+				
+				<div class="apps-other-inner">
+				
+					<img src="#{resource['primefaces-esales-theme-default:images/left-arrow.png']}" class="arrow left-arrow" />
+					<img src="#{resource['primefaces-esales-theme-default:images/right-arrow.png']}" class="arrow right-arrow" />
+				
+					<h3 class="ui-footer-dark-title">Conhe&#231;a tamb&#233;m</h3>
+		
+					<div class="apps-other-slider">
+		
+						<ui:decorate template="/WEB-INF/layout/s-appgadget-template.xhtml">
+							<ui:param name="appTitle" value="Procurement"/>
+							<ui:param name="appIcon" value="procurement"/>
+							<ui:param name="appDescription" value="Breve descricao sobre o que se trata o sistema lorem ipsum."/>
+							<ui:param name="toSeeMore" value="true"/>
+						</ui:decorate>
+						
+						<ui:decorate template="/WEB-INF/layout/s-appgadget-template.xhtml">
+							<ui:param name="appTitle" value="Security"/>
+							<ui:param name="appIcon" value="security"/>
+							<ui:param name="appDescription" value="Breve descricao sobre o que se trata o sistema lorem ipsum."/>
+							<ui:param name="toSeeMore" value="true"/>
+						</ui:decorate>
+						
+						<ui:decorate template="/WEB-INF/layout/s-appgadget-template.xhtml">
+							<ui:param name="appTitle" value="Banking"/>
+							<ui:param name="appIcon" value="banking"/>
+							<ui:param name="appDescription" value="Breve descricao sobre o que se trata o sistema lorem ipsum."/>
+							<ui:param name="toSeeMore" value="true"/>
+						</ui:decorate>
+						
+						<ui:decorate template="/WEB-INF/layout/s-appgadget-template.xhtml">
+							<ui:param name="appTitle" value="Procurement"/>
+							<ui:param name="appIcon" value="procurement"/>
+							<ui:param name="appDescription" value="Breve descricao sobre o que se trata o sistema lorem ipsum."/>
+							<ui:param name="toSeeMore" value="true"/>
+						</ui:decorate>
+						
+						<ui:decorate template="/WEB-INF/layout/s-appgadget-template.xhtml">
+							<ui:param name="appTitle" value="Security"/>
+							<ui:param name="appIcon" value="security"/>
+							<ui:param name="appDescription" value="Breve descricao sobre o que se trata o sistema lorem ipsum."/>
+							<ui:param name="toSeeMore" value="true"/>
+						</ui:decorate>
+						
+						<ui:decorate template="/WEB-INF/layout/s-appgadget-template.xhtml">
+							<ui:param name="appTitle" value="Banking"/>
+							<ui:param name="appIcon" value="banking"/>
+							<ui:param name="appDescription" value="Breve descricao sobre o que se trata o sistema lorem ipsum."/>
+							<ui:param name="toSeeMore" value="true"/>
+						</ui:decorate>
+						
+					</div>
+				
+				</div>
+				
+			</h:panelGroup>
+	
+	</ui:define>
+	
+</ui:composition>

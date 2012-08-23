@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="../portalcommon-third.xhtml">
+
+	<ui:define name="applicationbar-wrapper">
+		
+		#{procurementMenu.begin(2)}
+
+		<h:outputStylesheet library="css" name="third/dashboard-third.css" />
+		<h3 class="main-title ui-big-title">Procurement</h3>
+
+		<h:panelGroup layout="block" id="procurement-menubar" styleClass="secure-third-menubar">
+			<h:form>
+				<p:menubar styleClass="ui-light-menu" model="#{procurementMenu.applicationModel}" />
+			</h:form>
+		</h:panelGroup>
+
+	</ui:define>
+
+	<ui:define name="common-third-body">
+
+		<h:panelGroup layout="block" id="procurement-body">
+
+			<ui:fragment rendered="#{procurementMenu.isLoaded('procFileUpload')}">
+				<ui:include src="/WEB-INF/content/procurement/mql/fileUpload.xhtml" />
+			</ui:fragment>
+			<ui:fragment rendered="#{procurementMenu.isLoaded('procSupplierMaintenance')}">
+				<ui:include src="/WEB-INF/content/procurement/supplierManager/supplierManager.xhtml" />
+			</ui:fragment>
+			<ui:fragment rendered="#{procurementMenu.isLoaded('procSupplierInsert')}">
+				<ui:include src="/WEB-INF/content/procurement/supplier/supplierRegister-tab.xhtml" />
+			</ui:fragment>
+			<ui:fragment rendered="#{procurementMenu.isLoaded('procAuxiliaryRequirement')}">
+				<ui:include src="/WEB-INF/content/procurement/auxiliary/requirement.xhtml" />
+			</ui:fragment>
+			<ui:fragment rendered="#{procurementMenu.isLoaded('procAuxiliaryShipping')}">
+				<ui:include src="/WEB-INF/content/procurement/auxiliary/shipping.xhtml" />
+			</ui:fragment>
+			<ui:fragment rendered="#{procurementMenu.isLoaded('procAuxiliaryUrgency')}">
+				<ui:include src="/WEB-INF/content/procurement/auxiliary/urgency.xhtml" />
+			</ui:fragment>
+			<ui:fragment rendered="#{procurementMenu.isLoaded('procAuxiliaryCritically')}">
+				<ui:include src="/WEB-INF/content/procurement/auxiliary/critically.xhtml" />
+			</ui:fragment>
+			<ui:fragment rendered="#{procurementMenu.isLoaded('procAuxiliaryStatus')}">
+				<ui:include src="/WEB-INF/content/procurement/auxiliary/status.xhtml" />
+			</ui:fragment>
+			<ui:fragment rendered="#{procurementMenu.isLoaded('procAuxiliarySegmentCnae')}">
+				<ui:include src="/WEB-INF/content/procurement/auxiliary/economicActivity.xhtml" />
+			</ui:fragment>
+			<ui:fragment rendered="#{procurementMenu.isLoaded('procAuxiliarySegments')}">
+				<ui:include src="/WEB-INF/content/procurement/auxiliary/segment.xhtml" />
+			</ui:fragment>
+			<ui:fragment rendered="#{procurementMenu.isLoaded('procAuxiliarySegmentSegmentsAndCnae')}">
+				<ui:include src="/WEB-INF/content/procurement/supplier/segmentAssign.xhtml" />
+			</ui:fragment>
+			<ui:fragment rendered="#{procurementMenu.isLoaded('CnaeImporter')}">
+				<ui:include src="/WEB-INF/content/procurement/auxiliary/cnaeImporter.xhtml" />
+			</ui:fragment>
+			<ui:fragment rendered="#{procurementMenu.isLoaded('newLegalRegister')}">
+				<ui:include src="/WEB-INF/content/register/legal/frame.xhtml" />
+			</ui:fragment>
+		</h:panelGroup>
+
+	</ui:define>
+
+</ui:composition>

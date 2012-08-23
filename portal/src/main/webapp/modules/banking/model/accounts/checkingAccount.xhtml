@@ -1,0 +1,114 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:composition>
+	
+<h:form>
+
+	<h:panelGroup layout="block" style="float:left; width: 90%; margin-bottom: 20px;">
+	
+		<p:toolbar>
+			<p:toolbarGroup align="left">
+				<p:commandButton type="push" value="Novo" image="ui-icon-document" 
+					actionListener="#{checkingAccountController.create}" update="checkingAccountFormBase" />
+				<p:commandButton type="push" value="Salvar" image="ui-icon-disk"
+					actionListener="#{checkingAccountController.save}" update="checkingAccountFormBase checkingAccountTableBase"/>
+				<p:commandButton type="push" value="Limpar" image="ui-icon-note"
+					actionListener="#{checkingAccountController.clean}" update="checkingAccountFormBase" />
+			</p:toolbarGroup>
+		</p:toolbar>
+		
+	</h:panelGroup>
+
+	<h:panelGroup id="checkingAccountTableBase" layout="block" style="float:left; width: 400px;">
+		
+		<p:dataTable id="checkingAccountTable" value="#{checkingAccountController.beans}" var="att" resizableColumns="true">
+		
+			<p:column>
+				<f:facet name="header"><h:outputText value="Banco"/></f:facet>
+				<h:outputText value="#{att.bankDescription}" />
+			</p:column>
+			
+			<p:column>
+				<f:facet name="header"><h:outputText value="Descrição"/></f:facet>
+				<h:outputText value="#{att.description}" />
+			</p:column>
+			
+			<p:column>
+				<f:facet name="header"><h:outputText value="Número"/></f:facet>
+				<h:outputText value="#{att.number}" />
+			</p:column>
+			
+			<p:column style="width:20px">
+				<p:commandLink update="@form:checkingAccountFormBase">
+					<p:graphicImage value="/images/edit.png" height="12" width="12"/>
+					<f:setPropertyActionListener value="#{att}" target="#{checkingAccountController.bean}" />
+				</p:commandLink>
+			</p:column>
+			
+			<p:column style="width:10px">
+				<p:commandLink>
+					<p:graphicImage value="/images/delete.png" height="12" width="12"/>
+					<f:setPropertyActionListener value="#{att}" target="#{checkingAccountController.bean}" />
+				</p:commandLink>
+			</p:column>
+			
+	        
+	       </p:dataTable>
+	        
+	</h:panelGroup>
+
+	<h:panelGroup layout="block" id="checkingAccountFormBase" style="float:left; width: 400px; margin-left: 50px;">
+	
+		<p:fieldset legend="Conta Corrente" id="checkingAccountForm">  
+			
+			<h:panelGrid columns="2" rendered="#{checkingAccountController.has()}">
+			
+				<h:outputLabel value="Descricão"/>
+				<p:inputText label="Código" value="#{checkingAccountController.bean.description}" size="45" maxlength="45"/>
+						
+				<h:outputLabel value="Banco"/>
+	            <p:autoComplete value="#{checkingAccountController.bean.bank}" 
+	            	completeMethod="#{bankController.getBanksAC}" var="bank" 
+	            	itemLabel="#{bank.name}" itemValue="#{bank}" converter="bankConverter"/>
+		            	
+				
+				<h:outputLabel value="Agência"/>
+				<h:panelGroup>
+					<p:inputText value="#{checkingAccountController.bean.bankUnit}" size="5" maxlength="5"/>
+					<p:inputText value="#{checkingAccountController.bean.bankUnitDigit}" size="2" maxlength="2"/>
+				</h:panelGroup>
+				
+				<h:outputLabel value="Abertura"/>
+				<p:calendar value="#{checkingAccountController.bean.opening}" converter="#{dateCalendarConverter}" pattern="dd/MM/yyyy"/>
+				
+				<h:outputLabel value="Inicio"/>
+				<p:calendar value="#{checkingAccountController.bean.start}" converter="#{dateCalendarConverter}" pattern="dd/MM/yyyy"/>
+				
+				<h:outputLabel value="Saldo Inicial"/>
+				<p:inputText value="#{checkingAccountController.bean.startBalance}" size="20" maxlength="20"/>
+					
+				<h:outputLabel value="Número da Conta"/>
+				<h:panelGroup>
+					<p:inputText value="#{checkingAccountController.bean.number}" size="6" maxlength="7"/>
+					<p:inputText value="#{checkingAccountController.bean.digit}" size="2" maxlength="2"/>
+				</h:panelGroup>
+				
+			</h:panelGrid>
+			
+		</p:fieldset>
+		
+	</h:panelGroup>
+
+</h:form>
+	
+</ui:composition>
+
+</h:body>
+
+</html>

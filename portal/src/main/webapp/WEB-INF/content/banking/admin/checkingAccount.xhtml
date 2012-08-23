@@ -1,0 +1,340 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:body>
+	<ui:composition>
+		<ui:decorate template="/layout/window.xhtml">
+			<ui:param name="windowClass" value="window-full" />
+			<ui:param name="windowTitle" value="Administração de Conta Corrente" />
+			<ui:define name="windowBody">
+				<h:form id="formCheckingCollecion">
+
+					<h:panelGroup layout="block" id="checkingAccountFormBase"
+						style="float:left; width: 800px; margin-left: 50px;">
+
+						<p:fieldset legend="Conta Corrente" id="checkingAccountForm"
+							rendered="#{checkingAccountController.has}">
+
+							<h:panelGrid columns="3">
+
+								<h:outputLabel value="Banco:" />
+								<p:autoComplete size="70" id="bank"
+									required="#{!empty param['formCheckingCollecion:insert']}"
+									value="#{checkingAccountController.editing.bankUnit.bank}"
+									completeMethod="#{bankController.getBanksAC}" var="bank"
+									itemLabel="#{bank.code}#{' '}#{bank.name}" itemValue="#{bank}"
+									converter="bankConverter" dropdown="true" minQueryLength="3"
+									queryDelay="700" scrollHeight="150" />
+								<pe:tooltip for="bank" showEvent="mouseover"
+									hideEvent="mouseout" value="Banco" />
+
+
+								<h:outputLabel value="Agência:" />
+								<h:panelGroup>
+									<p:inputText id="agNumber"
+										required="#{!empty param['formCheckingCollecion:insert']}"
+										value="#{checkingAccountController.editing.bankUnit.number}"
+										size="5" maxlength="5" />
+									<pe:tooltip for="agNumber" showEvent="mouseover"
+										hideEvent="mouseout" value="Cód. da Agência" />
+
+									<p:spacer width="5" />
+									<p:inputText id="agDigit"
+										value="#{checkingAccountController.editing.bankUnit.digit}"
+										size="2" maxlength="2" />
+									<pe:tooltip for="agDigit" showEvent="mouseover"
+										hideEvent="mouseout" value="Dígito da Conta" />
+
+									<p:spacer width="5" />
+									<p:inputText id="agName"
+										required="#{!empty param['formCheckingCollecion:insert']}"
+										value="#{checkingAccountController.editing.bankUnit.name}"
+										size="30" />
+									<pe:tooltip for="agName" showEvent="mouseover"
+										hideEvent="mouseout" value="Nome da Agência" />
+
+									<p:spacer width="5" />
+									<p:commandButton id="selectButton" update=""
+										oncomplete="checkingAccountDialog.show()"
+										icon="ui-icon-search" title="View"
+										actionListener="#{checkingAccountController.getBankUnitSelect}">
+
+									</p:commandButton>
+								</h:panelGroup>
+								<h:outputText value="" />
+
+								<h:outputLabel value="Número da Conta:" />
+								<h:panelGroup>
+									<p:inputText id="ccNumber"
+										required="#{!empty param['formCheckingCollecion:insert']}"
+										value="#{checkingAccountController.editing.number}" size="10"
+										maxlength="7">
+										<pe:keyFilter mask="num" />
+										<p:ajax event="blur" process="@form"
+											listener="#{checkingAccountController.getAccountByNumber}"
+											update="checkingAccountFormBase" />
+									</p:inputText>
+									<pe:tooltip for="ccNumber" showEvent="mouseover"
+										hideEvent="mouseout" value="Número da Conta" />
+									<p:spacer width="5" />
+									<p:inputText id="ccDigit"
+										value="#{checkingAccountController.editing.digit}" size="2"
+										maxlength="2" />
+									<pe:tooltip for="ccDigit" showEvent="mouseover"
+										hideEvent="mouseout" value="Dígito da Conta" />
+
+								</h:panelGroup>
+								<h:outputText value="" />
+
+								<h:outputText value="Ativa:" />
+								<p:selectBooleanCheckbox
+									value="#{checkingAccountController.editing.active}" />
+
+							</h:panelGrid>
+							<p:spacer width="15" />
+							<p:fieldset legend="Convênio" style="width: 90%;">
+								<p:commandLink actionListener="#{checkingAccountController.add}"
+									update="tableConvenio">
+									<p:graphicImage
+										value="#{resource['primefaces-esales-theme-default:images/main-command-plus.png']}"
+										height="24" width="23" />
+									<span>Inserir Novo Convênio</span>
+								</p:commandLink>
+								<p:dataTable editable="true" id="tableConvenio"
+									value="#{checkingAccountController.editing.collectionAccounts}"
+									var="collAcc">
+
+									<p:column headerText="Nome">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{collAcc.name}" />
+											</f:facet>
+											<f:facet name="input">
+												<h:inputText value="#{collAcc.name}" />
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+
+									<p:column headerText="Descrição">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{collAcc.description}" />
+											</f:facet>
+											<f:facet name="input">
+												<h:inputText value="#{collAcc.description}" />
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+
+									<p:column headerText="Convênio">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{collAcc.agreement}" />
+											</f:facet>
+											<f:facet name="input">
+												<h:inputText value="#{collAcc.agreement}" />
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+
+									<p:column headerText="Variação">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{collAcc.line}" />
+											</f:facet>
+											<f:facet name="input">
+												<h:inputText value="#{collAcc.line}" />
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+
+									<p:column headerText="Operação">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{collAcc.operation}" />
+											</f:facet>
+											<f:facet name="input">
+												<h:inputText value="#{collAcc.operation}" />
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+
+									<p:column headerText="Registrado" style="text-align: center;">
+										<p:cellEditor>
+											<f:facet name="output">
+												<p:selectBooleanCheckbox value="#{collAcc.registered}"
+													disabled="true" />
+											</f:facet>
+											<f:facet name="input">
+												<p:selectBooleanCheckbox value="#{collAcc.registered}" />
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+
+									<p:column style="width:50px">
+										<p:rowEditor />
+									</p:column>
+
+									<p:column style="width:10px">
+										<h:commandLink oncomplete="confirmation.show();"
+											action="#{checkingAccountController.removeCollectionAccount(collAcc)}">
+											<p:graphicImage value="/resources/images/delete.png"
+												height="12" width="12" />
+										</h:commandLink>
+									</p:column>
+
+								</p:dataTable>
+
+								<p:dialog header="Agências Bancárias"
+									widgetVar="checkingAccountDialog" resizable="true" id="carDlg"
+									showEffect="fade" dynamic="true" hideEffect="explode"
+									modal="true">
+
+									<p:dataTable var="bankUnitList" selectionMode="single"
+										value="#{checkingAccountController.bankUnitSelect}">
+
+										<p:ajax event="rowSelect"
+											listener="#{checkingAccountController.onRowSelect}"
+											update=":formCheckingCollecion:checkingAccountFormBase"
+											oncomplete="checkingAccountDialog.hide();" />
+
+										<p:column headerText="Banco">
+											<h:outputText
+												value="#{bankUnitList.bank.code} #{bankUnitList.bank.name}" />
+										</p:column>
+
+										<p:column headerText="Núm. Agência">
+											<h:outputText value="#{bankUnitList.number}" />
+										</p:column>
+
+										<p:column headerText="Nome Agência">
+											<h:outputText value="#{bankUnitList.name}" />
+										</p:column>
+
+									</p:dataTable>
+
+								</p:dialog>
+
+							</p:fieldset>
+						</p:fieldset>
+
+						<p:spacer height="10" />
+
+						<h:panelGroup layout="block"
+							style="float:left; margin-bottom: 20px;">
+
+							<p:toolbar>
+								<p:toolbarGroup align="left">
+									<p:commandButton type="push" value="Novo"
+										image="ui-icon-document"
+										actionListener="#{checkingAccountController.create}"
+										update="checkingAccountFormBase" />
+									<p:commandButton type="push" value="Salvar"
+										image="ui-icon-disk" id="insert"
+										actionListener="#{checkingAccountController.save}"
+										update="checkingAccountFormBase" />
+
+									<p:commandButton type="button" value="Excluir"
+										image="ui-icon-disk" id="delete"
+										disabled="#{checkingAccountController.editing.id == 0}"
+										update="checkingAccountFormBase"
+										onclick="confirmationDelete.show();" />
+
+									<p:commandButton type="push" value="Limpar"
+										image="ui-icon-note"
+										actionListener="#{checkingAccountController.create}"
+										update="checkingAccountFormBase" />
+								</p:toolbarGroup>
+
+							</p:toolbar>
+
+							<p:confirmDialog
+								message="Você tem certeza que deseja excluir esta conta?"
+								header="Confirmação de exclusão" severity="alert"
+								widgetVar="confirmationDelete">
+								<p:commandButton value="Sim, tenho certeza"
+									update="checkingAccountFormBase disableAccount"
+									oncomplete="confirmationDelete.hide();"
+									actionListener="#{checkingAccountController.delete}" />
+								<p:commandButton value="Não" onclick="confirmationDelete.hide()"
+									type="button" />
+							</p:confirmDialog>
+
+							<p:confirmDialog id="disableAccount"
+								visible="#{checkingAccountController.showDisableDialog}"
+								message="A conta possui registros relacionados e não pode ser excluída."
+								header="Inativação de conta..." severity="alert"
+								closable="false" widgetVar="dialogDisableAccount">
+
+								<h:outputText value="Deseja inativá-la?"
+									rendered="#{checkingAccountController.editing.active}" />
+
+								<h:outputText value="Conta já inativa!"
+									rendered="#{checkingAccountController.editing.active == false }" />
+
+								<p:panelGrid columns="2" style="border-width: 0px;">
+									<p:commandButton value="Sim" id="btnSim"
+										update="checkingAccountFormBase"
+										oncomplete="dialogDisableAccount.hide();"
+										disabled="#{checkingAccountController.editing.active == false}"
+										actionListener="#{checkingAccountController.deactivateAccount}" />
+
+									<p:commandButton
+										value="#{checkingAccountController.editing.active == false ? 'Fechar' : 'Não'}"
+										oncomplete="dialogDisableAccount.hide()"
+										actionListener="#{checkingAccountController.deactivateAccount}" />
+								</p:panelGrid>
+
+							</p:confirmDialog>
+
+							<p:spacer height="10" />
+
+							<!-- 							<ui:remove> -->
+							<p:dataTable id="checkingAccTable" style="width: 800px;"
+								value="#{checkingAccountController.beans}" paginator="true"
+								rows="10" var="acc">
+								<p:column headerText="Conta" sortBy="#{acc.number}">
+									<h:outputText value="#{acc.number}-#{acc.digit}" />
+								</p:column>
+
+								<p:column headerText="Núm. Agência"
+									sortBy="#{acc.bankUnit.number}">
+									<h:outputText
+										value="#{acc.bankUnit.number}-#{acc.bankUnit.digit}" />
+								</p:column>
+
+								<p:column headerText="Nome Agência"
+									sortBy="#{acc.bankUnit.name}">
+									<h:outputText value="#{acc.bankUnit.name}" />
+								</p:column>
+
+								<p:column headerText="Bank" sortBy="#{acc.bankUnit.bank.name}">
+									<h:outputText
+										value="#{acc.bankUnit.bank.code} - #{acc.bankUnit.bank.name}" />
+								</p:column>
+
+								<p:column style="width:12px">
+									<p:commandLink update="@form">
+										<p:graphicImage value="/resources/images/edit.png" height="12"
+											width="12" />
+										<f:setPropertyActionListener value="#{acc}"
+											target="#{checkingAccountController.editing}" />
+									</p:commandLink>
+								</p:column>
+							</p:dataTable>
+							<!-- 							</ui:remove> -->
+						</h:panelGroup>
+					</h:panelGroup>
+				</h:form>
+
+			</ui:define>
+		</ui:decorate>
+	</ui:composition>
+
+</h:body>
+
+</html>

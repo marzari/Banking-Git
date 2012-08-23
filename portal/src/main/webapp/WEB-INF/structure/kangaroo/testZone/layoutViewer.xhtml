@@ -1,0 +1,22 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:form>
+
+		<p:tree value="#{mqlLayoutTreeController.root}" var="node" id="treeBase" selectionMode="single" selection="#{mqlLayoutTreeController.selectedNode}">
+			
+			<p:treeNode>
+				<h:outputText value="#{node.name}" />
+			</p:treeNode>
+			
+		</p:tree>
+		
+		<p:commandButton type="push" value="Update" update="treeBase" actionListener="#{mqlLayoutTreeController.update}"/>
+		<p:commandButton value="Remove Selected" actionListener="#{mqlLayoutTreeController.removeSelected}" update="treeBase" />  
+
+	</h:form>
+
+</ui:composition>

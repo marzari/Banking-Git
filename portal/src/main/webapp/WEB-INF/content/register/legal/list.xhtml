@@ -1,0 +1,47 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<h:form id="#{listForm}">
+		<p:dataTable var="reg" value="#{legalRegisterController.beans}"
+			id="#{idList}" sortBy="#{reg.companyName}"
+			sortOrder="descending"
+			paginator="true" rows="10" rowsPerPageTemplate="5,10,20,50"
+			paginatorTemplate="O sistema retornou #{legalRegisterController.beans.size().toString()} registros. {PageLinks}  {RowsPerPageDropdown}">
+	
+			<p:column sortBy="#{reg.companyName}" headerText="Razão Social">
+				<h:outputText value="#{reg.companyName}" />
+			</p:column>
+		
+			<p:column sortBy="#{reg.fancyName}" headerText="CNPJ">
+				<h:outputText value="#{reg.getRegistration('cnpj').getValue()}" />
+			</p:column>
+	
+			<p:column styleClass="kx-actions-column" headerText="Ações">
+				<p:commandLink update=":#{mainPanel}" process="@this">
+					<p:graphicImage value="/resources/images/edit.png" height="12" width="12" />
+					<f:setPropertyActionListener value="#{reg}" target="#{legalRegisterController.editing}" />
+					<f:setPropertyActionListener value="#{reg}" target="#{legalRegisterController.addressController.register}" />
+					<f:setPropertyActionListener value="#{reg}"	target="#{legalRegisterController.contactController.register}" />
+				</p:commandLink>
+				<p:commandLink oncomplete="legalRegisterConfirmation.show()" >
+					<p:graphicImage value="/resources/images/delete.png" height="12" width="12" />
+					<f:setPropertyActionListener value="#{reg}" target="#{legalRegisterController.editing}" />
+				</p:commandLink>
+			</p:column>
+		</p:dataTable>
+		
+	</h:form>
+	<h:form>
+		<p:confirmDialog message="Você tem certeza que deseja excluir?"	header="Confirmação de exclusão" 
+			severity="alert" widgetVar="legalRegisterConfirmation">
+			<p:commandButton value="Sim, tenho certeza." 
+				update=":#{mainPanel}"
+				oncomplete="legalRegisterConfirmation.hide()" 
+				actionListener="#{legalRegisterController.delete}" />
+			<p:commandButton value="Não" onclick="legalRegisterConfirmation.hide()" type="button" />
+		</p:confirmDialog>	
+	</h:form>
+</ui:composition>

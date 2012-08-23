@@ -1,0 +1,114 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:composition>
+	
+<h:form>
+
+	<h:panelGroup layout="block" style="float:left; width: 100%; margin-bottom: 20px;">
+		<p:toolbar>
+			<p:toolbarGroup align="left">
+				<p:commandButton type="push" value="Novo" image="ui-icon-document" 
+					actionListener="#{investmentAccountController.create}" update="investmentAccountForm-base" />
+				<p:commandButton type="push" value="Salvar" image="ui-icon-disk"
+					actionListener="#{investmentAccountController.save}" update="investmentAccountForm-base investmentAccountTable-base"/>
+				<p:commandButton type="push" value="Limpar" image="ui-icon-note"
+					actionListener="#{investmentAccountController.clean}" update="investmentAccountForm-base" />
+			</p:toolbarGroup>
+		</p:toolbar>
+	</h:panelGroup>
+
+	<h:panelGroup id="investmentAccountTable-base" layout="block" style="float:left; width: 400px;">
+		
+		<p:dataTable id="investmentAccountTable" value="#{investmentAccountController.beans}" var="att" resizableColumns="true">
+		
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Banco" />
+				</f:facet>
+				<h:outputText value="#{att.bank.name}" />
+			</p:column>
+			
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Descrição" />
+				</f:facet>
+				<h:outputText value="#{att.description}" />
+			</p:column>
+			
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Número" />
+				</f:facet>
+				<h:outputText value="#{att.number}" />
+			</p:column>
+			
+			<p:column style="width:10px">
+				<p:commandButton update="@form:investmentAccountForm-base" image="ui-icon ui-icon-search" >
+					<f:setPropertyActionListener value="#{att}" target="#{investmentAccountController.bean}" />
+				</p:commandButton>
+			</p:column>
+			
+			<p:column style="width:10px">
+				<p:commandButton image="ui-icon ui-icon-closethick" update="investmentAccountTable-base">
+				</p:commandButton>
+			</p:column>
+	        
+	       </p:dataTable>
+	        
+	</h:panelGroup>
+
+	<h:panelGroup layout="block" id="investmentAccountForm-base" style="float:left; width: 400px; margin-left: 50px;">
+	
+		<p:fieldset legend="Conta Investimento" id="investmentAccountForm">  
+			
+			<h:panelGrid columns="2" rendered="#{investmentAccountController.has()}">
+			
+				<h:outputLabel value="Descricão"/>
+				<p:inputText label="Código" value="#{investmentAccountController.bean.description}" size="45" maxlength="45"/>
+						
+				<h:outputLabel value="Banco"/>
+	            <p:autoComplete value="#{investmentAccountController.bean.bank}" 
+	            	completeMethod="#{bankController.getBanksAC}" var="bank" 
+	            	itemLabel="#{bank.name}" itemValue="#{bank}" converter="#{bankBeanConverter}"/>
+		            	
+				
+				<h:outputLabel value="Agência"/>
+				<h:panelGroup>
+					<p:inputText value="#{investmentAccountController.bean.bankUnit}" size="10" maxlength="10"/>
+					<p:inputText value="#{investmentAccountController.bean.bankUnitDigit}" size="2" maxlength="2"/>
+				</h:panelGroup>
+				
+				<h:outputLabel value="Abertura"/>
+				<p:calendar value="#{investmentAccountController.bean.opening}" converter="#{dateCalendarConverter}"/>
+				
+				<h:outputLabel value="Inicio"/>
+				<p:calendar value="#{investmentAccountController.bean.start}" converter="#{dateCalendarConverter}"/>
+				
+				<h:outputLabel value="Saldo Inicial"/>
+				<p:inputText value="#{investmentAccountController.bean.startBalance}" size="30" maxlength="30"/>
+					
+				<h:outputLabel value="Número da Conta"/>
+				<h:panelGroup>
+					<p:inputText value="#{investmentAccountController.bean.number}" size="10" maxlength="10"/>
+					<p:inputText value="#{investmentAccountController.bean.digit}" size="2" maxlength="2"/>
+				</h:panelGroup>
+				
+			</h:panelGrid>
+			
+		</p:fieldset>
+		
+	</h:panelGroup>
+
+</h:form>
+	
+</ui:composition>
+
+</h:body>
+
+</html>

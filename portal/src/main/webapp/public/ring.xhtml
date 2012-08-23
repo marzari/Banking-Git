@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	<h:form id="ringform">
+			
+		<p:ring id="custom" value="#{dockController.applications}" var="app"
+			styleClass="image-ring" easing="easeInOutQuad">
+				<p:column>
+					<p:commandLink style="margin: 3px;" update=":ringform:application-description">
+						<p:graphicImage value="#{app.icon}" />
+						<f:setPropertyActionListener value="#{app}" target="#{dockController.selectedApplication}"/>
+					</p:commandLink>
+				</p:column>
+		</p:ring>
+		
+		<h:panelGroup layout="block" id="application-description" style="font-size: 2.4em" styleClass="application-description ui-corner-all">
+			<h:panelGroup rendered="#{dockController.selectedApplication != null}">
+				<div>#{dockController.selectedApplication.description}</div>
+			</h:panelGroup>
+		</h:panelGroup>
+	
+	</h:form>
+
+       
+</ui:composition>

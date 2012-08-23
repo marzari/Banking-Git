@@ -1,0 +1,304 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:decorate template="/layout/window.xhtml">
+
+		<ui:param name="windowClass" value="window-full" />
+		<ui:param name="windowTitle" value="Carteira de Cobrança" />
+
+		<ui:define name="windowBody">
+
+			#{collectionController.begin(3)}
+			<ui:debug hotkey="K" />
+
+			<h:form id="collectionForm">
+
+				<p:dataTable id="collectiontable" var="cab"
+					resizableColumns="true"
+					value="#{collectionController.dataModel}" paginator="true"
+					rows="50" selection="#{collectionController.selectedCollections}"
+					sortBy="#{cab.amount}" sortOrder="descending">
+
+					<p:column selectionMode="multiple" />
+
+					<f:facet name="header">
+						<p:commandButton id="modalDialogButton" value="Filtro"
+							onclick="dlg2.show();" type="button" style="float: left;" />
+					</f:facet>
+
+					<p:column headerText="Vencimento" sortBy="#{cab.formatMaturity}" style="width:125px">  
+			            #{cab.formatMaturity}  
+			        </p:column>
+
+					<p:column headerText="Lançamento" sortBy="#{cab.formatIssue}" style="width:125px">  
+			            #{cab.formatIssue}  
+			        </p:column>
+
+					<p:column headerText="Número" style="min-width:100px"
+						sortBy="#{cab.docNumber}"> 
+			            #{cab.docNumber}  
+			        </p:column>
+
+					<p:column headerText="Valor"
+						sortBy="#{cab.amount}" style="min-width:100px">  
+			         #{cab.amountFormat}   
+			        </p:column>
+
+					<p:column headerText="Espécie"
+						sortBy="#{cab.especieTitulo.description}" style="min-width:100px">
+			            #{cab.especieTitulo.description}
+			        </p:column>
+
+					<p:column headerText="Sacado" sortBy="#{cab.nomeSacado}" style="min-width:100px">  
+			            #{cab.nomeSacado}  
+			        </p:column>
+
+					<p:column headerText="Banco" style="min-width:100px" 
+						sortBy="#{cab.account.name}">  
+			            #{cab.account.name}  
+			        </p:column>
+
+					<p:column headerText="Situacao" sortBy="#{cab.situation}" style="min-width:100px">  
+			            #{cab.situation}
+			        </p:column>
+			        
+			        <p:column headerText="Retorno" sortBy="#{cab.confirmed}" style="min-width:90px">  
+			            #{cab.confirmed}
+			        </p:column>
+
+					<p:column style="width:40px">
+						<p:commandButton id="selectButton"
+							update=":collectionForm:display"
+							oncomplete="collectionDialog.show()" icon="ui-icon-search"
+							title="View">
+
+							<f:setPropertyActionListener value="#{cab}"
+								target="#{collectionController.selectedBean}" />
+						</p:commandButton>
+					</p:column>
+
+					<p:column style="width:40px">
+						<p:commandButton id="selectButton2"
+							update=":collectionForm:display :calculateForm"
+							actionListener="#{collectionController.calculateClean}"
+							oncomplete="recalculateDialog.show()" icon="ui-icon-calculator"
+							title="View">
+
+							<f:setPropertyActionListener value="#{cab}"
+								target="#{collectionController.selectedBean}" />
+						</p:commandButton>
+					</p:column>
+
+					<f:facet name="footer">
+					
+					
+<!-- /////////////////////////////////////////////////REABRIR/////////////////////////////////////////////// -->
+
+						<p:commandButton value="Reabrir" type="button"
+							onclick="confirmA.show();" />
+
+						<p:confirmDialog message="Deseja confirmar a reabertura?" closable="false"
+							header="Confirmar..." severity="alert" widgetVar="confirmA">
+
+							<p:commandButton value="OK"
+								actionListener="#{collectionController.openCollection}"
+								oncomplete="confirmA.hide(); vo.show();"
+								update="collectiontable" />
+							<p:commandButton value="Cancelar" onclick="confirmA.hide();"
+								type="button" />
+
+						</p:confirmDialog>
+
+						<p:confirmDialog message="Informações de confirmação:" severity="info" widgetVar="vo" closable="false">
+
+							<p:dataTable var="inf" 
+								value="#{collectionController.reportMessage}">
+
+								<p:column headerText="Detalhes da ação" style="text-align:left">
+									<h:outputText value="#{inf}" />
+								</p:column>
+
+							</p:dataTable>
+
+							<p:commandButton style="float:right" value="Fechar" onclick="vo.hide();"
+								type="button" />
+
+						</p:confirmDialog>
+						
+<!-- /////////////////////////////////////////////////LIQUIDAR/////////////////////////////////////////////// -->
+
+						<p:commandButton value="liquidar" type="button"
+							onclick="confirmL.show();" />
+
+						<p:confirmDialog message="Deseja confirmar liquidação?" closable="false"
+							header="Confirmar..." severity="alert" widgetVar="confirmL">
+
+							<p:commandButton value="OK"
+								actionListener="#{collectionController.liquidatedCollection}"
+								oncomplete="confirmL.hide(); vo.show();"
+								update="collectiontable" />
+							<p:commandButton value="Cancelar" onclick="confirmL.hide();"
+								type="button" />
+
+						</p:confirmDialog>
+
+<!-- /////////////////////////////////////////////////BAIXAR/////////////////////////////////////////////// -->
+
+						<p:commandButton value="Baixar" type="button"
+							onclick="confirmb.show();" />
+
+						<p:confirmDialog message="Deseja confirmar a baixa?" closable="false"
+							header="Confirmar..." severity="alert" widgetVar="confirmb">
+
+							<p:commandButton value="OK"
+								actionListener="#{collectionController.cancelCollection}"
+								oncomplete="confirmb.hide(); vw.show();"
+								update="collectiontable" />
+							<p:commandButton value="Cancelar" onclick="confirmb.hide();"
+								type="button" />
+
+						</p:confirmDialog>
+
+						<p:confirmDialog message="Informações de confirmação:" severity="info" widgetVar="vw" closable="false">
+
+							<p:dataTable var="inf" 
+								value="#{collectionController.reportMessage}">
+
+								<p:column headerText="Detalhes da baixa" style="text-align:left">
+									<h:outputText value="#{inf}" />
+								</p:column>
+
+							</p:dataTable>
+
+							<p:commandButton style="float:right" value="Fechar" onclick="vw.hide();"
+								type="button" />
+
+						</p:confirmDialog>
+						
+<!-- /////////////////////////////////////////////////PROTESTAR/////////////////////////////////////////////// -->
+
+						<p:commandButton value="Protestar" type="button"
+							onclick="confirmd.show();" />
+							
+						<p:confirmDialog message="Deseja confirmar o protesto?" closable="false"
+							header="Confirmar..." severity="alert" widgetVar="confirmd">
+
+							<p:commandButton value="OK"
+								actionListener="#{collectionController.protestCollection}"
+								oncomplete="confirmd.hide(); vo.show();"
+								update="collectiontable" />
+							<p:commandButton value="Cancelar" onclick="confirmd.hide();"
+								type="button" />
+
+						</p:confirmDialog>
+
+<!-- /////////////////////////////////////////////////IMPRIMIR/////////////////////////////////////////////// -->	
+					
+						<p:commandButton value="Imprimir" ajax="false" 
+							onclick="confirmI.show();" />
+						
+							<p:confirmDialog message="Deseja confirmar impressão?" closable="false"
+								header="Confirmar..." severity="alert" widgetVar="confirmI">
+
+								<p:commandButton value="OK" id="downloadLink" ajax="false" onclick="confirmI.hide()">
+									<p:fileDownload value="#{collectionController.pdfFile}"   />
+									</p:commandButton>
+								<p:commandButton value="Cancelar" onclick="confirmI.hide();"
+									type="button" />
+
+							</p:confirmDialog>
+						
+<!-- /////////////////////////////////////////////////GERAR REMESSA/////////////////////////////////////////////// -->
+
+						<p:commandButton value="Gerar Remessa" type="button"
+							onclick="confirmR.show();" />
+							
+						<p:confirmDialog message="Confirmar geração de remessa?"	
+								closable="false" header="Confirmar..." severity="alert"
+								widgetVar="confirmR" width="500">
+	
+							<h:panelGrid id="display" columns="3" style="margin:0 auto;">
+							
+							<p:selectOneMenu style="width: 250px;"
+									value="#{collectionController.collectionAccountId}">
+									<f:selectItem itemLabel="Selecione para alterar a conta"
+										itemValue="" />
+									<f:selectItems value="#{collectionAccountController.beans}"
+										var="ca" itemLabel="#{ca.name}" itemValue="#{ca.id}" />
+								</p:selectOneMenu>
+
+								<p:commandButton value="OK"
+									actionListener="#{collectionController.sendCollectionsToBank}"
+									oncomplete="confirmR.hide();"
+									update=":collectionForm:collectiontable" />
+								<p:commandButton value="Cancelar" onclick="confirmR.hide();"
+									type="button" />
+								
+							</h:panelGrid>
+			
+						</p:confirmDialog>
+							
+						<ui:remove>
+						<!-- //////////////////MOSTRAR LISTEM DE TÍTULOS NÃO ENVIADOS NA REMESSA////////////////////// -->
+<!-- 						<p:confirmDialog message="Remessa Gerada com Sucesso!" -->
+<!-- 							closable="true" header="Informação..." severity="info" -->
+<!-- 							widgetVar="infoVenc"> -->
+
+<!-- 							<h:panelGrid style="text-align: center;"> -->
+<!-- 								<h:outputLabel -->
+<!-- 									value="Títulos vencidos que  não foram incluídos na remessa:" -->
+<!-- 									rendered="#{not empty collectionController.titulosVencidos}" /> -->
+
+<!-- 								<p:dataTable value="#{collectionController.titulosVencidos}" -->
+<!-- 									var="titVenc" paginator="true" -->
+<!-- 									rendered="#{not empty collectionController.titulosVencidos}" -->
+<!-- 									id="titVenc"> -->
+
+<!-- 									<p:column headerText="Número" width="100"> -->
+<!-- 										<h:outputLabel value="#{titVenc.docNumber}" /> -->
+<!-- 									</p:column> -->
+<!-- 									<p:column headerText="Vencimento" width="100"> -->
+<!-- 										<h:outputLabel id="vcto" value="#{titVenc.maturity}"> -->
+<!-- 											<f:convertDateTime for="vcto" pattern="dd/MM/yyyy" /> -->
+<!-- 										</h:outputLabel> -->
+<!-- 									</p:column> -->
+<!-- 									<p:column headerText="Valor" width="100"> -->
+<!-- 										<h:outputLabel id="vlr" value="#{titVenc.amount}"> -->
+<!-- 											<f:convertNumber for="vlr" currencyCode="BRL" type="currency" /> -->
+<!-- 										</h:outputLabel> -->
+<!-- 									</p:column> -->
+
+<!-- 								</p:dataTable> -->
+
+<!-- 								<p:commandButton value="OK" oncomplete="infoVenc.hide();" -->
+<!-- 									update=":collectionForm:collectiontable" /> -->
+<!-- 							</h:panelGrid> -->
+<!-- 						</p:confirmDialog> -->
+
+<!-- /////////////////////////////////////////////////END FOOTER TABLE/////////////////////////////////////////////// -->							
+						</ui:remove>
+					</f:facet>
+
+				</p:dataTable>
+
+
+				<!-- Incluido aqui, anexo para chamar os detalhes de cada registro -->
+				<ui:include src="includeModalDetails.xhtml" />
+				<!-- Incluido aqui, anexo para visualizar a tela de edição -->
+				<ui:include src="includeViewEdition.xhtml" />
+
+
+			</h:form>
+
+			<ui:include src="includeModalRecalculate.xhtml" />
+			<!-- Incluido aqui, anexo para chamar a janela modal do filtro -->
+			<ui:include src="includeModalFilter.xhtml" />
+
+
+		</ui:define>
+	</ui:decorate>
+
+</ui:composition>

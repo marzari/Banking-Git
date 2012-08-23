@@ -1,0 +1,45 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form>
+	
+		<div class="signinout-wrapper open">
+
+			<div class="language_selector">
+				<div class="bar"></div>
+				<p:commandLink actionListener="#{languageController.setLanguage('pt_BR')}" process="@this" update=":security-wrapper" styleClass="ui-icon-refresh">
+					<img src="#{resource['primefaces-esales-theme-default:images/brazil.png']}" />
+				</p:commandLink>
+				<p:commandLink actionListener="#{languageController.setLanguage('en_US')}" process="@this" update=":security-wrapper" styleClass="ui-icon-refresh">
+					<img src="#{resource['primefaces-esales-theme-default:images/usa.png']}" />
+				</p:commandLink>
+				<p:commandLink actionListener="#{languageController.setLanguage('es_ES')}" process="@this" update=":security-wrapper" styleClass="ui-icon-refresh">
+					<img src="#{resource['primefaces-esales-theme-default:images/spain.png']}" />
+				</p:commandLink>
+				
+			</div>
+			
+			<div class="credentials">
+				<h:inputText id="username"
+					value="#{sessionController.credentials.username}" required="true"
+					label="username" class="ui-text-input-dark" />
+				<h:inputSecret id="password"
+					value="#{sessionController.credentials.password}" required="true"
+					label="password" class="ui-text-input-dark" />
+				<p:commandButton value="Entrar" update=":security-wrapper"
+					actionListener="#{sessionController.attemptLogin()}" />
+				<p:watermark for="username" value="Login" />
+				<p:watermark for="password" value="Senha" />
+				<p:focus for="username" />
+			</div>
+			
+		</div>
+
+		<!-- </h:panelGrid> -->
+
+	</h:form>
+
+</ui:composition>

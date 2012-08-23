@@ -1,0 +1,105 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:decorate template="/layout/window.xhtml">
+
+		<ui:param name="windowClass" value="window-full" />
+		<ui:param name="windowTitle" value="Nicknames de Segmentos (Segmentos conforme as empresas)" />
+
+		<ui:define name="windowBody">
+		
+			#{segmentController.begin(3)}
+		
+			<h:form id="segmentForm">
+
+				<p:fieldset id="segmentFormBase"
+					legend="Cadastro de segmento (Nickname)"
+					style="height: 80%; margin-bottom: 5px;">
+
+					<h:panelGroup rendered="#{segmentController.has}">
+
+						<h:panelGrid columns="1" style="float: left;" cellpading="15">
+
+							<h:outputLabel value="Nome" />
+							<h:outputLabel />
+							<p:inputText id="segmentName"
+								value="#{segmentController.editing.name}" size="30"
+								maxlength="30" />
+							<h:outputLabel />
+							<p:commandButton type="submit" value="Salvar" ajax="faslse"
+								icon="ui-icon-disk" id="segmentSave"
+								actionListener="#{segmentController.save}"
+								oncomplete="segmentDialog.hide();"
+								update=":segmentForm:segmentFormBase segmentList" />
+
+						</h:panelGrid>
+
+								<p:pickList id="pickList"
+									value="#{segmentController.dualListRequirements}"
+									var="requirement" converter="requirementConverter"
+									itemLabel="#{requirement.name}" itemValue="#{requirement}">
+									<f:facet name="sourceCaption">Requisitos Disponíveis</f:facet>
+									<f:facet name="targetCaption">Requisitos Atribuídos</f:facet>
+								</p:pickList>
+					</h:panelGroup>
+					<p:focus for="segmentName" />
+				</p:fieldset>
+
+
+
+				<p:dataTable var="segment" value="#{segmentController.beans}"
+					sortBy="#{segment.name}" orderBy="descending" id="segmentList"
+					paginator="true" rows="10" rowsPerPageTemplate="5,10,20,50"
+					paginatorTemplate="O sistema retornou #{segmentController.beans.size().toString()} registros. {PageLinks}  {RowsPerPageDropdown}">
+
+					<p:column headerText="Name" sortBy="#{segment.name}">
+						<h:outputText value="#{segment.name}" />
+					</p:column>
+
+					<p:column style="width:10px">
+						<p:commandLink update=":segmentForm:segmentFormBase"
+							oncomplete="segmentDialog.show();">
+							<p:graphicImage value="/resources/images/edit.png" height="12"
+								width="12" />
+							<f:setPropertyActionListener value="#{segment}"
+								target="#{segmentController.editing}" />
+						</p:commandLink>
+					</p:column>
+					<p:column style="width:10px">
+						<p:commandLink oncomplete="confirmation.show();">
+							<p:graphicImage value="/resources/images/delete.png" height="12"
+								width="12" />
+							<f:setPropertyActionListener value="#{segment}"
+								target="#{segmentController.editing}" />
+						</p:commandLink>
+					</p:column>
+
+				</p:dataTable>
+
+				<p:confirmDialog message="Excluir este segmento"
+					header="Confirmação de exclusão" severity="alert"
+					widgetVar="confirmation">
+					<p:commandButton value="Sim, tenho certeza" update="segmentList"
+						oncomplete="confirmation.hide()"
+						actionListener="#{segmentController.delete}" />
+					<p:commandButton value="Não" onclick="confirmation.hide()"
+						type="button" />
+				</p:confirmDialog>
+
+				<p:commandLink style="margin: 3px;" styleClass="ui-icon-refresh"
+					actionListener="#{segmentController.create}"
+					update=":segmentForm:segmentFormBase">
+					<p:graphicImage value="/resources/images/add.png" height="12"
+						width="12" />
+				</p:commandLink>
+
+			</h:form>
+
+		</ui:define>
+
+	</ui:decorate>
+
+</ui:composition>

@@ -1,0 +1,20 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="../portalcommon-third.xhtml">
+	
+	<ui:define name="applicationbar-wrapper">
+
+		<h:outputStylesheet library="css" name="third/dashboard-third.css" />
+		<h3 class="main-title ui-big-title">Kangaroo</h3>
+
+	</ui:define>
+	
+	<ui:define name="common-third-body">
+	
+		<ui:include src="../../kangaroo/testZone/testZone-tab.xhtml"/>
+	
+	</ui:define>
+	
+</ui:composition>

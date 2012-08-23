@@ -1,0 +1,115 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="permissionRegistryBase" style="height: 100%;">
+
+		<h:panelGroup layout="block">
+
+			<p:autoComplete value="#{portalComponentController.selectedUser}" id="userSelection"
+				completeMethod="#{userController.complete}" converter="userConverter"
+				var="p" itemLabel="#{p.fullName}" itemValue="#{p}" size="40">
+			
+				<p:ajax event="itemSelect" update=":admin-tab:permissionRegistryBase:permissions-base" listener="#{portalComponentController.handleSelectedUser}" /> 
+					
+			</p:autoComplete>
+			<p:watermark for="userSelection" value="#{i18n['verbal.typeUserName']}" />  
+
+		</h:panelGroup>
+		
+		<h:panelGroup layout="block" id="permissions-base" style="height: 100%; margin-top: 4%; width: 1000px;">
+	
+			<h:panelGroup layout="block" style="height: 80%; width: 28%; margin: 2%; float: left;">
+
+				<p:dataTable var="app" selectionMode="single" style="width: 100%;"
+					value="#{portalComponentController.applications}" 
+					selection="#{portalComponentController.selectedApplication}" >
+
+					<p:ajax event="rowSelect" listener="#{portalComponentController.onApplicationSelect}"
+						update=":admin-tab:permissionRegistryBase:permissions-base" />
+
+					<f:facet name="header">  
+			            #{i18n['name.applications']}
+			        </f:facet>
+
+					<p:column headerText="#{i18n['name.name']}">  
+			            #{app.name}  
+			        </p:column>
+			        
+			        <p:column headerText="#{i18n['name.description']}">  
+			            #{app.description}  
+			        </p:column>
+			        
+			        <p:column headerText="#{i18n['name.actions']}">  
+			            #{app.actions}  
+			        </p:column>
+
+				</p:dataTable>
+
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" style="height: 80%; width: 28%; margin: 2%; float: left;">
+			
+				<p:dataTable var="module" selectionMode="single" style="width: 100%;"
+					value="#{portalComponentController.modules}" 
+					selection="#{portalComponentController.selectedModule}" >
+
+					<p:ajax event="rowSelect" listener="#{portalComponentController.onModuleSelect}"
+						update=":admin-tab:permissionRegistryBase:permissions-base" />
+
+					<f:facet name="header">  
+			            #{i18n['name.modules']}
+			        </f:facet>
+
+					<p:column headerText="#{i18n['name.name']}">  
+			            #{module.name}  
+			        </p:column>
+			        
+			        <p:column headerText="#{i18n['name.description']}">  
+			            #{module.description}  
+			        </p:column>
+			        
+			        <p:column headerText="#{i18n['name.actions']}">  
+			            #{module.actions}  
+			        </p:column>
+
+				</p:dataTable>
+			
+			</h:panelGroup>	
+			
+			<h:panelGroup layout="block" style="height: 80%; width: 28%; margin: 2%; float: left;">
+			
+				<p:dataTable var="aggregate" selectionMode="single" style="width: 100%;"
+					value="#{portalComponentController.aggregates}" 
+					selection="#{portalComponentController.selectedAggregate}" >
+
+					<p:ajax event="rowSelect" listener="#{portalComponentController.onAggregateSelect}"
+						update=":admin-tab:permissionRegistryBase:permissions-base" />
+
+					<f:facet name="header">  
+			            #{i18n['name.aggregates']}
+			        </f:facet>
+
+					<p:column headerText="#{i18n['name.name']}">  
+			            #{aggregate.name}  
+			        </p:column>
+			        
+			        <p:column headerText="#{i18n['name.description']}">  
+			            #{aggregate.description}  
+			        </p:column>
+			        
+			        <p:column headerText="#{i18n['name.actions']}">  
+			            #{aggregate.actions}  
+			        </p:column>
+
+				</p:dataTable>
+			
+			</h:panelGroup>	
+		
+		</h:panelGroup>
+
+	</h:form>
+
+</ui:composition>

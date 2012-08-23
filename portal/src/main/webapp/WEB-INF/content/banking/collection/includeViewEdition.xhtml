@@ -1,0 +1,68 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<p:fieldset legend="Editar..." toggleable="true" collapsed="true">
+		<h:panelGrid id="filter" columns="2" cellpadding="5">
+
+			<h:outputText value="Documento: " />
+			<p:selectOneMenu disabled="true">
+				<f:selectItem itemLabel="Padrão..." itemValue="" />
+				<f:selectItem itemLabel="Tradicional" itemValue="" />
+				<f:selectItem itemLabel="Escritural" itemValue="#" />
+			</p:selectOneMenu>
+
+			<h:outputText value="Distribuição: " />
+			<p:selectOneMenu disabled="true">
+				<f:selectItem itemLabel="Padrão..." itemValue="" />
+				<f:selectItem itemLabel="Banco distribui" itemValue="" />
+				<f:selectItem itemLabel="Cliente distribui" itemValue="#" />
+				<f:selectItem itemLabel="Banco envia e-mail" itemValue="#" />
+				<f:selectItem itemLabel="Banco envia SMS" itemValue="" />
+			</p:selectOneMenu>
+
+			<h:outputText value="Espécie: " />
+			<p:selectOneMenu id="especie"
+				value="#{collectionController.editing.especieTitulo}"
+				converter="especieTituloConverter">
+				<f:selectItem itemLabel="Selecione... " itemValue="" />
+				<f:selectItems value="#{especieTituloController.beans}"
+					var="especiesTitulos" itemLabel="#{especiesTitulos.description}"
+					itemValue="#{especiesTitulos}" />
+			</p:selectOneMenu>
+
+			<h:outputText value="Conta: " />
+			<p:selectOneMenu value="#{collectionController.collectionAccountId}">
+				<f:selectItem itemLabel="Padrão... " itemValue="1" />
+				<f:selectItems value="#{collectionAccountController.beans}" var="ca"
+					itemValue="#{ca.id}" itemLabel="#{ca.name}" />
+			</p:selectOneMenu>
+
+
+		</h:panelGrid>
+
+		<p:commandButton value="Alterar" onclick="cd.show()"
+			style="float: right;" />
+
+
+		<p:confirmDialog
+			message="Você tem certeza que deseja alterar os dados selecionados?"
+			header="Alterando dados..." severity="info" widgetVar="cd">
+
+			<p:commandButton value="Altere agora"
+				actionListener="#{collectionController.doAlterations}"
+				update=":collectionForm:collectiontable" process="@form"
+				oncomplete="cd.hide();" />
+			<p:commandButton value="Ainda não" onclick="cd.hide();" type="button" />
+
+		</p:confirmDialog>
+
+
+	</p:fieldset>
+
+
+
+
+</ui:composition>

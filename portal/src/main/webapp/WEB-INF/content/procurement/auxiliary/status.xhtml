@@ -1,0 +1,111 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:decorate template="/layout/window.xhtml">
+
+		<ui:param name="windowClass" value="window-full" />
+		<ui:param name="windowTitle" value="Tipos de Situação" />
+
+		<ui:define name="windowBody">
+		
+			#{statusController.begin(3)}
+
+			<h:form id="formStatus">
+
+				<p:fieldset id="statusFormBase"
+					legend="Cadastro de tipos de Situação"
+					style="height: 80%; margin-bottom: 5px;">
+
+					<h:panelGroup rendered="#{statusController.has}">
+
+						<h:panelGrid columns="4" style="float: left;" cellpading="15">
+
+							<h:outputLabel value="Nome" />
+							<h:outputLabel value="Sigla" />
+							<h:outputText value="Popup" />
+							<h:outputText />
+
+							<p:inputText id="statusDescription"
+								value="#{statusController.editing.description}" size="30"
+								maxlength="30" />
+
+							<p:inputText value="#{statusController.editing.abbreviation}"
+								size="30" maxlength="30" />
+
+							<p:colorPicker id="popupCP"
+								value="#{statusController.editing.color}" widgetVar="picker" />
+
+							<p:commandButton value="Salvar" icon="ui-icon-disk" ajax="false"
+								id="statusSave" actionListener="#{statusController.save}"
+								update=":formStatus:statusFormBase statusList" />
+
+						</h:panelGrid>
+					</h:panelGroup>
+					<p:focus for="statusDescription" />
+				</p:fieldset>
+
+				<p:dataTable var="status" value="#{statusController.beans}"
+					id="statusList" sortBy="#{status.description}"
+					sortOrder="descending"
+					paginator="true" rows="10"  rowsPerPageTemplate="5,10,20,50"
+					paginatorTemplate="O sistema retornou #{statusController.beans.size().toString()} registros. {PageLinks}  {RowsPerPageDropdown}">
+
+					<p:column sortBy="#{status.description}" headerText="Nome">
+						<h:outputText value="#{status.description}" />
+					</p:column>
+
+					<p:column sortBy="#{status.abbreviation}" headerText="Sigla">
+						<h:outputText value="#{status.abbreviation}" />
+					</p:column>
+
+					<p:column sortBy="#{status.color}" headerText="Cor">
+						<h:outputText value="#{status.color}" />
+					</p:column>
+
+					<p:column style="width:10px">
+						<p:commandLink update=":formStatus:statusFormBase">
+							<p:graphicImage value="/resources/images/edit.png" height="12"
+								width="12" />
+							<f:setPropertyActionListener value="#{status}"
+								target="#{statusController.editing}" />
+						</p:commandLink>
+					</p:column>
+
+					<p:column style="width:10px">
+						<p:commandLink oncomplete="confirmation.show();">
+							<p:graphicImage value="/resources/images/delete.png" height="12"
+								width="12" />
+							<f:setPropertyActionListener value="#{status}"
+								target="#{statusController.editing}" />
+						</p:commandLink>
+					</p:column>
+
+				</p:dataTable>
+
+				<p:confirmDialog message="Excluir tipo de criticidade?"
+					header="Confirmação de exclusão" severity="alert"
+					widgetVar="confirmation">
+					<p:commandButton value="Sim, tenho certeza" update="statusList"
+						oncomplete="confirmation.hide()"
+						actionListener="#{statusController.delete}" />
+					<p:commandButton value="Não" onclick="confirmation.hide()"
+						type="button" />
+				</p:confirmDialog>
+
+				<p:commandLink style="margin: 3px;" styleClass="ui-icon-refresh"
+					actionListener="#{statusController.create}"
+					update=":formStatus:statusFormBase">
+					<p:graphicImage value="/resources/images/add.png" height="12"
+						width="12" />
+				</p:commandLink>
+
+
+			</h:form>
+		</ui:define>
+
+	</ui:decorate>
+
+</ui:composition>

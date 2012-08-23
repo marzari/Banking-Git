@@ -1,0 +1,105 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:composition>
+
+<h:form>
+
+<h:panelGroup layout="block" style="float:left; width: 100%; margin-bottom: 20px;">
+	<p:toolbar>
+		<p:toolbarGroup align="left">
+			<p:commandButton type="push" value="Novo" image="ui-icon-document" 
+				actionListener="#{creditCardAccountController.create}" update="creditCardAccountFormBase" />
+			<p:commandButton type="push" value="Salvar" image="ui-icon-disk"
+				actionListener="#{creditCardAccountController.save}" update="creditCardAccountFormBase creditCardAccountTableBase"/>
+			<p:commandButton type="push" value="Limpar" image="ui-icon-note"
+				actionListener="#{creditCardAccountController.clean}" update="creditCardAccountFormBase" />
+		</p:toolbarGroup>
+	</p:toolbar>
+</h:panelGroup>
+
+<h:panelGroup layout="block" id="creditCardAccountTableBase" style="float:left; width: 400px;">
+
+	<p:dataTable id="creditCardAccountTable" value="#{creditCardAccountController.beans}" var="att" resizableColumns="true">
+			
+		<p:column>
+			<f:facet name="header"><h:outputText value="Descrição" /></f:facet>
+			<h:outputText value="#{att.description}" />
+		</p:column>
+		
+		<p:column>
+			<f:facet name="header"><h:outputText value="Bandeira" /></f:facet>
+			<h:outputText value="#{att.flag}" />
+		</p:column>
+		
+		<p:column>
+			<f:facet name="header"><h:outputText value="Número Cartão" /></f:facet>
+			<h:outputText value="#{att.cardNumber}" />
+		</p:column>
+		
+		<p:column style="width:20px">
+			<p:commandLink update="@form:creditCardAccountFormBase">
+				<p:graphicImage value="/images/edit.png" height="12" width="12"/>
+				<f:setPropertyActionListener value="#{att}" target="#{creditCardAccountController.bean}" />
+			</p:commandLink>
+		</p:column>
+		
+		<p:column style="width:10px">
+			<p:commandLink>
+				<p:graphicImage value="/images/delete.png" height="12" width="12"/>
+				<f:setPropertyActionListener value="#{att}" target="#{creditCardAccountController.bean}" />
+			</p:commandLink>
+		</p:column>
+		
+	</p:dataTable>
+	
+</h:panelGroup>
+			
+<h:panelGroup layout="block" id="creditCardAccountFormBase" style="float:left; width: 400px; margin-left: 50px;">
+
+	<p:fieldset legend="Cartão de Crédito" id="creditCardAccountForm"> 
+	
+		<h:panelGrid columns="2" style="float: left;" rendered="#{creditCardAccountController.has()}" >
+
+			<h:outputText value=" Descricao: " />  
+			<p:inputText style="margin: 3px;" label="Código" value="#{creditCardAccountController.bean.description}" size="40" maxlength="40"/>
+	
+			<h:outputText value=" Bandeira: " />  
+			<p:selectOneMenu style="width: 130px; height: 20px;" value="#{creditCardAccountController.bean.flag}">
+			    <f:selectItem itemLabel=" -- " itemValue="NONE" /> 
+			    <f:selectItem itemLabel="Visa" itemValue="VISA" />  
+			    <f:selectItem itemLabel="MasterCard" itemValue="MASTERCARD" />  
+			    <f:selectItem itemLabel="American Express" itemValue="AMERICANEXPRESS" />
+			    <f:selectItem itemLabel="Diners Club" itemValue="DINERS" />
+			</p:selectOneMenu>
+	
+			<h:outputLabel value="Número cartão" />  
+			<p:inputText style="margin: 3px;" label="Código" value="#{creditCardAccountController.bean.cardNumber}" size="20" maxlength="20"/>
+	
+			<h:outputLabel value="Início" />  
+			<p:calendar value="#{creditCardAccountController.bean.start}" converter="dateCalendarConverter" pattern="dd/MM/yyyy"/>	
+	
+			<h:outputLabel value="Dia do Vencimento" style="width: 50px;"/>  
+	        <p:spinner value="#{creditCardAccountController.bean.maturityDay}" min="0" max="30"/>  
+	
+			<h:outputLabel for="limTime" value="Tempo Limite" style="width: 50px;"/>  
+	        <p:spinner id="limTime" value="#{creditCardAccountController.bean.calculationTime}" min="0" max="30"/>  
+		
+		</h:panelGrid>
+		
+	</p:fieldset>
+
+</h:panelGroup>
+
+</h:form>
+	
+</ui:composition>
+
+</h:body>
+
+</html>

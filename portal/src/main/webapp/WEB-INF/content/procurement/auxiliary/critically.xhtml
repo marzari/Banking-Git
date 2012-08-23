@@ -1,0 +1,121 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:decorate template="/layout/window.xhtml">
+
+		<ui:param name="windowClass" value="window-full" />
+		<ui:param name="windowTitle" value="Tipos de criticidade" />
+
+		<ui:define name="windowBody">
+
+			#{criticallyController.begin(3)}
+	
+			<h:form id="formCritically">
+
+				<p:fieldset id="criticallyFormBase"
+					legend="Cadastro de tipos de criticidade"
+					style="height: 80%; margin-bottom: 5px;">
+
+					<h:panelGroup rendered="#{criticallyController.has}">
+
+						<h:panelGrid columns="3" style="float: left;" cellpading="15">
+
+							<h:outputLabel value="Nome" />
+							<h:outputLabel value="Peso" />
+							<h:outputText value="Popup: " />
+
+							<p:inputText id="criticallyDescription"
+								value="#{criticallyController.editing.description}" size="30"
+								maxlength="30" />
+
+
+							<p:inputText value="#{criticallyController.editing.weight}"
+								size="30" maxlength="30" />
+
+							<p:toolbarGroup>
+								<p:colorPicker id="popupCP"
+									value="#{criticallyController.editing.color}"
+									widgetVar="picker" />
+
+
+								<p:commandButton type="submit" value="Salvar"
+									icon="ui-icon-disk" ajax="false" id="criticallySave"
+									actionListener="#{criticallyController.save}"
+									oncomplete="criticallyDialog.hide();"
+									update=":formCritically:criticallyFormBase criticallyList" />
+
+							</p:toolbarGroup>
+
+						</h:panelGrid>
+
+					</h:panelGroup>
+					<p:focus for="criticallyDescription" />
+				</p:fieldset>
+
+				<p:dataTable var="critically" value="#{criticallyController.beans}"
+					id="criticallyList" sortBy="#{critically.description}"
+					sortOrder="descending" paginator="true" rows="10"
+					rowsPerPageTemplate="5,10,20,50"
+					paginatorTemplate="O sistema retornou #{criticallyController.beans.size().toString()} registros. {PageLinks}  {RowsPerPageDropdown}">
+
+					<p:column sortBy="#{critically.description}" headerText="Nome">
+						<h:outputText value="#{critically.description}" />
+					</p:column>
+
+					<p:column headerText="Peso" sortBy="#{critically.weight}">
+						<h:outputText value="#{critically.weight}" />
+					</p:column>
+
+					<p:column headerText="Cor" sortBy="#{critically.color}">
+						<h:outputText value="#{critically.color}" />
+					</p:column>
+
+					<p:column style="width:10px">
+						<p:commandLink update=":formCritically:criticallyFormBase"
+							oncomplete="criticallyDialog.show();">
+							<p:graphicImage value="/resources/images/edit.png" height="12"
+								width="12" />
+							<f:setPropertyActionListener value="#{critically}"
+								target="#{criticallyController.editing}" />
+						</p:commandLink>
+					</p:column>
+
+					<p:column style="width:10px">
+						<p:commandLink oncomplete="confirmation.show();">
+							<p:graphicImage value="/resources/images/delete.png" height="12"
+								width="12" />
+							<f:setPropertyActionListener value="#{critically}"
+								target="#{criticallyController.editing}" />
+						</p:commandLink>
+					</p:column>
+
+				</p:dataTable>
+
+				<p:confirmDialog message="Excluir tipo de criticidade?"
+					header="Confirmação de exclusão" severity="alert"
+					widgetVar="confirmation">
+					<p:commandButton value="Sim, tenho certeza" update="criticallyList"
+						oncomplete="confirmation.hide()"
+						actionListener="#{criticallyController.delete}" />
+					<p:commandButton value="Não" onclick="confirmation.hide()"
+						type="button" />
+				</p:confirmDialog>
+
+
+				<p:commandLink style="margin: 3px;" styleClass="ui-icon-refresh"
+					actionListener="#{criticallyController.create}"
+					update=":formCritically:criticallyFormBase">
+					<p:graphicImage value="/resources/images/add.png" height="12"
+						width="12" />
+				</p:commandLink>
+
+
+			</h:form>
+		</ui:define>
+
+	</ui:decorate>
+
+</ui:composition>

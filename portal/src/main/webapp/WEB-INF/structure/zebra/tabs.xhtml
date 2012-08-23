@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	<p:tabView id="zebra-tab">
+	
+		<p:tab title="Dashboard">
+		</p:tab>
+	
+		<p:tab title="Informação Empresarial">
+			<ui:include src="masterData/masterDataTab.xhtml"/>	
+		</p:tab>
+		
+		<p:tab title="Vendas e Serviços">
+		</p:tab>
+		
+		<p:tab title="Recursos Humanos">
+		</p:tab>
+		
+		<p:tab title="Compras e Serviços">
+		</p:tab>
+		
+		<p:tab title="Gerenciamento Financeiro">
+		</p:tab>
+		
+	</p:tabView>
+       
+</ui:composition>

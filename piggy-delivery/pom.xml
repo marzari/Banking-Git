@@ -1,0 +1,29 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>net.kallx</groupId>
+		<artifactId>piggy-parent</artifactId>
+		<version>0.0.2-M3-SNAPSHOT</version>
+		<relativePath>../piggy-parent</relativePath>
+	</parent>
+
+	<artifactId>piggy-delivery</artifactId>
+	<packaging>jar</packaging>
+
+	<name>piggy-delivery</name>
+	<url></url>
+
+	<dependencies>
+	
+		<dependency>
+			<groupId>net.kallx</groupId>
+			<artifactId>kangaroo-delivery</artifactId>
+			<version>${kangaroo.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		
+	</dependencies>
+	
+</project>

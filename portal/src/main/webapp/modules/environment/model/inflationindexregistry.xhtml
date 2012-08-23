@@ -1,0 +1,88 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:kui="http://java.sun.com/jsf/composite/comp/ui">
+
+<h:body>
+
+<ui:composition>
+
+<h:form>
+
+<p:fieldset legend="Registro do Índice de Inflação" style="padding: 50px;">
+
+	<h:panelGroup layout="block" id="inflationIndexRegistryTable-base">
+	
+			<p:dataTable id="inflationIndexRegistryTable" value="#{inflationIndexRegistryController.beans}" var="att">
+				<p:column>
+					<f:facet name="header"><h:outputText value="Referencia" /></f:facet>
+					<h:outputText value="#{att.reference}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header"><h:outputText value="Valor" /></f:facet>
+					<h:outputText value="#{att.value}" />
+				</p:column>
+				
+				<p:column style="width:15px">
+					<p:commandButton update="@form:inflationIndexRegistryForm-base" image="ui-icon ui-icon-search">
+						<f:setPropertyActionListener value="#{att}" target="#{inflationIndexRegistryController.bean}" />
+					</p:commandButton>
+				</p:column>
+				
+	        </p:dataTable>
+		
+			<h:panelGroup layout="block" style="width: 100%; minHeight: 30px;">
+				<p:commandButton value="Editor" onclick="inflationIndexRegistryDialog.show();" type="button" style="margin:10px 50px;"/>
+			</h:panelGroup>
+	
+	</h:panelGroup>
+	
+<p:dialog header="Editor de Impostos" widgetVar="inflationIndexRegistryDialog" minHeight="250" minWidth="350" modal="true" zindex="1050"> 
+	
+	<h:panelGroup layout="block" id="inflationIndexRegistryForm-base">
+	
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton type="push" value="Novo" image="ui-icon-document" 
+						actionListener="#{inflationIndexRegistryController.create}" update="inflationIndexRegistryForm-base" />
+					<p:commandButton type="push" value="Salvar" image="ui-icon-disk"
+						actionListener="#{inflationIndexRegistryController.save}" update="inflationIndexRegistryForm-base inflationIndexRegistryTable-base"/>
+					<p:commandButton type="push" value="Limpar" image="ui-icon-note"
+						actionListener="#{inflationIndexRegistryController.clean}" update="inflationIndexRegistryForm-base" />
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<h:panelGroup layout="block" id="inflationIndexRegistryForm" rendered="#{inflationIndexRegistryController.has()}">
+				
+			<h:panelGrid columns="2" style="float: left;">
+					
+					<h:outputLabel value="Referência :"/>
+    				<p:calendar value="#{inflationIndexRegistryController.bean.reference}" converter="#{dateCalendarConverter}"/>
+					
+					<h:outputLabel value="Índice :"/>
+					<p:inputText style="margin: 3px;" value="#{inflationIndexRegistryController.bean.index}" size="20" maxlength="20"/>
+					
+					<h:outputLabel value="Valor :"/>
+					<p:inputText style="margin: 3px;" value="#{inflationIndexRegistryController.bean.value}" size="20" maxlength="20"/>
+					
+					<h:outputLabel value="Índice Acumulado no Ano :"/>
+					<p:inputText style="margin: 3px;" value="#{inflationIndexRegistryController.bean.yearValue}" size="20" maxlength="20"/>
+					
+				</h:panelGrid>
+
+			</h:panelGroup>
+			
+	</h:panelGroup>
+</p:dialog>
+
+</p:fieldset>
+
+</h:form>
+	
+</ui:composition>
+
+</h:body>
+
+</html>

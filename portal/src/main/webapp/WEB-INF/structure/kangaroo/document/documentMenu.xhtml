@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	
+	template="/layout/window.xhtml">
+	
+	<ui:param name="windowClass" value="window-menu"/>
+	<ui:param name="windowTitle" value=""/>
+	
+	<ui:define name="windowBody">
+	
+		<h:form prependId="false">
+		
+			<h:panelGrid columns="1" cellpadding="5">
+				<h:outputLabel value="Selecione o Documento"/>
+				<p:selectOneMenu style="width: 150px;" value="#{kgDocumentController.documentId}">
+					<f:selectItems value="#{kgReferentialLayoutController.beans}" var="rl" itemLabel="#{rl.name}" itemValue="#{rl.id}"/>  
+				</p:selectOneMenu>
+				<p:commandButton value="OK" update="layoutSegmentComponent" actionListener="#{kgDocumentController.handleDocumentChange}"/>
+			</h:panelGrid>
+			
+   			<p:menu id="layoutSegmentComponent" model="#{kgDocumentController.menuModel}"  maxHeight="480" style="width: 90%; margin: 0 auto;"/>  
+		
+		</h:form>
+	
+	</ui:define>
+		
+</ui:composition>

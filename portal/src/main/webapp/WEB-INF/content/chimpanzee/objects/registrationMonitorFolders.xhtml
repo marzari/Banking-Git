@@ -1,0 +1,281 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core" template="/layout/window.xhtml">
+	<ui:param name="windowClass" value="window-full" />
+	<ui:param name="windowTitle"
+		value="Cadastramento e Manutencao de Monitores" />
+
+	<ui:define name="windowBody">
+	
+		#{monitorFoldersComponentController.begin(3)}
+
+		<h:form id="formRegistryMonitorFolders">
+		
+			<p:commandLink styleClass="ui-main-command"
+				actionListener="#{monitorFoldersComponentController.create}"
+				update=":formRegistryMonitorFolders:resgistryFormBaseee :formRegistryMonitorFolders:resgistryFormBasee">
+				<p:graphicImage value="#{resource['primefaces-esales-theme-default:images/main-command-plus.png']}" height="24" width="23" />
+				<span>Inserir Novo Monitor</span>
+			</p:commandLink>
+		
+			<p:fieldset id="resgistryFormBaseee"
+				legend="Cadastro do Monitor de Pastas"
+				style="height: 80%; margin-bottom: 5px;">
+
+				<h:panelGroup rendered="#{monitorFoldersComponentController.has}">
+				
+					<h:panelGrid columns="4" style="float: float;" cellpading="40"
+						border="1">
+
+						<h:outputLabel value="Nome:" />
+						<p:inputText id="nameMonitor" size="11" title="Nome ex: ArquivoX"
+							value="#{monitorFoldersComponentController.editing.nome}"
+							required="true" />
+						<h:outputLabel />
+						<h:outputLabel />
+
+						
+						<h:outputLabel value="Monitorar Pasta:" />
+						<p:inputText id="monitorsFolder" size="11"
+							title="Pasta ex: D\pasta que deseja" required="true"
+							value="#{monitorFoldersComponentController.editing.pasta}" />
+						
+
+						<p:commandButton value="Buscar de Regra" id="searchRule"
+							icon="ui-icon-search" onclick="dlg.show();" />
+
+
+						<p:dialog id="modalDialog" header="Seletor de Regras"
+							widgetVar="dlg" modal="true" height="200" width="400">
+							<h:panelGrid id="buscaRegra" columns="1" style="float: float;" cellpading="40">
+							
+								<p:selectOneMenu value="#{monitorFoldersComponentController.editing.buscaRegra}" converter="regraConverter">
+									<p:ajax event="change" update="buscaRegra" />
+									<f:selectItems value="#{regraController.beans}" var="reg" itemValue="#{reg}" itemLabel="#{reg.name}"/>
+								</p:selectOneMenu>
+
+								<h:outputLabel value="Tipo de regra: " />
+								<h:outputLabel value="#{monitorFoldersComponentController.editing.buscaRegra.tipoArq}" />
+								<h:outputLabel value="Pasta: " />
+								<h:outputLabel value="#{monitorFoldersComponentController.editing.buscaRegra.dirLocal}" />
+								<h:outputLabel value="Ativo: " />
+								<h:outputLabel value="#{monitorFoldersComponentController.editing.buscaRegra.ativoDescription}" />
+							</h:panelGrid>
+							
+							<p:commandButton id="confirm" value="Confirmar" process="@this"
+								style="float:right;"
+								update=":formRegistryMonitorFolders:monitorsFolder"
+								actionListener="#{monitorFoldersComponentController.editing.copiaRegra}" onclick="dlg.hide();"/>
+								
+								<p:commandButton value="Cancel" id="cancel" type="button" onclick="dlg.hide();"/>
+								
+						</p:dialog>
+
+						<h:outputLabel value="Máscara:" />
+						<p:inputText id="mask" size="11" title="Mascara ex: *.*"
+							value="#{monitorFoldersComponentController.editing.mascara}" />
+						<h:outputLabel />
+
+						<p:selectOneRadio id="options"
+							value="#{monitorFoldersComponentController.editing.type}" required="true">
+							<p:ajax event="change" update="oneRadio resgistryFormBasee" />
+							<f:selectItem itemLabel="Regras" itemValue="rules">
+							</f:selectItem>
+							<f:selectItem itemLabel="Workflow" itemValue="workflow">
+							</f:selectItem>
+							<f:selectItem itemLabel="Analyzer" itemValue="analyzer">
+							</f:selectItem>
+							<f:selectItem itemLabel="Programa" itemValue="program">
+							</f:selectItem>
+							<f:selectItem itemLabel="Grupo" itemValue="group">
+							</f:selectItem>
+						</p:selectOneRadio>
+
+						<h:panelGroup id="oneRadio">
+
+							<h:panelGrid columns="5" style="float: float;" cellpading="40"
+								rendered="#{monitorFoldersComponentController.editing.type == 'rules'}">
+								<p:selectOneMenu value="#{monitorFoldersComponentController.editing.regra}" converter="regraConverter">
+									<f:selectItems value="#{regraController.beans}" var="reg" itemValue="#{reg}" itemLabel="#{reg.name}"/>
+								</p:selectOneMenu>
+							</h:panelGrid>
+
+							<h:panelGrid columns="3" style="float: float;" cellpading="40"
+								rendered="#{monitorFoldersComponentController.editing.type == 'workflow'}">
+								<p:selectOneMenu value="#{monitorFoldersComponentController.editing.workflow}" converter="workflowConverter">
+									<f:selectItems value="#{workflowBController.beans}" var="work" itemValue="#{work}" itemLabel="#{work.identificador}"/>
+								</p:selectOneMenu>
+							</h:panelGrid>
+
+							<h:panelGrid columns="3" style="float: float;" cellpading="40"
+								rendered="#{monitorFoldersComponentController.editing.type == 'analyzer'}">
+								<p:selectOneMenu value="#{monitorFoldersComponentController.editing.regraConteudo}" converter="regraConteudoConverter">
+									<f:selectItems value="#{regraConteudoController.beans}" var="regconteu" itemValue="#{regconteu}" itemLabel="#{regconteu.pastaDestino}"/>
+								</p:selectOneMenu>
+								<p:commandButton value="Configurar"
+									icon="ui-icon-folder-collapsed" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="3" style="float: float;" cellpading="40"
+								rendered="#{monitorFoldersComponentController.editing.type == 'program'}">
+								<p:inputText value="#{monitorFoldersComponentController.editing.programa}"/>
+								<p:commandButton icon=" ui-icon-search" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="3" style="float: float;" cellpading="40"
+								rendered="#{monitorFoldersComponentController.editing.type == 'group'}">
+
+								<h:outputLabel value="Escolha o grupo de regras a executar:" />
+								<p:selectOneMenu
+									value="#{monitorFoldersComponentController.editing.programa}">
+									<f:selectItem itemLabel="Select One v" itemValue="" />
+									<f:selectItem itemLabel="Empresa 1" itemValue="1" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+
+						</h:panelGroup>
+
+						<p:tooltip for="nameMonitor" showEvent="focus" hideEvent="blur" />
+						<p:tooltip for="monitorsFolder" showEvent="focus" hideEvent="blur" />
+
+					</h:panelGrid>
+					<h:outputLabel value="Os campos em vermelho devem ser completados" />
+				</h:panelGroup>
+
+				<p:fieldset id="resgistryFormBasee" legend="Condicoes para execucao" rendered="#{monitorFoldersComponentController.has}"
+					style="height: 80%; margin-bottom: 5px;">
+
+					<h:panelGroup>
+						<h:panelGrid columns="2" style="float: float;" cellpading="40"
+							border="1">
+
+							<h:panelGroup rendered="#{monitorFoldersComponentController.editing.type == 'rules' || monitorFoldersComponentController.editing.type == 'group'}">
+								<h:panelGrid columns="3" style="float: float;" cellpading="40">
+									
+
+									<h:outputLabel value="Executar a cada " />
+									<p:spinner min="0"  value="#{monitorFoldersComponentController.editing.nrArquivosAdicionados}"/>
+									<h:outputLabel value="Arquivos adicionados." />
+
+									<h:outputLabel value="Executar a cada " />
+									<p:spinner min="0"  value="#{monitorFoldersComponentController.editing.nrArquivosExcluidos}"/>
+									<h:outputLabel value="Arquivos excluidos." />
+
+									<h:outputLabel value="Executar a cada " />
+									<p:spinner min="0"  value="#{monitorFoldersComponentController.editing.nrArquivosModificados}"/>
+									<h:outputLabel value="Arquivos modificados." />
+									
+									<p:selectOneRadio id="executar" value="#{monitorFoldersComponentController.editing.executionType}" required="true">
+										<f:selectItem itemLabel="Executar na pasta original da regra" itemValue="executaRegra"/>
+										<f:selectItem itemLabel="Executar na pasta monitorada" itemValue="executaRegraNaPasta"/>
+										<f:selectItem itemLabel="Executar copiando os arquivos da pasta monitorada para a pasta original da regra" itemValue="copiaArquivosPasta"/>
+
+									</p:selectOneRadio>
+									
+									
+								</h:panelGrid >
+								
+							
+								
+							</h:panelGroup>
+
+							<h:panelGrid columns="3" style="float: float;" cellpading="40"
+								rendered="#{monitorFoldersComponentController.editing.type == 'workflow' || monitorFoldersComponentController.editing.type == 'analyzer' || monitorFoldersComponentController.editing.type == 'program'}">
+
+								<h:outputLabel value="Executar a cada " />
+								<p:spinner min="0"  value="#{monitorFoldersComponentController.editing.nrArquivosAdicionados}"/>
+								<h:outputLabel value="Arquivos adicionados." />
+
+								<h:outputLabel value="Executar a cada " />
+								<p:spinner min="0"  value="#{monitorFoldersComponentController.editing.nrArquivosExcluidos}"/>
+								<h:outputLabel value="Arquivos excluidos." />
+
+								<h:outputLabel value="Executar a cada " />
+								<p:spinner min="0"  value="#{monitorFoldersComponentController.editing.nrArquivosModificados}"/>
+								<h:outputLabel value="Arquivos modificados." />
+
+							</h:panelGrid>
+
+
+
+						</h:panelGrid>
+
+					</h:panelGroup>
+					<p:commandButton id="saveMonitor" value="Salvar"
+						style="float:right;"
+						update=":formRegistryMonitorFolders:resgistryFormBaseee monitorList"
+						actionListener="#{monitorFoldersComponentController.save}" />
+				</p:fieldset>
+
+
+				<p:dataTable id="monitorList" var="monitor"
+					value="#{monitorFoldersComponentController.beans}" paginator="true"
+					rows="10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15">
+					<f:facet name="header">  
+           				Monitores  
+       				</f:facet>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Nome" />
+						</f:facet>
+						<h:outputText value="#{monitor.nome}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Pasta" />
+						</f:facet>
+						<h:outputText value="#{monitor.pasta}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Executar" />
+						</f:facet>
+
+						<h:outputText value="#{monitor.typeDescription}" />
+					</p:column>
+
+
+					<p:column style="width:10px">
+						<p:commandLink
+							update=":formRegistryMonitorFolders:resgistryFormBaseee :formRegistryMonitorFolders:resgistryFormBasee">
+							<p:graphicImage value="/resources/images/edit.png" height="12"
+								width="12" />
+							<f:setPropertyActionListener value="#{monitor}"
+								target="#{monitorFoldersComponentController.editing}" />
+						</p:commandLink>
+					</p:column>
+
+					<p:column style="width:10px">
+						<p:commandLink oncomplete="confirmation.show();"
+							update=":formRegistryMonitorFolders:resgistryFormBaseee :formRegistryMonitorFolders:resgistryFormBasee">
+							<p:graphicImage value="/resources/images/delete.png" height="12"
+								width="12" />
+							<f:setPropertyActionListener value="#{monitor}"
+								target="#{monitorFoldersComponentController.editing}" />
+						</p:commandLink>
+					</p:column>
+
+				</p:dataTable>
+				<p:confirmDialog message="Excluir tipo de criticidade?"
+					header="Confirmação de exclusão" severity="alert"
+					widgetVar="confirmation">
+					<p:commandButton value="Sim, tenho certeza"
+						update=":formRegistryMonitorFolders:resgistryFormBasee monitorList"
+						oncomplete="confirmation.hide()"
+						actionListener="#{monitorFoldersComponentController.delete}" />
+					<p:commandButton value="Não" onclick="confirmation.hide()"
+						type="button" />
+				</p:confirmDialog>
+
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,103 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	#{mqlDeliveryLibraryController.begin(3)}
+
+	<h:form id="deliveryImporterForm">
+
+		<p:dataTable var="lib" value="#{mqlDeliveryLibraryController.beans}"
+			tableStyle="width:auto">
+
+			<p:column headerText="Nome" style="width:100px">
+				<h:outputText value="#{lib.name}" />
+			</p:column>
+
+			<p:column headerText="Nome da Classe" style="width:100px">
+				<h:outputText value="#{lib.className}" />
+			</p:column>
+
+			<p:column headerText="Jar carregado?" style="width:100px">
+				<h:outputText value="#{lib.jarLoaded}" />
+			</p:column>
+
+			<p:column style="width:40px">
+				<p:commandButton id="selectButton"
+					update=":deliveryImporterForm:deliveryImporterBase :deliveryimporter-wrapper"
+					oncomplete="ipDialog.show()" icon="ui-icon-search" title="View"
+					process="@this">
+					<f:setPropertyActionListener value="#{lib}"
+						target="#{mqlDeliveryLibraryController.selected}" />
+				</p:commandButton>
+			</p:column>
+
+		</p:dataTable>
+
+		<p:commandLink onclick="diDialog.show();" style="margin: 3px;"
+			styleClass="ui-icon-refresh"
+			actionListener="#{mqlDeliveryLibraryController.create}"
+			update=":deliveryImporterForm:deliveryImporterBase">
+			<p:graphicImage value="/resources/images/add.png" height="12"
+				width="12" />
+		</p:commandLink>
+
+		<p:dialog header="Delivery Importer" widgetVar="diDialog" modal="true"
+			height="400" width="400">
+
+			<p:fieldset id="deliveryImporterBase"
+				legend="Cadastro de biblioteca delivery"
+				style="height: 80%; margin-bottom: 5px;">
+
+				<h:panelGroup rendered="#{mqlDeliveryLibraryController.has}">
+
+					<h:panelGrid columns="2" style="float: left;" cellpading="15">
+
+						<h:outputLabel value="Nome" />
+						<p:inputText value="#{mqlDeliveryLibraryController.editing.name}" />
+
+						<h:outputLabel value="Nome da classe" />
+						<p:inputText
+							value="#{mqlDeliveryLibraryController.editing.className}" />
+
+					</h:panelGrid>
+
+				</h:panelGroup>
+
+			</p:fieldset>
+
+			<p:toolbar>
+				<p:toolbarGroup align="right">
+					<p:commandButton type="push" value="Novo" icon="ui-icon-document"
+						actionListener="#{mqlDeliveryLibraryController.create}"
+						update=":deliveryImporterForm" />
+					<p:commandButton type="push" value="Salvar" icon="ui-icon-disk"
+						actionListener="#{mqlDeliveryLibraryController.save}"
+						oncomplete="diDialog.hide();"
+						update=":deliveryImporterForm" />
+					<p:commandButton type="push" value="Limpar" icon="ui-icon-note"
+						actionListener="#{mqlDeliveryLibraryController.clean}"
+						update=":deliveryImporterForm" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+		</p:dialog>
+
+	</h:form>
+
+	<p:dialog header="Importer" widgetVar="ipDialog" height="400"
+		width="400">
+
+		<ui:fragment id="deliveryimporter-wrapper">
+			<h:form enctype="multipart/form-data">
+				<p:fileUpload
+					fileUploadListener="#{mqlDeliveryLibraryController.handleFileUpload}"
+					mode="advanced" update=":deliveryImporterForm"
+					oncomplete="ipDialog.hide()" />
+			</h:form>
+		</ui:fragment>
+
+	</p:dialog>
+
+</ui:composition>

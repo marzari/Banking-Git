@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="zebra" description="Zebra" icon="resources/images/zebraIcon.png" page="zebra.xhtml">
+	<module name="enterprise" description="Enterprise"/>
+	<module name="trading" description="Trading"/>
+</application>

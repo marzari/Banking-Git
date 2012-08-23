@@ -1,0 +1,28 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<h:outputStylesheet library="css" name="first/portalcommon-first.css" />
+	
+	<h:panelGroup layout="block" styleClass="logo-wrapper">
+		<p:graphicImage value="#{resource['primefaces-esales-theme-default:images/logo.png']}"/>
+	</h:panelGroup>
+	
+	<h:panelGroup layout="block" styleClass="portalbar-wrapper">
+		<ui:insert name="portalbar-wrapper"/>
+	</h:panelGroup>
+			
+	<h:panelGroup layout="block" styleClass="common-first-body">
+		<ui:insert name="common-first-body"/>
+	</h:panelGroup>
+		
+	<h:panelGroup layout="block" styleClass="common-main-footer ui-dark-footer">
+		<div class="text copyright">Copyright &#169; E-sales - Todos os direitos reservados</div>
+		<div class="text site"><a href="http://www.esales.com.br" target="_blank">www.esales.com.br</a></div>
+		<div class="text splitter"></div>
+		<div class="text phone">(51) 3325-8100</div>
+	</h:panelGroup>
+		
+</ui:composition>

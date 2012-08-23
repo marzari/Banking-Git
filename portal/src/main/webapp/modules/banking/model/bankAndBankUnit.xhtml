@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:component rendered="#{fwMenuController.isBankActive()}">
+	
+	<h:panelGroup id="bank-base">
+	
+		<p:fieldset legend="Bancos" toggleable="true" toggleSpeed="500" collapsed="true">
+			<ui:include src="bank.xhtml"/>
+		</p:fieldset>  
+	    
+	</h:panelGroup>
+
+</ui:component>
+
+</h:body>
+	    
+</html>

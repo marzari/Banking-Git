@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	
+	template="/layout/window.xhtml">
+	
+	<ui:param name="windowClass" value="window-menu"/>
+	<ui:param name="windowTitle" value=""/>
+	
+	<ui:define name="windowBody">
+	
+		<h:form prependId="false">
+		
+			<p:menu maxHeight="480" style="width: 90%; margin: 0 auto;">  
+		
+		        <p:submenu label="Process">
+	        		<p:menuitem value="Workflow" update="mapping-tab:process-content" actionListener="#{mappingMenu.loadContent('/mapping/process/workflow.xhtml')}"/>
+	        		<p:menuitem value="Components" update="mapping-tab:process-content" actionListener="#{mappingMenu.loadContent('/mapping/process/component.xhtml')}"/>
+	        	</p:submenu>
+	        	
+		    </p:menu>
+		
+		</h:form>
+	
+	</ui:define>
+		
+</ui:composition>

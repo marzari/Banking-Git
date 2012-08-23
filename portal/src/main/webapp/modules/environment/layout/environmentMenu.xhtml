@@ -1,0 +1,30 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+	<ui:composition>
+
+		<h:form id="environment-menu">
+
+			<p:menu style="width:100%;">
+				<p:submenu label="Impostos">
+					<p:menuitem value="Imposto" update="environment-menuBody-wrapper" />
+					<p:menuitem value="Grupo de Imposto" update="environment-menuBody-wrapper" />
+				</p:submenu>
+<!-- 				<p:submenu label="Inflação"> -->
+<!-- 					<p:menuitem value="Índice de Inflação" update="environment-menuBody-wrapper" /> -->
+<!-- 					<p:menuitem value="Medições" update="environment-menuBody-wrapper" /> -->
+<!-- 				</p:submenu> -->
+			</p:menu>
+
+		</h:form>
+
+	</ui:composition>
+
+</h:body>
+
+</html>

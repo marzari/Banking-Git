@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:body>
+
+<ui:composition>
+
+	<h:outputStylesheet>
+		#environment-menu-wrapper {
+			height: 100%;
+			width: 12%;
+			float:left;
+		}
+		#environment-menuBody-wrapper {
+			height: 100%;
+			width: 86%;
+			float: right;
+		}
+	</h:outputStylesheet>
+	
+	<h:panelGroup layout="block" id="environment-menu-wrapper">
+		<ui:include src="environmentMenu.xhtml" />
+	</h:panelGroup>
+	
+    <h:panelGroup layout="block" id="environment-menuBody-wrapper">
+<!--		<ui:include src="../flow/flowManager.xhtml"  />-->
+<!--		<ui:include src="../banking/accountManager.xhtml" />-->
+	</h:panelGroup>
+
+</ui:composition>
+
+</h:body>
+
+</html>

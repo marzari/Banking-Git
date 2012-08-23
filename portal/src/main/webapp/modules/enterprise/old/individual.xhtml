@@ -1,0 +1,112 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+<ui:composition>
+
+<h:form>
+
+<p:fieldset legend="Fornecedor" style="padding: 50px;">
+
+<h:panelGroup layout="block" id="individualSupplierTableBase" style="width: 100%; minWidth: 700px;"  rendered="#{zebraMenu.isLoaded('SUPPLIER')}">
+       <p:dataTable id="individualSupplierTable" value="#{individualSupplierController.beans}" var="att">
+           <p:column>
+               <f:facet name="header"><h:outputText value="Nome" /></f:facet>
+               <h:outputText value="#{att.register.firstName}" />
+           </p:column>
+           <p:column>
+               <f:facet name="header"><h:outputText value="Sobrenome" /></f:facet>
+               <h:outputText value="#{att.register.lastName}" />
+           </p:column>
+           
+           <p:column style="width:15px">
+				<p:commandButton update="@form:individualSupplierFormBase" image="ui-icon ui-icon-search" oncomplete="individualSupplierDialog.show();">
+					<f:setPropertyActionListener value="#{att}" target="#{individualSupplierController.bean}" />
+				</p:commandButton>
+			</p:column>
+		</p:dataTable>
+
+		<h:panelGroup layout="block" style="width: 100%; minHeight: 30px;">
+			<p:commandButton value="Editor" onclick="individualSupplierDialog.show();" type="button" style="margin:10px 50px;"/>
+		</h:panelGroup>
+		
+</h:panelGroup> 
+	
+<p:dialog header="Editor" widgetVar="individualSupplierDialog" minHeight="350" minWidth="600" modal="true"  zindex="1025">  
+    <h:panelGroup layout="block">
+	    	<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton type="push" value="Novo" image="ui-icon-document" 
+						actionListener="#{individualSupplierController.create}" update="individualSupplierFormBase" />
+					<p:commandButton type="push" value="Salvar" image="ui-icon-disk"
+						actionListener="#{individualSupplierController.save}" update="individualSupplierFormBase individualSupplierTableBase"/>
+					<p:commandButton type="push" value="Limpar" image="ui-icon-note"
+						actionListener="#{individualSupplierController.clean}" update="individualSupplierFormBase" />
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<p:fieldset id="individualSupplierFormBase" legend="Cadastro de Fornecedor">
+              
+              	<h:panelGroup rendered="#{individualSupplierController.has()}">
+              	
+					<h:panelGrid columns="2" style="float: left;">
+					
+						<h:outputLabel value="Nome :"/>
+						<h:panelGroup>
+							<p:inputText style="margin: 3px;" value="#{individualSupplierController.bean.register.firstName}" size="15" maxlength="15"/>
+							<p:inputText style="margin: 3px;" value="#{individualSupplierController.bean.register.middleName}" size="15" maxlength="15"/>
+							<p:inputText style="margin: 3px;" value="#{individualSupplierController.bean.register.lastName}" size="20" maxlength="20"/>
+						</h:panelGroup>
+						
+						<h:outputText value="Genero: " />  
+				        <p:selectOneMenu style="width: 130px; height: 20px;" value="#{individualSupplierController.bean.register.genreCategory}">
+				            <f:selectItem itemLabel="Masculino" itemValue="MALE" />  
+				            <f:selectItem itemLabel="Feminino" itemValue="FEMALE" />  
+	       				</p:selectOneMenu>
+	       				
+	       				<h:outputText value="Data de Nascimento:"/>
+    					<p:calendar value="#{individualSupplierController.bean.register.birth}" converter="#{dateCalendarConverter}"/>  
+ 				
+						<h:outputText value="Estado Civil: " />  
+				        <p:selectOneMenu style="width: 130px; height: 20px;" value="#{individualSupplierController.bean.register.maritalStatus}">
+				            <f:selectItem itemLabel="Solteiro" itemValue="SINGLE" />  
+				            <f:selectItem itemLabel="Casado" itemValue="MARRIED" />  
+				            <f:selectItem itemLabel="Divorciado" itemValue="DIVORCED" />
+				            <f:selectItem itemLabel="Viúvo" itemValue="WIDOWER" />
+	       				</p:selectOneMenu>			
+				        
+						<h:outputLabel value="Nome do Pai :"/>
+						<p:inputText style="margin: 3px;" label="Inscrição Estadual" value="#{individualSupplierController.bean.register.fatherName}" size="40" maxlength="50"/>
+						
+						<h:outputLabel value="Nome da Mãe :"/>
+						<p:inputText style="margin: 3px;" label="Inscrição Municipal" value="#{individualSupplierController.bean.register.motherName}" size="40" maxlength="50"/>
+						
+						<h:outputLabel value="Nacionalidade :"/>
+						<p:inputText style="margin: 3px;" label="Nacionalidade" value="#{individualSupplierController.bean.register.nacionality}" size="30" maxlength="30"/>
+						
+						<h:outputLabel value="Naturalidade :"/>
+						<p:inputText style="margin: 3px;" label="Naturalidade" value="#{individualSupplierController.bean.register.naturality}" size="30" maxlength="30"/>
+						
+					</h:panelGrid>
+					
+				</h:panelGroup>
+				
+			</p:fieldset> 
+			
+	</h:panelGroup>
+	    
+</p:dialog>
+
+</p:fieldset>
+
+</h:form>
+
+</ui:composition>
+
+</h:body>
+
+</html>

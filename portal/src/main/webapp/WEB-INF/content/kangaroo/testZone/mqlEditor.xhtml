@@ -1,0 +1,19 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	#{mqlEditorController.begin(3)}
+
+	<h:form>
+
+		<p:editor id="editor" widgetVar="mappingEditor" value="#{mqlEditorController.text}" controls="source" height="500" width="800"/>
+		<h:panelGroup layout="block" style="margin: 50px;">
+			<p:commandButton type="push" value="Run" update="editorMessages" actionListener="#{mqlEditorController.run}"/>  
+		</h:panelGroup>
+		<p:messages id="editorMessages"/>
+
+	</h:form>
+
+</ui:composition>

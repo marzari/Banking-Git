@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<p:dialog header="Detalhes..." widgetVar="collectionDialog"
+		resizable="true" id="carDlg" showEffect="fade" hideEffect="explode"
+		modal="true">
+
+
+		<h:panelGrid id="display" columns="2" cellpadding="4"
+			style="margin:0 auto;">
+
+
+			<h:outputText value="Cedente:   " />
+			<h:outputText
+				value="#{collectionController.selectedBean.nomeCedente}"
+				style="font-weight:bold;" />
+
+			<h:outputText value="Sacado:   " />
+			<h:outputText value="#{collectionController.selectedBean.nomeSacado}"
+				style="font-weight:bold" />
+
+			<h:outputText value="Vencimento:   " />
+			<h:outputText
+				value="#{collectionController.selectedBean.formatMaturity}"
+				style="font-weight:bold" />
+
+			<h:outputText value="Geração:   " />
+			<h:outputText
+				value="#{collectionController.selectedBean.formatIssue} "
+				style="font-weight:bold" />
+
+			<h:outputText value="Geração da nota fiscal:   " />
+			<h:outputText
+				value="#{collectionController.selectedBean.formatdocDate} "
+				style="font-weight:bold" />
+
+			<h:outputText value="Nosso Número:   " />
+			<h:outputText
+				value="#{collectionController.selectedBean.ourNumber}"
+				style="font-weight:bold" />
+
+			<h:outputText value="Seu Número:   " />
+			<h:outputText
+				value="#{collectionController.selectedBean.docNumber}"
+				style="font-weight:bold" />
+
+			<h:outputText value="Valor:   " />
+			
+			<h:outputText value="#{collectionController.selectedBean.amount}" style="font-weight:bold">
+				<f:convertNumber currencyCode="BRL" type="currency" />
+			</h:outputText>
+				
+			<h:outputText value="Espécie de cobrança:   " />
+			<h:outputText
+				value="#{collectionController.selectedBean.especieTitulo.description}  "
+				style="font-weight:bold" />
+
+
+		</h:panelGrid>
+
+	</p:dialog>
+
+
+</ui:composition>

@@ -1,0 +1,343 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<ui:decorate template="/layout/window.xhtml">
+
+		<ui:param name="windowClass" value="window-full" />
+
+		<ui:param name="windowTitle" value="Administração de Títulos" />
+
+		<ui:define name="windowBody">
+			<h:form id="formEditCollection" style="width: 85%">
+				<h:panelGroup id="collectionPanelGroup"
+					rendered="#{collectionController.has}">
+
+					<p:fieldset id="editFieldSet" legend="Dados do Título">
+
+						<h:panelGrid columns="2" cellpadding="5">
+							<h:outputLabel value="CNPJ:" />
+							<h:outputLabel value="Nome/Razão Social:" />
+
+							<p:inputMask size="30" id="searchCnpj"
+								value="#{collectionController.editing.cnpjSacado}"
+								required="#{!empty param['formEditCollection:insert']}"
+								mask="99.999.999/9999-99">
+								<p:ajax event="blur"
+									listener="#{collectionController.doSearchPayeeByCNPJ}"
+									update="formEditCollection" />
+							</p:inputMask>
+							<p:inputText size="100" disabled="true"
+								required="#{!empty param['formEditCollection:insert']}"
+								value="#{collectionController.editing.nomeSacado}" />
+						</h:panelGrid>
+
+						<h:panelGrid columns="3" cellpadding="5">
+							<h:outputLabel value="Código ERP:" />
+							<h:outputLabel value="Valor do Limite de Crédito:" />
+							<h:outputLabel value="Saldo disponível:" />
+
+							<p:inputText size="20" disabled="true" />
+							<p:inputText size="20" disabled="true" />
+							<p:inputText size="20" disabled="true" />
+						</h:panelGrid>
+
+
+						<p:separator id="separator" />
+
+						<h:panelGrid cellpadding="5" columns="4">
+
+							<h:outputLabel value="Número título do ERP:" />
+							<h:outputLabel value="Espécie:" />
+							<h:outputLabel value="Carteira:" />
+							<h:outputLabel value="Data Lançamento:" />
+
+							<p:inputText size="20"
+								required="!empty param['formEditCollection:search']"
+								value="#{collectionController.editing.erpNumber}">
+								<pe:keyFilter mask="num" />
+							</p:inputText>
+
+							<p:selectOneMenu id="especie"
+								value="#{collectionController.editing.especieTitulo}"
+								converter="especieTituloConverter"
+								disabled="#{empty collectionController.editing.nomeSacado}"
+								required="#{!empty param['formEditCollection:insert']}">
+								<f:selectItem itemLabel="Selecione..." itemValue="" />
+								<f:selectItems value="#{especieTituloController.beans}"
+									var="especiesTitulos"
+									itemLabel="#{especiesTitulos.description}"
+									itemValue="#{especiesTitulos}" />
+							</p:selectOneMenu>
+
+							<p:selectOneMenu id="carteira" style="width: 230px"
+								value="#{collectionController.editing.account}"
+								converter="collectionAccountConverter"
+								disabled="#{empty collectionController.editing.nomeSacado}">
+								<f:selectItem itemLabel="Selecione..." itemValue="" />
+								<f:selectItems value="#{collectionAccountController.beans}"
+									var="ca" itemLabel="#{ca.name}" itemValue="#{ca}" />
+							</p:selectOneMenu>
+
+							<p:calendar value="#{collectionController.editing.issue}"
+								disabled="#{empty collectionController.editing.nomeSacado}"
+								required="#{!empty param['formEditCollection:insert']}"
+								converter="dateCalendarConverter" pattern="dd/MM/yyyy"
+								showOn="button" />
+
+							<h:outputLabel value="Número Documento:" />
+							<h:outputLabel value="Multa:" />
+							<h:outputLabel value="Juros:" />
+							<h:outputLabel value="Nosso Número:" />
+
+							<p:inputText id="inputDocNumber" size="20"
+								required="#{!empty param['formEditCollection:search'] or !empty param['formEditCollection:insert']}"
+								value="#{collectionController.editing.docNumber}" />
+
+							<p:fieldset id="panelFine">
+								<p:selectOneMenu id="fine" style="width: 200px"
+									value="#{collectionController.editing.fineCode}"
+									disabled="#{empty collectionController.editing.nomeSacado}">
+									<f:selectItem itemLabel="Selecione..." itemValue="" />
+									<f:selectItems value="#{collectionController.fineTypeValues}"
+										var="fineCode" itemValue="fineCode" />
+									<p:ajax update="panelFine" process="@this" />
+									<!-- usado para renderizar um dos componentes abaixo -->
+								</p:selectOneMenu>
+								<pe:inputNumber id="fineAmountVlr" size="15"
+									rendered="#{collectionController.editing.fineCode == 'FINE_VALUE'}"
+									disabled="#{empty collectionController.editing.nomeSacado}"
+									value="#{collectionController.editing.fineAmount}" symbol="R$ "
+									decimalSeparator="," thousandSeparator="." />
+
+								<pe:inputNumber id="fineAmountPerc" size="15"
+									rendered="#{collectionController.editing.fineCode != 'FINE_VALUE'}"
+									disabled="#{empty collectionController.editing.nomeSacado}"
+									value="#{collectionController.editing.fineAmount}"
+									maxValue="99.99" symbol="% " decimalSeparator=","
+									thousandSeparator="" />
+
+							</p:fieldset>
+
+							<p:fieldset id="panelInterest">
+
+								<p:selectOneMenu id="selectInterest" style="width: 200px"
+									value="#{collectionController.editing.interestCode}"
+									disabled="#{empty collectionController.editing.nomeSacado}">
+									<f:selectItem itemLabel="Selecione..." itemValue="" />
+									<f:selectItems
+										value="#{collectionController.interestTypeValues}"
+										var="interestCode" itemValue="#{interestCode}"
+										itemLabel="#{interestCode.description}" />
+									<p:ajax update="panelInterest" process="@this" />
+									<!-- usado para renderizar um dos componentes abaixo -->
+								</p:selectOneMenu>
+
+								<pe:inputNumber id="interestAmountPerc" size="10"
+									rendered="#{collectionController.editing.interestCode != 'INTEREST_DAY'}"
+									disabled="#{empty collectionController.editing.nomeSacado}"
+									value="#{collectionController.editing.interestAmount}"
+									symbol="% " decimalSeparator="," maxValue="99.99" />
+
+								<pe:inputNumber id="interestAmountVlr" size="20"
+									rendered="#{collectionController.editing.interestCode == 'INTEREST_DAY'}"
+									disabled="#{empty collectionController.editing.nomeSacado}"
+									value="#{collectionController.editing.interestAmount}"
+									symbol="R$ " decimalSeparator="," thousandSeparator="." />
+							</p:fieldset>
+
+
+							<p:inputText size="20" disabled="true"
+								value="#{collectionController.editing.ourNumber}" />
+
+							<h:outputLabel value="Tipo Docto ERP:" />
+							<h:outputLabel value="Desconto:" />
+							<h:outputLabel value="Abatimento:" />
+							<h:outputLabel value="Instruções Protesto:" />
+
+
+							<p:selectOneMenu id="tipoDocto" style="width: 180px"
+								value="#{collectionController.editing.documentType}"
+								converter="documentTypeConverter"
+								disabled="#{empty collectionController.editing.nomeSacado}">
+								<f:selectItem itemLabel="Selecione..." itemValue="" />
+								<f:selectItems value="#{doctyperpController.beans}"
+									var="documentType" itemLabel="#{documentType.description}"
+									itemValue="#{documentType}" />
+							</p:selectOneMenu>
+
+							<p:fieldset id="panelDiscount">
+								<p:selectOneMenu id="tipoDesconto" style="width: 200px"
+									value="#{collectionController.editing.discountType}"
+									converter="discountTypeConverter"
+									disabled="#{empty collectionController.editing.nomeSacado}">
+									<f:selectItem itemLabel="Selecione..." itemValue="" />
+									<f:selectItems value="#{discountTypeController.beans}"
+										var="discountType" itemLabel="#{discountType.description}"
+										itemValue="#{discountType}" />
+									<p:ajax update=":formEditCollection:panelDiscount"
+										process="@this"
+										listener="#{collectionController.returnSelectedDiscountType}" />
+								</p:selectOneMenu>
+								<pe:inputNumber id="discountAmountPerc" size="15"
+									rendered="#{collectionController.selectedDiscountType}"
+									disabled="#{empty collectionController.editing.nomeSacado}"
+									value="#{collectionController.editing.discountAmount}"
+									decimalSeparator="," symbol="% " thousandSeparator="" />
+
+								<pe:inputNumber id="discountAmountVlr" size="15"
+									rendered="#{not collectionController.selectedDiscountType}"
+									disabled="#{empty collectionController.editing.nomeSacado}"
+									value="#{collectionController.editing.discountAmount}"
+									decimalSeparator="," symbol="R$ " thousandSeparator="." />
+							</p:fieldset>
+
+							<pe:inputNumber size="20"
+								disabled="#{empty collectionController.editing.nomeSacado}"
+								value="#{collectionController.editing.rebate}" symbol="R$ "
+								decimalSeparator="," thousandSeparator="." />
+
+							<p:fieldset id="protestFieldSet">
+								<h:panelGrid columns="1">
+									<p:selectOneMenu id="protest" style="width: 180px"
+										disabled="#{empty collectionController.editing.nomeSacado}"
+										value="#{collectionController.editing.protestType}">
+										<f:selectItem itemLabel="Selecione..." itemValue="" />
+										<f:selectItems
+											value="#{collectionController.protestTypeValues}"
+											var="protestType" itemValue="protestType" />
+									</p:selectOneMenu>
+
+									<p:inputText size="5"
+										disabled="#{empty collectionController.editing.nomeSacado}"
+										value="#{collectionController.editing.dayForProtest}">
+										<pe:keyFilter mask="num" />
+									</p:inputText>
+
+								</h:panelGrid>
+							</p:fieldset>
+
+						</h:panelGrid>
+					</p:fieldset>
+
+					<p:fieldset legend="Parcela">
+						<h:panelGrid columns="4" cellpadding="5">
+							<h:outputLabel value="Data Vecto:" />
+							<h:outputLabel value="Referência:" />
+							<h:outputLabel value="Instrução de Recebimento:" />
+							<h:outputLabel value="Valor:" />
+
+							<h:panelGroup>
+								<p:calendar value="#{collectionController.editing.maturity}"
+									required="#{!empty param['formEditCollection:insert']}"
+									disabled="#{empty collectionController.editing.nomeSacado}"
+									pattern="dd/MM/yyyy" showOn="button" id="inputMaturity">
+									<p:ajax event="dateSelect" process="@this"
+										update="inputMaturityMsg"
+										listener="#{collectionController.changedMaturity}" />
+									<p:ajax event="change" process="@this" update="inputMaturityMsg"
+										listener="#{collectionController.changedMaturity}" />
+								</p:calendar>
+								<p:message id="inputMaturityMsg" for="inputMaturity" />
+							</h:panelGroup>
+							<p:calendar value="#{collectionController.editing.accrual}"
+								disabled="#{empty collectionController.editing.nomeSacado}"
+								required="#{!empty param['formEditCollection:insert']}"
+								converter="dateCalendarConverter" pattern="dd/MM/yyyy"
+								showOn="button" />
+
+							<p:selectOneMenu id="receiptsSelect" style="width: 180px"
+								disabled="#{empty collectionController.editing.nomeSacado}"
+								value="#{collectionController.editing.receiptInstruction}"
+								required="#{!empty param['formEditCollection:insert']}"
+								converter="receiptInstructionConverter">
+								<f:selectItem itemLabel="Selecione..." itemValue="" />
+								<f:selectItems value="#{receiptInstructionController.beans}"
+									var="receipts" itemLabel="#{receipts.description}"
+									itemValue="#{receipts}" />
+							</p:selectOneMenu>
+
+							<pe:inputNumber id="inputAmount"
+								disabled="#{empty collectionController.editing.nomeSacado}"
+								value="#{collectionController.editing.amount}"
+								required="#{!empty param['formEditCollection:insert']}"
+								symbol="R$ " decimalSeparator="," thousandSeparator=".">
+							</pe:inputNumber>
+
+						</h:panelGrid>
+						<h:panelGroup>
+							<h:outputLabel value="Observações:"
+								disabled="#{empty collectionController.editing.nomeSacado}" />
+
+							<p:inputTextarea value="#{collectionController.editing.details}"
+								rows="5" style="width:95%" autoResize="false" />
+						</h:panelGroup>
+
+					</p:fieldset>
+
+					<p:commandButton value="Novo Título"
+						actionListener="#{collectionController.create}"
+						update="formEditCollection">
+					</p:commandButton>
+
+					<p:commandButton id="insert" value="Salvar"
+						actionListener="#{collectionController.save}"
+						update="formEditCollection" />
+
+					<p:commandButton id="delete" value="Excluir"
+						onclick="confirmDialog.show();"
+						disabled="#{collectionController.editing.id == 0}" />
+
+					<p:confirmDialog message="Confirmar exclusão do título?"
+						closable="false" header="Confirmar..." severity="alert"
+						widgetVar="confirmDialog">
+
+						<p:commandButton value="OK" update="formEditCollection"
+							actionListener="#{collectionController.delete}"
+							oncomplete="confirmDialog.hide();" />
+						<p:commandButton value="Cancelar" onclick="confirmDialog.hide();"
+							type="button" />
+
+					</p:confirmDialog>
+
+					<p:commandButton id="search" value="Consultar"
+						disabled="#{collectionController.editing.id > 0}"
+						actionListener="#{collectionController.loadCollectionByDocNumberOrErpNumber}"
+						update="formEditCollection" />
+
+				</h:panelGroup>
+
+				<p:fieldset legend="Histórico do Título">
+
+					<p:dataTable id="collectionHistotyGrid" paginator="true" rows="10"
+						value="#{collectionController.editing.historic}" var="collHist"
+						style="width: 95%">
+						<p:column headerText="Status" style="text-align: center;">
+							<h:outputText value="#{collHist.when}">
+								<f:converter converterId="dateCalendarConverter" />
+								<f:attribute name="customDateFormat" value="dd/MM/yyyy HH:mm" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Tipo de Movimento"
+							style="text-align: center;">
+							<h:outputText value="#{collHist.situation.description}" />
+						</p:column>
+
+						<p:column headerText="Usuário" style="text-align: center;">
+							<h:outputText value="#{collHist.user.firstName}" />
+						</p:column>
+
+					</p:dataTable>
+
+				</p:fieldset>
+
+			</h:form>
+
+		</ui:define>
+	</ui:decorate>
+
+</ui:composition>

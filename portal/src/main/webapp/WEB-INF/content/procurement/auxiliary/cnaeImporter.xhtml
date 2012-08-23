@@ -1,0 +1,24 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:decorate template="/layout/window.xhtml">
+
+		<ui:param name="windowClass" value="window-full" />
+		<ui:param name="windowTitle" value="Segmentos" />
+
+		<ui:define name="windowBody">
+		
+			#{economicActivityController.begin(3)}
+		
+			<h:form id="cnaePopulatorForm">
+				<p:commandButton value="cnae Importer Mega Super plus"
+					id="ajax" actionListener="#{economicActivityController.cnaePopulator}" />
+			</h:form>
+		</ui:define>
+
+	</ui:decorate>
+
+</ui:composition>

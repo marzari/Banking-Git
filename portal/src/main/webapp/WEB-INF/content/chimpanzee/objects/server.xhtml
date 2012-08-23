@@ -1,0 +1,241 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core" template="/layout/window.xhtml">
+	
+	<ui:param name="windowClass" value="window-full" />
+	<ui:param name="windowTitle" value="Cadastramento e Manutenção de Servidores" />
+		
+	<ui:define name="windowBody">
+
+		#{serverComponentController.begin(3)}
+	
+		<h:form id="formRegistryServer">
+		
+			<p:commandLink styleClass="ui-main-command"
+				actionListener="#{serverComponentController.create}"
+				update=":formRegistryMonitorFolders:resgistryFormBaseee :formRegistryMonitorFolders:resgistryFormBasee">
+				<p:graphicImage value="#{resource['primefaces-esales-theme-default:images/main-command-plus.png']}" height="24" width="23" />
+				<span>Inserir Novo Servidor</span>
+			</p:commandLink>
+	
+			<h:panelGroup id="ServerCreation">
+	
+				<p:fieldset legend="Cadastro de Servidores"
+					rendered="#{serverComponentController.has}">
+	
+					<p:wizard widgetVar="wiz" showStepStatus="true">
+	
+						<p:tab id="servCreation" title="Cadastro de Servidor">
+							<h:panelGrid columns="4" style="float: float;" cellpading="40">
+	
+								<h:outputLabel value="Servidor Pai:" />
+								<p:selectOneMenu value="#{serverComponentController.editing.pai}"
+									converter="serverConverter">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{serverComponentController.beans}"
+										var="ps" itemLabel="#{ps.nome}" itemValue="#{ps}" />
+								</p:selectOneMenu>
+	
+								<h:outputLabel value="Nome:*" />
+								<p:inputText id="nameServer" size="40"
+									title="Nome ex: servidor esales"
+									value="#{serverComponentController.editing.nome}" required="true"/>
+	
+								<h:outputLabel value="Protocolo:*" />
+								<p:selectOneMenu
+									value="#{serverComponentController.editing.protocolo}" size="30" required="true">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItem itemLabel="@EDIE" itemValue="OFTP" />
+									<f:selectItem itemLabel="@EDIE Lite" itemValue="EDIE_LITE" />
+									<f:selectItem itemLabel="@EDIE Lite SSL" itemValue="EDIE_LITE_SSL" />
+									<f:selectItem itemLabel="FTP" itemValue="FTP" />
+									<f:selectItem itemLabel="SFTP" itemValue="SFTP" />
+									<f:selectItem itemLabel="SSH" itemValue="SSH" />
+									<f:selectItem itemLabel="ISE.COM.BR" itemValue="ISE" />
+									<f:selectItem itemLabel="ISE.COM.BR - SSL" itemValue="ISE_SSL" />
+									<f:selectItem itemLabel="BANCO DE DADOS" itemValue="BANCO" />
+									<f:selectItem itemLabel="SMTP" itemValue="SMTP" />
+									<f:selectItem itemLabel="POP" itemValue="POP" />
+									<f:selectItem itemLabel="POP - SSL" itemValue="POP_SSL" />
+									<f:selectItem itemLabel="IMAP" itemValue="IMAP" />
+									<f:selectItem itemLabel="WEBSERVICE" itemValue="WEBSERVICE" />
+	
+								</p:selectOneMenu>
+	
+								<h:outputLabel value="Status:*"/>
+								<p:selectOneMenu
+									value="#{serverComponentController.editing.ativo}" required="true">
+									<f:selectItem itemLabel="Ativo" itemValue="1" />
+									<f:selectItem itemLabel="Inativo" itemValue="0" />
+								</p:selectOneMenu>
+	
+								<h:outputLabel value="Código:*" />
+								<p:inputText id="codServer" size="11" title="Código ex: 231 "
+									value="#{serverComponentController.editing.codServidor}" required="true"/>
+	
+								<h:outputLabel value="Tipo:*" />
+								<p:selectOneMenu id="serverType" required="true">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItem itemLabel="Server" itemValue="SERVER" />
+									<f:selectItem itemLabel="Client" itemValue="CLIENT" />
+								</p:selectOneMenu>
+	
+								<h:outputLabel value="IP/Host Server:*" />
+								<p:inputText id="ipHostServer" size="40"
+									title="IP/Host ex:192.166.200/esales.com.br "
+									value="#{serverComponentController.editing.ipServidor}" required="true" />
+	
+								<h:outputLabel value="Port: *" />
+								<p:inputText id="portServer" size="11" title="Porta ex: 8080"
+									value="#{serverComponentController.editing.port}" required="true" />
+	
+								<h:outputLabel value="Timeuot:" />
+								<p:inputText id="connectTimeout" size="11"
+									title="Timeout ex: 120"
+									value="#{serverComponentController.editing.timeout}" />
+	
+								<h:outputLabel value="Proxy Server:*"/>
+								<p:selectOneMenu
+									value="#{serverComponentController.editing.proxy}"
+									converter="proxyConverter" required="true">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{proxyServerController.beans}"
+										var="proxy" itemValue="#{proxy}" itemLabel="#{proxy.host}" />
+								</p:selectOneMenu>
+	
+	
+								<p:tooltip for="nameServer" showEvent="focus" hideEvent="blur" />
+								<p:tooltip for="codServer" showEvent="focus" hideEvent="blur" />
+								<p:tooltip for="ipHostServer" showEvent="focus" hideEvent="blur" />
+								<p:tooltip for="portServer" showEvent="focus" hideEvent="blur" />
+								<p:tooltip for="connectTimeout" showEvent="focus" hideEvent="blur" />
+	
+							</h:panelGrid>
+							<h:outputLabel
+								value="Os campos em assinalados devem ser preenchidos" />
+						</p:tab>
+	
+						<p:tab id="envRecBD" title="Envio/Recepção do Banco de Dados">
+							<h:panelGroup>
+								<h:panelGrid columns="4" style="float: float;" cellpading="40">
+								
+									<h:outputLabel value="Servidor do Banco:*" />
+									<p:selectOneMenu
+										value="#{serverComponentController.editing.banco}" size="35" required="true">
+										<f:selectItem itemLabel="Select One" itemValue="" />
+										<f:selectItem itemLabel="Oracle" itemValue="Oracle" />
+										<f:selectItem itemLabel="Firebird" itemValue="Firebird" />
+										<f:selectItem itemLabel="PostgreSQL" itemValue="PostgreSQL" />
+										<f:selectItem itemLabel="MySQL" itemValue="MySQL" />
+										<f:selectItem itemLabel="Sybase" itemValue="Sybase" />
+									</p:selectOneMenu>
+	
+									<h:outputLabel value="IP/Host:*" />
+									<p:inputText id="ipHostBd" size="40"
+										title="IP/Host ex:192.166.200/esales.com.br"
+										value="#{serverComponentController.editing.ipServidorContingencia}" required="true" />
+	
+									<h:outputLabel value="Porta Banco:*" />
+									<p:inputText id="ipPortBd" size="40" title="Porta ex:3030"
+										value="#{serverComponentController.editing.portaBanco}" />
+	
+									<h:outputLabel value="Usuário do Banco:*" />
+									<p:inputText id="userBd" size="40"
+										title="Usuário do banco ex:admin"
+										value="#{serverComponentController.editing.usuarioBanco}" required="true"/>
+	
+									<h:outputLabel value="Senha do Banco:*" />
+									<p:inputText id="passBd" size="40"
+										title="Senha do Banco ex:root"
+										value="#{serverComponentController.editing.senhaBanco}" required="true" />
+	
+	
+									<p:tooltip for="ipHostBd" showEvent="focus" hideEvent="blur" />
+									<p:tooltip for="ipPortBd" showEvent="focus" hideEvent="blur" />
+									<p:tooltip for="userBd" showEvent="focus" hideEvent="blur" />
+									<p:tooltip for="passBd" showEvent="focus" hideEvent="blur" />
+	
+	
+								</h:panelGrid>
+								<p:commandButton value="Salvar" update="@form serverList"
+									process="@form"
+									actionListener="#{serverComponentController.save}" />
+	
+							</h:panelGroup>
+	
+						</p:tab>
+					</p:wizard>
+				</p:fieldset>
+			</h:panelGroup>
+			<h:panelGroup id="serverList">
+				<p:dataTable id="serv" var="serv"
+					value="#{serverComponentController.beans}" style="float"
+					paginator="true" rows="10" rowsPerPageTemplate="5,10,20,50"
+					sortOrder="descending"
+					paginatorTemplate="O sistema retornou #{serverComponentController.beans.size().toString()} registros. {PageLinks}  {RowsPerPageDropdown}">
+	
+					<p:column headerText="Nome">
+						<h:outputText value="#{serv.nome}" />
+					</p:column>
+					<p:column headerText="Ip/Host">
+						<h:outputText value="#{serv.ipServidor}" />
+					</p:column>
+					<p:column headerText="Porta">
+						<h:outputText value="#{serv.port}" />
+					</p:column>
+					<p:column headerText="Proxy">
+						<h:outputText value="#{serv.proxy.host}" />
+					</p:column>
+					<p:column headerText="Servidor Banco">
+						<h:outputText value="#{serv.banco}" />
+					</p:column>
+					<p:column headerText="Status">
+						<h:outputText value="#{serv.activeDescription}" />
+					</p:column>
+					<p:column headerText="Tipo">
+						<h:outputText value="#{serv.tipo}" />
+					</p:column>
+					<p:column headerText="Timeout">
+						<h:outputText value="#{serv.timeout}" />
+					</p:column>
+					<p:column headerText="Protocolo">
+						<h:outputText value="#{serv.protocolo}" />
+					</p:column>
+					<p:column headerText="Servidor Pai">
+						<h:outputText value="#{serv.pai.ipServidor}" />
+					</p:column>
+					<p:column>
+						<p:commandLink update="@form">
+							<p:graphicImage value="/resources/images/edit.png" height="12"
+								width="12" />
+							<f:setPropertyActionListener value="#{serv}"
+								target="#{serverComponentController.editing}" />
+						</p:commandLink>
+					</p:column>
+					<p:column>
+						<p:commandLink oncomplete="confirmation.show();" update="@form">
+							<p:graphicImage value="/resources/images/delete.png" height="12"
+								width="12" />
+							<f:setPropertyActionListener value="#{serv}"
+								target="#{serverComponentController.editing}" />
+						</p:commandLink>
+					</p:column>
+	
+				</p:dataTable>
+			</h:panelGroup>
+	
+			<p:confirmDialog message="Excluir Servidor?"
+				header="Confirmação de exclusão" severity="alert" widgetVar="confirmation"
+				closable="false" modal="true">
+				<p:commandButton value="Sim, tenho certeza" update="@form serverList"
+					oncomplete="confirmation.hide()"
+					actionListener="#{serverComponentController.delete}" />
+				<p:commandButton value="Não" onclick="confirmation.hide()"
+					type="button" />
+			</p:confirmDialog>
+			
+		</h:form>
+	</ui:define>
+</ui:composition>

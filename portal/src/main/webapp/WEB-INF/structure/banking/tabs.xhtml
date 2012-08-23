@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	<p:tabView id="banking-tab">
+	
+		<p:tab title="Dashboard">
+		</p:tab>
+	
+		<p:tab title="Administração">
+			<ui:include src="admin-tab.xhtml"/>
+		</p:tab>
+		
+		<p:tab title="Cobrança">
+			<ui:include src="collection-tab.xhtml"/>
+		</p:tab>
+		
+		<p:tab title="Extrato">
+			<ui:include src="extract-tab.xhtml"/>
+		</p:tab>
+		
+		<p:tab title="Pagamento">
+			<ui:include src="payment-tab.xhtml"/>
+		</p:tab>
+		
+	</p:tabView>
+       
+</ui:composition>

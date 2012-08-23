@@ -1,0 +1,56 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	
+	template="/layout/window.xhtml">
+	
+	<ui:param name="windowClass" value="window-full"/>
+	<ui:param name="windowTitle" value="Documentos"/>
+	
+	<ui:define name="windowBody">
+	
+		<h:form>
+	
+			<h:panelGroup layout="block" id="companyTableBase" style="width: 700px; margin: 50px;" >
+			
+				<p:dataTable id="companyTable" value="#{clientController.beans}" var="att">
+				
+				    <p:column headerText="Nome">
+				    </p:column>
+				    
+				    <p:column headerText="Descrição">
+				    </p:column>
+				    
+				    <p:column style="width:10px">
+						<p:commandLink update="@form:companyFormBase" oncomplete="companyDialog.show();">
+							<p:graphicImage value="/resources/images/edit.png" height="12" width="12" />
+							<f:setPropertyActionListener value="#{att}" target="#{companyController.bean}"/>
+							<f:setPropertyActionListener value="#{att.register}" target="#{addressController.register}"/>
+						</p:commandLink>
+					</p:column>
+					<p:column style="width:10px">
+						<p:commandLink oncomplete="confirmation.show();">
+							<p:graphicImage value="/resources/images/delete.png" height="12" width="12" />
+							<f:setPropertyActionListener value="#{att}" target="#{companyController.bean}"/>
+						</p:commandLink>
+					</p:column>
+					
+				</p:dataTable>
+				<p:confirmDialog message="Você tem certeza que deseja desativar esta empresa?" header="Confirmação de exclusão" severity="alert" widgetVar="confirmation">  
+			        <p:commandButton value="Sim, tenho certeza" update="companyTableBase" oncomplete="confirmation.hide()" actionListener="#{companyController.delete}"/>  
+			        <p:commandButton value="Não" onclick="confirmation.hide()" type="button"/>   
+			    </p:confirmDialog>
+				
+				<p:commandLink onclick="companyDialog.show();" style="margin: 3px;" styleClass="ui-icon-refresh">
+					<p:graphicImage value="/resources/images/add.png" height="12" width="12" />
+				</p:commandLink>
+				
+			</h:panelGroup>
+			
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

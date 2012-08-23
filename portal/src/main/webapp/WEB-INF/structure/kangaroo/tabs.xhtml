@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	<p:tabView id="kangaroo-tab" style="height: 100%;">
+	
+		<p:tab title="Dashboard">
+		</p:tab>
+	
+		<p:tab title="Enterprise">
+			<ui:include src="enterprise/enterprise-tab.xhtml"/>
+		</p:tab>
+		
+		<p:tab title="Process">
+			<ui:include src="process/process-tab.xhtml"/>
+		</p:tab>
+		
+		<p:tab title="Document Admin">
+			<ui:include src="documentAdmin/documentAdmin-tab.xhtml"/>
+		</p:tab>
+		
+		<p:tab title="Monitor">
+			<ui:include src="monitor/monitor-tab.xhtml"/>
+		</p:tab>
+		
+		<p:tab title="Document Managing">
+			<ui:include src="documentManaging/documentManaging-tab.xhtml"/>
+		</p:tab>
+		
+		<p:tab title="Document">
+			<ui:include src="document/document-tab.xhtml"/>
+		</p:tab>
+		
+		<p:tab title="Client Admin">
+			<ui:include src="clientAdmin/clientAdmin-tab.xhtml"/>
+		</p:tab>
+		
+		<p:tab title="Test Zone">
+			<ui:include src="testZone/testZone-tab.xhtml"/>
+		</p:tab>
+		
+	</p:tabView>
+       
+</ui:composition>

@@ -1,0 +1,31 @@
+ 
+/*  high-level */
+
+.common-third-body {
+/* 	margin: 0 46px 0 76px; */
+}
+
+.window-title {
+	margin-top: 30px;
+}
+
+.window-body {
+	min-height: 473px;
+	overflow: hidden;
+}
+
+.applicationbar-wrapper {
+	background-color: #E0E0E0;
+	position: relative;
+}
+
+.favoritesbar-wrapper {
+}
+
+.applicationbar-wrapper h3.main-title {
+	position: absolute;
+	top: -48px;
+	left: 200px;
+	margin: 0;
+	display: inline;
+}

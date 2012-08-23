@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="security" description="Security" icon="resources/images/securityIcon.png" page="security.xhtml"/>

@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	
+	template="/layout/window.xhtml">
+	
+	<ui:param name="windowClass" value="window-full"/>
+	<ui:param name="windowTitle" value="Monitor de Clients"/>
+	
+	<ui:define name="windowBody">
+
+		<h:form>
+
+			<h:panelGroup layout="block" style="margin: 10px;">
+				<h:panelGrid columns="6" cellpadding="5">
+					<h:outputLabel value="Selecione a Empresa"/>
+					<p:selectOneMenu style="width: 200px;" value="#{kgClientMonitorController.companyId}">
+						<f:selectItems value="#{kgCompanyController.beans}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>  
+					</p:selectOneMenu>
+					<p:commandButton value="OK" update="clientMonitorBase" actionListener="#{kgClientMonitorController.handleCompanyChange}"/>
+				</h:panelGrid>
+			</h:panelGroup>
+
+			<hr/>
+
+			<p:dataGrid var="lr" id="clientMonitorBase" value="#{kgClientMonitorController.lastReports}" columns="3" rows="12">
+
+				<p:column>
+					<p:panel header="#{lr.name}" style="text-align: center">
+						<h:panelGrid columns="2" style="width:100%">
+
+							<h:outputText value="#{lr.status}"/>
+							<h:outputText value="#{lr.reportStatus}"/>
+							<h:outputText value="#{lr.frequence}"/>
+							<h:outputText value="#{lr.formattedTime}"/>
+							
+						</h:panelGrid>
+					</p:panel>
+				</p:column>
+
+			</p:dataGrid>
+
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,119 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:form id="formRegistryRules">
+
+		#{rulesComponentController.begin(3)}
+
+		<p:fieldset legend="Cadastro de Regras">
+
+			<h:panelGroup layout="block" style="float: left;" border="1">
+
+				<h1>Tree Menu</h1>
+				<ui:fragment rendered="#{rulesComponentController.isEditing('RulesData')}">
+					<ui:include src="rulesData.xhtml" />
+				</ui:fragment>
+				<ui:fragment
+					rendered="#{rulesComponentController.isEditing('OriginFile')}">
+					<ui:include src="originFile.xhtml" />
+				</ui:fragment>
+				<ui:fragment
+					rendered="#{rulesComponentController.isEditing('Conversions')}">
+					<ui:include src="conversions.xhtml" />
+				</ui:fragment>
+				<ui:fragment
+					rendered="#{rulesComponentController.isEditing('RestrictionTime')}">
+					<ui:include src="restrictionTime.xhtml" />
+				</ui:fragment>
+				<ui:fragment rendered="#{rulesComponentController.isEditing('Analyzer')}">
+					<ui:include src="analyzer.xhtml" />
+				</ui:fragment>
+				<ui:fragment rendered="#{rulesComponentController.isEditing('Others')}">
+					<ui:include src="others.xhtml" />
+				</ui:fragment>
+				<ui:fragment rendered="#{rulesComponentController.isEditing('Partners')}">
+					<ui:include src="partners.xhtml" />
+				</ui:fragment>
+				<ui:fragment
+					rendered="#{rulesComponentController.isEditing('ExecCommand')}">
+					<ui:include src="execCommand.xhtml" />
+				</ui:fragment>
+				<ui:fragment
+					rendered="#{rulesComponentController.isEditing('Configuration')}">
+					<ui:include src="configuration.xhtml" />
+				</ui:fragment>
+				<ui:fragment rendered="#{rulesComponentController.isEditing('Alert')}">
+					<ui:include src="alert.xhtml" />
+				</ui:fragment>
+
+				<p:tree value="#{rulesComponentController.root}" var="node"
+					id="serverTree" style="width: 700px;" selectionMode="single"
+					selection="#{rulesComponentController.selectedNode}">
+					
+					<p:ajax event="select" update=":objectsbase"
+						listener="#{rulesComponentController.onNodeSelect}" />
+					<p:treeNode>
+						<h:outputText value="#{node.fullDescription}" />
+					</p:treeNode>
+				</p:tree>
+			</h:panelGroup>
+
+		<h:panelGroup id="ruleCont" layout="block" style="float: left;">
+				<p:tab id="ruleConfiguration" title="Rule Configuration">
+					<h:panelGrid columns="4" style="float: float;" cellpading="40">
+						<h:outputLabel value="Conta Origem :" />
+						<p:selectOneMenu value="teste">
+							<f:selectItem itemLabel="Select One" itemValue="" />
+							<f:selectItem itemLabel="Conta 1" itemValue="" />
+							<f:selectItem itemLabel="Conta 2" itemValue="" />
+							<f:selectItem itemLabel="Conta 3" itemValue="" />
+						</p:selectOneMenu>
+
+						<h:outputLabel value="Conta Destino :" />
+						<p:selectOneMenu value="teste">
+							<f:selectItem itemLabel="Select One" itemValue="" />
+							<f:selectItem itemLabel="Conta 1" itemValue="" />
+							<f:selectItem itemLabel="Conta 2" itemValue="" />
+							<f:selectItem itemLabel="Conta 3" itemValue="" />
+						</p:selectOneMenu>
+
+						<h:outputLabel value="Código da Regra :" />
+						<p:inputText id="code" size="15" title="Código ex.: R123" />
+
+						<h:outputLabel value="Nome :" />
+						<p:inputText id="name" size="15" title="Nome ex.: Regra da Cx 3" />
+
+						<h:outputLabel value="Executor da Regra :" />
+						<p:selectOneMenu value="teste">
+							<f:selectItem itemLabel="Select One" itemValue="" />
+							<f:selectItem itemLabel="Exec 1" itemValue="" />
+							<f:selectItem itemLabel="Exec 2" itemValue="" />
+							<f:selectItem itemLabel="Exec 3" itemValue="" />
+						</p:selectOneMenu>
+
+						<h:outputLabel value="Tipo de Regra :" />
+						<p:selectOneMenu value="teste">
+							<f:selectItem itemLabel="Select One" itemValue="" />
+							<f:selectItem itemLabel="Envio" itemValue="" />
+							<f:selectItem itemLabel="Recepção" itemValue="" />
+						</p:selectOneMenu>
+
+						<h:outputLabel value="Grupo da Regra :" />
+						<p:selectOneMenu value="teste">
+							<f:selectItem itemLabel="Select One" itemValue="" />
+							<f:selectItem itemLabel="Grupo 1" itemValue="" />
+							<f:selectItem itemLabel="Grupo 2" itemValue="" />
+						</p:selectOneMenu>
+
+						<p:tooltip for="name" showEvent="focus" hideEvent="blur" />
+						<p:tooltip for="code" showEvent="focus" hideEvent="blur" />
+					</h:panelGrid>
+				</p:tab>
+		</h:panelGroup>
+		</p:fieldset>
+	</h:form>
+
+</ui:composition>

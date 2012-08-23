@@ -1,0 +1,59 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="../portalcommon-second.xhtml">
+	
+	<ui:define name="applicationsbar-wrapper">
+	
+		<h:outputStylesheet library="css" name="second/portalopen-second.css" />
+	
+		<h:panelGroup styleClass="navigation-menu portal-open">
+			<ui:include src="navigation.xhtml"/>
+		</h:panelGroup>
+			
+	</ui:define>
+	
+	<ui:define name="common-second-body">
+	
+		#{publicMenu.begin(1)}
+		
+		<h:panelGroup layout="block" id="open-second-body">
+
+			<ui:fragment rendered="#{publicMenu.isLoaded('DEFAULT')}">
+				<ui:include src="../../third/open/home.xhtml"/>
+			</ui:fragment>
+			
+			<ui:fragment rendered="#{publicMenu.isLoaded('CONTACT')}">
+				<ui:include src="../../third/open/contact.xhtml"/>
+			</ui:fragment>
+			
+			<ui:fragment rendered="#{publicMenu.isLoaded('ABOUT')}">
+				<ui:include src="../../third/open/about.xhtml"/>
+			</ui:fragment>
+			
+			<ui:fragment rendered="#{publicMenu.isLoaded('PROJECT')}">
+				<ui:include src="../../third/open/project.xhtml"/>
+			</ui:fragment>
+			
+			<ui:fragment rendered="#{publicMenu.isLoaded('SERVICE')}">
+				<ui:include src="../../third/open/service.xhtml"/>
+			</ui:fragment>
+			
+			<ui:fragment rendered="#{publicMenu.isLoaded('REGISTRY.KANGAROO')}">
+				<ui:include src="../../third/open/registry-kangaroo.xhtml"/>
+			</ui:fragment>
+			
+			<ui:fragment rendered="#{publicMenu.isLoaded('REGISTRY.PROCUREMENT')}">
+				<ui:include src="../../third/open/registry-procurement.xhtml"/>
+			</ui:fragment>
+			
+			<ui:fragment rendered="#{publicMenu.isLoaded('REGISTRY.BANKING')}">
+				<ui:include src="../../third/open/registry-banking.xhtml"/>
+			</ui:fragment>
+			
+		</h:panelGroup>
+	
+	</ui:define>
+	
+</ui:composition>
