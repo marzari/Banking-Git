@@ -12,6 +12,7 @@
 
 	<artifactId>piggy-parent</artifactId>
 	<version>0.0.2-M3-SNAPSHOT</version>
+	
 	<packaging>pom</packaging>
 
 	<name>piggy-parent</name>
